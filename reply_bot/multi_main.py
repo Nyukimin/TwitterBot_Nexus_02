@@ -14,6 +14,7 @@ from .post_reply import main_process as post_reply_main
 from .actions.like import run as action_like
 from .actions.comment import run as action_comment
 from .actions.bookmark import run as action_bookmark
+from .actions.retweet import run as action_retweet
 from .db import init_db
 
 
@@ -157,6 +158,8 @@ def run_for_account(acct: Dict[str, Any], live_run: bool, hours: int | None) -> 
             action_comment(driver, rows, policies, rate_limits, account_id=account_id, dry_run=is_dry_run)
         if features.get('bookmark', False):
             action_bookmark(driver, rows, policies, rate_limits, account_id=account_id, dry_run=is_dry_run)
+        if features.get('retweet', False):
+            action_retweet(driver, rows, policies, rate_limits, account_id=account_id, dry_run=is_dry_run)
         logging.info(f"=== アカウント '{account_id}' の処理が完了しました ===")
 
     except Exception as e:
