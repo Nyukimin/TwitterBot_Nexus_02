@@ -46,8 +46,16 @@ def run(driver: webdriver.Chrome, tweets: list[dict], policy: dict, rate_limits:
             logging.info(f"[comment] skip by thread condition: {tweet_id}")
             continue
 
-        # 返信生成
-        reply_text = generate_reply(thread, history=[])
+        # 固定コメント設定（per_target: { user_handle: fixed_text }）
+        fixed_map = (policy or {}).get('per_target', {})
+        current_replier = thread.get('current_replier_id')
+        reply_text = None
+        if current_replier and current_replier in fixed_map:
+            reply_text = fixed_map[current_replier]
+            logging.info(f"[comment] use fixed reply for @{current_replier}")
+        else:
+            # 返信生成
+            reply_text = generate_reply(thread, history=[])
         if not reply_text:
             logging.info(f"[comment] no reply generated: {tweet_id}")
             continue

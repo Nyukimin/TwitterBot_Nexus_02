@@ -11,6 +11,9 @@ from .utils import setup_driver, close_driver
 from .csv_generator import main_process as csv_generator_main
 from .reply_processor import main_process as reply_processor_main
 from .post_reply import main_process as post_reply_main
+from .actions.like import run as action_like
+from .actions.comment import run as action_comment
+from .actions.bookmark import run as action_bookmark
 from .db import init_db
 
 
@@ -139,13 +142,21 @@ def run_for_account(acct: Dict[str, Any], live_run: bool, hours: int | None) -> 
             logging.warning("解析フェーズで処理済みCSVの生成が確認できませんでした。投稿フェーズをスキップします。")
             return
 
-        # ステップ3: 投稿（既存のpost_replyロジックを利用）
+        # ステップ3: 投稿/アクション実行（features と policies を反映）
         is_dry_run = not live_run
-        if live_run:
-            logging.warning("[投稿] LIVE-RUN: 実際に投稿・いいねを行います。")
-        else:
-            logging.info("[投稿] ドライラン: 投稿・いいねは行いません。")
-        post_reply_main(driver, processed_csv, dry_run=is_dry_run, interval=cfg.POST_INTERVAL_SECONDS)
+        features = acct.get('features', {}) or {}
+        policies = acct.get('policies', {}) or {}
+        rate_limits = acct.get('rate_limits', {}) or {}
+
+        import pandas as _pd
+        rows = _pd.read_csv(processed_csv).fillna('').to_dict(orient='records')
+
+        if features.get('like', False):
+            action_like(driver, rows, policies, rate_limits, account_id=account_id, dry_run=is_dry_run)
+        if features.get('comment', False):
+            action_comment(driver, rows, policies, rate_limits, account_id=account_id, dry_run=is_dry_run)
+        if features.get('bookmark', False):
+            action_bookmark(driver, rows, policies, rate_limits, account_id=account_id, dry_run=is_dry_run)
         logging.info(f"=== アカウント '{account_id}' の処理が完了しました ===")
 
     except Exception as e:

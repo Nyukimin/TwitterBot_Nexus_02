@@ -26,6 +26,13 @@ accounts:
       comment_per_hour: 10
       bookmark_per_hour: 60
       min_interval_seconds: 7
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+      per_target:
+        ren: "ありがとう🩷"
+        nyukimi: "ブックマークしたよ🩷"
     schedule:
       allowed_hours: null  # 例: [9, 22] で9:00-22:00のみ許可
 
