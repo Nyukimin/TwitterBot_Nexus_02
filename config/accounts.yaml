@@ -10,7 +10,11 @@ accounts:
       only_if_my_thread: true
       reply_num_max: 0
       per_target:
-        Maya19960330: { actions: [like, bookmark, retweet] }
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
     rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
 
@@ -23,7 +27,11 @@ accounts:
       only_if_my_thread: true
       reply_num_max: 0
       per_target:
-        Maya19960330: { actions: [like, bookmark, retweet] }
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
     rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
 
@@ -36,7 +44,11 @@ accounts:
       only_if_my_thread: true
       reply_num_max: 0
       per_target:
-        Maya19960330: { actions: [like, bookmark, retweet] }
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
     rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
 
@@ -49,7 +61,11 @@ accounts:
       only_if_my_thread: true
       reply_num_max: 0
       per_target:
-        Maya19960330: { actions: [like, bookmark, retweet] }
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
     rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
 
@@ -62,7 +78,11 @@ accounts:
       only_if_my_thread: true
       reply_num_max: 0
       per_target:
-        Maya19960330: { actions: [like, bookmark, retweet] }
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
     rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
 
@@ -75,7 +95,11 @@ accounts:
       only_if_my_thread: true
       reply_num_max: 0
       per_target:
-        Maya19960330: { actions: [like, bookmark, retweet] }
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
     rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
 
@@ -88,7 +112,11 @@ accounts:
       only_if_my_thread: true
       reply_num_max: 0
       per_target:
-        Maya19960330: { actions: [like, bookmark, retweet] }
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
     rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
 
@@ -101,7 +129,11 @@ accounts:
       only_if_my_thread: true
       reply_num_max: 0
       per_target:
-        Maya19960330: { actions: [like, bookmark, retweet] }
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
     rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
 
@@ -114,7 +146,11 @@ accounts:
       only_if_my_thread: true
       reply_num_max: 0
       per_target:
-        Maya19960330: { actions: [like, bookmark, retweet] }
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
     rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
 
@@ -127,7 +163,11 @@ accounts:
       only_if_my_thread: true
       reply_num_max: 0
       per_target:
-        Maya19960330: { actions: [like, bookmark, retweet] }
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
     rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
 
@@ -140,7 +180,11 @@ accounts:
       only_if_my_thread: true
       reply_num_max: 0
       per_target:
-        Maya19960330: { actions: [like, bookmark, retweet] }
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
     rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
 
@@ -153,7 +197,11 @@ accounts:
       only_if_my_thread: true
       reply_num_max: 0
       per_target:
-        Maya19960330: { actions: [like, bookmark, retweet] }
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
     rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
 
@@ -166,7 +214,11 @@ accounts:
       only_if_my_thread: true
       reply_num_max: 0
       per_target:
-        Maya19960330: { actions: [like, bookmark, retweet] }
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
     rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
 
@@ -179,7 +231,11 @@ accounts:
       only_if_my_thread: true
       reply_num_max: 0
       per_target:
-        Maya19960330: { actions: [like, bookmark, retweet] }
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
     rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
 
@@ -192,7 +248,11 @@ accounts:
       only_if_my_thread: true
       reply_num_max: 0
       per_target:
-        Maya19960330: { actions: [like, bookmark, retweet] }
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
     rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
 
@@ -205,7 +265,11 @@ accounts:
       only_if_my_thread: true
       reply_num_max: 0
       per_target:
-        Maya19960330: { actions: [like, bookmark, retweet] }
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
     rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
 
@@ -218,7 +282,11 @@ accounts:
       only_if_my_thread: true
       reply_num_max: 0
       per_target:
-        Maya19960330: { actions: [like, bookmark, retweet] }
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
     rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
 
@@ -231,6 +299,10 @@ accounts:
       only_if_my_thread: true
       reply_num_max: 0
       per_target:
-        Maya19960330: { actions: [like, bookmark, retweet] }
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
     rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
