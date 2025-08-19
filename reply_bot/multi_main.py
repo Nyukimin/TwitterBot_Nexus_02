@@ -11,6 +11,7 @@ from .utils import setup_driver, close_driver
 from .csv_generator import main_process as csv_generator_main
 from .reply_processor import main_process as reply_processor_main
 from .post_reply import main_process as post_reply_main
+from .db import init_db
 
 
 def _ensure_log_dir() -> None:
@@ -173,6 +174,9 @@ def main() -> None:
     cfg_path = args.config
     if not os.path.exists(cfg_path):
         raise FileNotFoundError(f"アカウント設定ファイルが見つかりません: {cfg_path}")
+
+    # DB初期化（actions_log 等）
+    init_db()
 
     cfg_data = load_accounts_config(cfg_path)
     targets = select_accounts(cfg_data, args.accounts)
