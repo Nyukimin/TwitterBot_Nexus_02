@@ -31,9 +31,13 @@ accounts:
       only_if_my_thread: true
       reply_num_max: 0
       per_target:
-        ren: "ありがとう🩷"
-        nyukimi: "ブックマークしたよ🩷"
-    schedule:
-      allowed_hours: null  # 例: [9, 22] で9:00-22:00のみ許可
-
-
+        # per-user rules for this account
+        ren:
+          actions: [like, comment]
+          greet: { mode: fixed, text: "おはよう🩷" }
+          nickname: "れんちゃん"
+        nyukimi:
+          actions: [like, bookmark]
+          greet: auto
+          nickname: "すーちゃん"
+        other_user: "ありがとう🩷"
