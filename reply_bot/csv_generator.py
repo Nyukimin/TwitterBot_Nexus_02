@@ -16,7 +16,7 @@ from bs4 import BeautifulSoup, NavigableString, Tag
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from selenium import webdriver
 
-from .config import TARGET_USER, MAX_SCROLLS, LOGIN_TIMEOUT_ENABLED, LOGIN_TIMEOUT_SECONDS, PAGE_LOAD_TIMEOUT_SECONDS, SCROLL_PIXELS
+from .config import MAX_SCROLLS, LOGIN_TIMEOUT_ENABLED, LOGIN_TIMEOUT_SECONDS, PAGE_LOAD_TIMEOUT_SECONDS, SCROLL_PIXELS
 from .utils import setup_driver # 共通のWebDriverセットアップをインポート
 
 # ロギング設定
@@ -104,12 +104,12 @@ def _extract_tweet_info(tweet_article: BeautifulSoup) -> dict | None:
             if reply_to_link and 'href' in reply_to_link.attrs:
                 reply_to_user = reply_to_link['href'].lstrip('/')
 
-        # スレッド起点判定
+        # スレッド起点判定（設定の TARGET_USER に基づく）
         is_my_thread = False
         if reply_to_user:
-            # リプライ元がMaya（@Maya19960330）かどうかを判定
-            is_my_thread = (reply_to_user == "Maya19960330")
-            logging.info(f"リプライ元ユーザー: {reply_to_user}, スレッド起点判定: {is_my_thread}")
+            from .config import TARGET_USER as _TARGET_USER
+            is_my_thread = (reply_to_user == _TARGET_USER)
+            logging.info(f"リプライ元ユーザー: {reply_to_user}, スレッド起点判定(TARGET_USER={_TARGET_USER}): {is_my_thread}")
 
         # 返信数といいね数の抽出
         reply_num = 0

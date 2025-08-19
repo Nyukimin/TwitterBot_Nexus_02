@@ -11,7 +11,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium import webdriver
 
 from .utils import setup_driver, check_memory_usage, force_restart_driver
-from .config import POST_INTERVAL_SECONDS, TARGET_USER
+from .config import POST_INTERVAL_SECONDS
 from .webdriver_stabilizer import WebDriverStabilizer, safe_execute, handle_webdriver_error
 
 # ログ設定

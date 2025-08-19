@@ -17,7 +17,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from .config import (
     GEMINI_API_KEY, MAYA_PERSONALITY_PROMPT, THANK_YOU_PHRASES, 
-    REPLY_RULES_PROMPT, TARGET_USER, GEMINI_MODEL_NAME
+    REPLY_RULES_PROMPT, GEMINI_MODEL_NAME
 )
 from .db import get_user_preference
 from .utils import setup_driver
@@ -656,30 +656,32 @@ def fetch_and_analyze_thread(tweet_id: str, driver: webdriver.Chrome) -> dict:
         
         # スレッド主判定（確実な先頭情報を使用）
         head_author = thread_data["head"]["author"] if thread_data["head"] else None
-        live_is_my_thread = (head_author == TARGET_USER)
+        # ランタイムの設定値に基づいて判定（多アカウント対応）
+        from . import config as _cfg
+        live_is_my_thread = (head_author == _cfg.TARGET_USER)
         result["is_my_thread"] = live_is_my_thread
         
         # スレッド主判定の詳細ログ
         thread_owner_logger.info(f"=== スレッド主判定詳細 (tweet_id: {tweet_id}) ===")
         thread_owner_logger.info(f"先頭作者: '{head_author}' (型: {type(head_author)})")
-        thread_owner_logger.info(f"TARGET_USER: '{TARGET_USER}' (型: {type(TARGET_USER)})")
-        thread_owner_logger.info(f"比較結果: {head_author == TARGET_USER}")
+        thread_owner_logger.info(f"TARGET_USER: '{_cfg.TARGET_USER}' (型: {type(_cfg.TARGET_USER)})")
+        thread_owner_logger.info(f"比較結果: {head_author == _cfg.TARGET_USER}")
         thread_owner_logger.info(f"live_is_my_thread: {live_is_my_thread}")
         
         # 文字列比較の詳細チェック
-        if head_author and TARGET_USER:
-            thread_owner_logger.debug(f"head_author.strip() == TARGET_USER.strip(): {head_author.strip() == TARGET_USER.strip()}")
-            thread_owner_logger.debug(f"head_author長さ: {len(head_author)}, TARGET_USER長さ: {len(TARGET_USER)}")
+        if head_author and _cfg.TARGET_USER:
+            thread_owner_logger.debug(f"head_author.strip() == TARGET_USER.strip(): {head_author.strip() == _cfg.TARGET_USER.strip()}")
+            thread_owner_logger.debug(f"head_author長さ: {len(head_author)}, TARGET_USER長さ: {len(_cfg.TARGET_USER)}")
             thread_owner_logger.debug(f"head_author repr: {repr(head_author)}")
-            thread_owner_logger.debug(f"TARGET_USER repr: {repr(TARGET_USER)}")
+            thread_owner_logger.debug(f"TARGET_USER repr: {repr(_cfg.TARGET_USER)}")
         
         # スレッドタイムライン詳細
         thread_owner_logger.info(f"スレッドタイムライン詳細:")
         for i, tweet_info in enumerate(thread_data["timeline"]):
-            is_target_user = tweet_info["author"] == TARGET_USER
+            is_target_user = tweet_info["author"] == _cfg.TARGET_USER
             thread_owner_logger.info(f"  {i+1}: {tweet_info['tweet_id']} - @{tweet_info['author']} (TARGET_USER: {is_target_user}, is_reply: {tweet_info['is_reply']})")
         
-        logging.info(f"スレッド主判定: head_author='{head_author}', TARGET_USER='{TARGET_USER}', is_my_thread={live_is_my_thread}")
+        logging.info(f"スレッド主判定: head_author='{head_author}', TARGET_USER='{_cfg.TARGET_USER}', is_my_thread={live_is_my_thread}")
         process_logger.info(f"Tweet {tweet_id}: is_my_thread={live_is_my_thread}, head_author={head_author}")
         
         # 後続返信の存在確認（時系列での位置を確認）

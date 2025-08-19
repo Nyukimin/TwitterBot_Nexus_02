@@ -20,6 +20,8 @@ COOKIE_FILE = "cookie/twitter_cookies_01.pkl"
 _driver: webdriver.Chrome | None = None
 _driver_process_count = 0  # WebDriverの起動回数をカウント
 _memory_monitor_enabled = True  # メモリ監視の有効/無効フラグ
+_last_profile_path: str | None = None  # 直近に使用したChromeプロファイルパス
+_chromedriver_path: str | None = None  # ドライババイナリのキャッシュ（起動時1回のバージョンチェック）
 
 def get_driver(headless: bool = True) -> webdriver.Chrome:
     """
@@ -107,7 +109,7 @@ def check_memory_usage():
         logging.warning(f"メモリ使用量の確認中にエラー: {e}")
         return None
 
-def force_restart_driver(headless: bool = True):
+def force_restart_driver(headless: bool = True, profile_path: str | None = None):
     """
     WebDriverを強制的に再起動します。
     メモリリークやクラッシュからの回復に使用します。
@@ -131,7 +133,9 @@ def force_restart_driver(headless: bool = True):
     
     # 新しいWebDriverを起動
     try:
-        _driver = setup_driver(headless=headless)
+        # 直近のプロファイルを優先的に使用
+        effective_profile = profile_path if profile_path is not None else _last_profile_path
+        _driver = setup_driver(headless=headless, profile_path=effective_profile)
         _driver_process_count += 1
         logging.info(f"WebDriverを再起動しました（起動回数: {_driver_process_count}）")
         check_memory_usage()
@@ -155,7 +159,7 @@ def close_driver():
             _driver = None
             check_memory_usage()
 
-def setup_driver(headless: bool = True, max_retries: int = 3) -> webdriver.Chrome | None:
+def setup_driver(headless: bool = True, profile_path: str | None = None, max_retries: int = 3) -> webdriver.Chrome | None:
     """
     Selenium WebDriverをセットアップし、Cookieを使ってログイン状態を復元します。
     ホームページの読み込みに失敗した場合、指定された回数だけ再試行します。
@@ -166,6 +170,18 @@ def setup_driver(headless: bool = True, max_retries: int = 3) -> webdriver.Chrom
     if headless:
         options.add_argument("--headless")
         logging.info("ヘッドレスモードでWebDriverを起動します。")
+    
+    # アカウントごとにChromeユーザープロファイルを分離
+    if profile_path:
+        try:
+            os.makedirs(profile_path, exist_ok=True)
+        except Exception as e:
+            logging.warning(f"ユーザープロファイルディレクトリの作成に失敗しました: {profile_path} ({e})")
+        options.add_argument(f"--user-data-dir={profile_path}")
+        logging.info(f"Chromeユーザープロファイルを使用します: {profile_path}")
+        # 最後に使用したプロファイルを記録
+        global _last_profile_path
+        _last_profile_path = profile_path
     
     # メモリリーク対策とパフォーマンス向上のオプション
     options.add_argument("--no-sandbox")
@@ -184,7 +200,10 @@ def setup_driver(headless: bool = True, max_retries: int = 3) -> webdriver.Chrom
 
     # WebDriverのセットアップ
     try:
-        service = Service(ChromeDriverManager().install())
+        global _chromedriver_path
+        if not _chromedriver_path:
+            _chromedriver_path = ChromeDriverManager().install()
+        service = Service(_chromedriver_path)
         driver = webdriver.Chrome(service=service, options=options)
         _driver_process_count += 1
         logging.info(f"新しいWebDriverインスタンスを初期化しました（起動回数: {_driver_process_count}）")
@@ -193,34 +212,39 @@ def setup_driver(headless: bool = True, max_retries: int = 3) -> webdriver.Chrom
         logging.error(f"WebDriverの初期化中にエラーが発生しました: {e}")
         return None
 
-    # Cookieの読み込みとホームページへのアクセス（リトライ処理付き）
+    # ログイン状態の確認と初期遷移（プロファイルあり/なしで分岐、リトライ付き）
     for attempt in range(max_retries):
         try:
-            logging.info(f"ホームページへのアクセスを試みます... ({attempt + 1}/{max_retries})")
-            driver.get(LOGIN_URL) # まずログインページにアクセス
+            logging.info(f"初期ナビゲーションを実行します... ({attempt + 1}/{max_retries})")
 
-            # Cookieの読み込み
-            if os.path.exists(COOKIE_FILE):
-                with open(COOKIE_FILE, "rb") as f:
-                    cookies = pickle.load(f)
-                for cookie in cookies:
-                    # 'sameSite'が'None'の場合、'secure'属性が必要になることがある
-                    if 'sameSite' in cookie and cookie['sameSite'] == 'None':
-                        cookie['secure'] = True
-                    driver.add_cookie(cookie)
-                logging.info("Cookieを正常に読み込み、ログイン状態を復元しました。")
+            if profile_path:
+                # プロファイルを使用する場合はCookie注入を行わず、ホームに直接アクセス
+                driver.get("https://x.com/home")
+                WebDriverWait(driver, PAGE_LOAD_TIMEOUT_SECONDS).until(
+                    EC.presence_of_element_located((By.XPATH, '//article[@data-testid="tweet"]'))
+                )
+                logging.info("Xのホームページが正常に読み込まれました（プロファイル使用）。")
+                return driver
             else:
-                logging.warning("Cookieファイルが見つかりません。ログインページから手動でログインしてください。")
+                # 従来のCookieファイルを使用してログイン状態を復元
+                driver.get(LOGIN_URL)
+                if os.path.exists(COOKIE_FILE):
+                    with open(COOKIE_FILE, "rb") as f:
+                        cookies = pickle.load(f)
+                    for cookie in cookies:
+                        if 'sameSite' in cookie and cookie['sameSite'] == 'None':
+                            cookie['secure'] = True
+                        driver.add_cookie(cookie)
+                    logging.info("Cookieを正常に読み込み、ログイン状態を復元しました。")
+                else:
+                    logging.warning("Cookieファイルが見つかりません。ログインページから手動でログインしてください。")
 
-            # ホームページに再度アクセスしてログイン状態を確認
-            driver.get("https://x.com/home")
-
-            # ページの主要な要素が表示されるまで待機
-            WebDriverWait(driver, PAGE_LOAD_TIMEOUT_SECONDS).until(
-                EC.presence_of_element_located((By.XPATH, '//article[@data-testid="tweet"]'))
-            )
-            logging.info("Xのホームページが正常に読み込まれました。")
-            return driver # 成功したらdriverインスタンスを返す
+                driver.get("https://x.com/home")
+                WebDriverWait(driver, PAGE_LOAD_TIMEOUT_SECONDS).until(
+                    EC.presence_of_element_located((By.XPATH, '//article[@data-testid="tweet"]'))
+                )
+                logging.info("Xのホームページが正常に読み込まれました。")
+                return driver
 
         except TimeoutException as e:
             logging.warning(f"ホームページの読み込み中にタイムアウトしました。({attempt + 1}/{max_retries})")
@@ -229,7 +253,7 @@ def setup_driver(headless: bool = True, max_retries: int = 3) -> webdriver.Chrom
                 driver.quit()
                 return None
             logging.info("リトライします...")
-            time.sleep(5) # 5秒待ってからリトライ
+            time.sleep(5)
         except WebDriverException as e:
             logging.error(f"WebDriver関連のエラーが発生しました: {e} ({attempt + 1}/{max_retries})")
             if attempt == max_retries - 1:
@@ -239,7 +263,7 @@ def setup_driver(headless: bool = True, max_retries: int = 3) -> webdriver.Chrom
             logging.info("リトライします...")
             time.sleep(5)
         except Exception as e:
-            logging.error(f"Cookieの読み込みまたはページ遷移中に予期せぬエラーが発生しました: {e}", exc_info=True)
+            logging.error(f"初期遷移中に予期せぬエラーが発生しました: {e}", exc_info=True)
             driver.quit()
             return None
     

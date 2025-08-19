@@ -1,0 +1,32 @@
+# 多アカウント設定（ステップ1の最小構成）
+
+accounts:
+  - id: default
+    handle: "Maya19960330"   # @なしハンドル
+    browser:
+      user_data_dir: "profile/default"  # アカウント固有のChromeプロファイルディレクトリ
+      headless: false                    # デバッグ優先（EXPANSION_PLANの方針）
+    ai:
+      provider: "gemini"
+      api_key: "${GEMINI_API_KEY}"
+      model: "gemini-2.0-flash-lite"
+      persona_prompt_file: null
+    features:
+      like: true
+      retweet: false
+      comment: true
+      bookmark: false
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+    rate_limits:
+      like_per_hour: 30
+      retweet_per_hour: 10
+      comment_per_hour: 10
+      bookmark_per_hour: 60
+      min_interval_seconds: 7
+    schedule:
+      allowed_hours: null  # 例: [9, 22] で9:00-22:00のみ許可
+
+

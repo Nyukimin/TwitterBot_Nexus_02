@@ -8,3 +8,4 @@ selenium
 snscrape
 webdriver-manager 
 psutil
+PyYAML
