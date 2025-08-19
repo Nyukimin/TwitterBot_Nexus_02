@@ -18,23 +18,6 @@ accounts:
         ren_ai_coach: { actions: [like, bookmark, retweet] }
     rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
 
-  - id: shufudoh
-    handle: "shufudoh"
-    browser: { user_data_dir: "profile/shufudoh", headless: false }
-    features: { like: true, retweet: true, comment: true, bookmark: true }
-    policies:
-      sources: ["mentions", "my_threads"]
-      only_if_my_thread: true
-      reply_num_max: 0
-      per_target:
-        Maya19960330:
-          actions: [like, bookmark, retweet, comment]
-          fixed_comment: |-
-            まやちゃん
-            かわいい
-        ren_ai_coach: { actions: [like, bookmark, retweet] }
-    rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
-
   - id: nyukimi_AI
     handle: "nyukimi_AI"
     browser: { user_data_dir: "profile/nyukimi_AI", headless: false }
@@ -293,6 +276,91 @@ accounts:
   - id: yuumi20020330
     handle: "yuumi20020330"
     browser: { user_data_dir: "profile/yuumi20020330", headless: false }
+    features: { like: true, retweet: true, comment: true, bookmark: true }
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+      per_target:
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
+        ren_ai_coach: { actions: [like, bookmark, retweet] }
+    rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
+
+  - id: moca_to_mao
+    handle: "moca_to_mao"
+    browser: { user_data_dir: "profile/moca_to_mao", headless: false }
+    features: { like: true, retweet: true, comment: true, bookmark: true }
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+      per_target:
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
+        ren_ai_coach: { actions: [like, bookmark, retweet] }
+    rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
+
+  - id: maomao_20000330
+    handle: "maomao_20000330"
+    browser: { user_data_dir: "profile/maomao_20000330", headless: false }
+    features: { like: true, retweet: true, comment: true, bookmark: true }
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+      per_target:
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
+        ren_ai_coach: { actions: [like, bookmark, retweet] }
+    rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
+
+  - id: emotion_link
+    handle: "emotion_link"
+    browser: { user_data_dir: "profile/emotion_link", headless: false }
+    features: { like: true, retweet: true, comment: true, bookmark: true }
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+      per_target:
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
+        ren_ai_coach: { actions: [like, bookmark, retweet] }
+    rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
+
+  - id: nyukimi_06
+    handle: "nyukimi_06"
+    browser: { user_data_dir: "profile/nyukimi_06", headless: false }
+    features: { like: true, retweet: true, comment: true, bookmark: true }
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+      per_target:
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
+        ren_ai_coach: { actions: [like, bookmark, retweet] }
+    rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
+
+  - id: nyukimi_08
+    handle: "nyukimi_08"
+    browser: { user_data_dir: "profile/nyukimi_08", headless: false }
     features: { like: true, retweet: true, comment: true, bookmark: true }
     policies:
       sources: ["mentions", "my_threads"]
