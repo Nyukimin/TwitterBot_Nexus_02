@@ -718,11 +718,7 @@ def run_actions_on_tweet(driver: webdriver.Chrome,
         elif action_l == 'comment':
             # 固定コメントがある場合のみ軽量投稿を、同一ページ上で最後に実行
             #（重いスレッド解析やページ再読み込みは行わない）
-            # 1) DB優先の冪等性チェック
-            if has_action_log(account_id, tweet_id, 'comment'):
-                logging.info(f"[comment-light] idempotencyでスキップ: {tweet_id}")
-                continue
-            # 2) UI検出で既に自アカウントの返信がある場合はスキップ（要素ベースの済/未）
+            # UI検出で既に自アカウントの返信がある場合はスキップ（要素ベースの済/未）
             if states.get('commented'):
                 logging.info(f"[comment-light] 既に返信済み（UI検出）: {tweet_id}")
                 continue
