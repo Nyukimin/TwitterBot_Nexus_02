@@ -9,6 +9,8 @@ accounts:
       sources: ["mentions", "my_threads"]
       only_if_my_thread: true
       reply_num_max: 0
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
       per_target:
         ren_ai_coach:
           actions: [like, bookmark]
@@ -170,6 +172,8 @@ accounts:
       sources: ["mentions", "my_threads"]
       only_if_my_thread: true
       reply_num_max: 0
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
       per_target:
         Maya19960330:
           actions: [like, bookmark, retweet, comment]
@@ -187,6 +191,8 @@ accounts:
       sources: ["mentions", "my_threads"]
       only_if_my_thread: true
       reply_num_max: 0
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
       per_target:
         Maya19960330:
           actions: [like, bookmark, retweet, comment]
@@ -204,6 +210,8 @@ accounts:
       sources: ["mentions", "my_threads"]
       only_if_my_thread: true
       reply_num_max: 0
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
       per_target:
         Maya19960330:
           actions: [like, bookmark, retweet, comment]
@@ -221,6 +229,8 @@ accounts:
       sources: ["mentions", "my_threads"]
       only_if_my_thread: true
       reply_num_max: 0
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
       per_target:
         Maya19960330:
           actions: [like, bookmark, retweet, comment]
@@ -238,6 +248,8 @@ accounts:
       sources: ["mentions", "my_threads"]
       only_if_my_thread: true
       reply_num_max: 0
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
       per_target:
         Maya19960330:
           actions: [like, bookmark, comment]
@@ -255,6 +267,8 @@ accounts:
       sources: ["mentions", "my_threads"]
       only_if_my_thread: true
       reply_num_max: 0
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
       per_target:
         Maya19960330:
           actions: [like, bookmark, retweet, comment]
@@ -272,6 +286,8 @@ accounts:
       sources: ["mentions", "my_threads"]
       only_if_my_thread: true
       reply_num_max: 0
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
       per_target:
         Maya19960330:
           actions: [like, bookmark, comment]
@@ -288,6 +304,8 @@ accounts:
       sources: ["mentions", "my_threads"]
       only_if_my_thread: true
       reply_num_max: 0
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
       per_target:
         Maya19960330:
           actions: [like, bookmark, comment]
@@ -305,6 +323,8 @@ accounts:
       sources: ["mentions", "my_threads"]
       only_if_my_thread: true
       reply_num_max: 0
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
       per_target:
         Maya19960330:
           actions: [like, bookmark, comment]
@@ -322,6 +342,8 @@ accounts:
       sources: ["mentions", "my_threads"]
       only_if_my_thread: true
       reply_num_max: 0
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
       per_target:
         Maya19960330:
           actions: [like, bookmark, comment]
@@ -339,6 +361,8 @@ accounts:
       sources: ["mentions", "my_threads"]
       only_if_my_thread: true
       reply_num_max: 0
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
       per_target:
         Maya19960330:
           actions: [like, bookmark, retweet, comment]
@@ -356,6 +380,8 @@ accounts:
       sources: ["mentions", "my_threads"]
       only_if_my_thread: true
       reply_num_max: 0
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
       per_target:
         Maya19960330:
           actions: [like, bookmark, comment]
@@ -373,6 +399,8 @@ accounts:
       sources: ["mentions", "my_threads"]
       only_if_my_thread: true
       reply_num_max: 0
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
       per_target:
         Maya19960330:
           actions: [like, bookmark, comment]
@@ -390,6 +418,8 @@ accounts:
       sources: ["mentions", "my_threads"]
       only_if_my_thread: true
       reply_num_max: 0
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
       per_target:
         Maya19960330:
           actions: [like, bookmark, retweet, comment]
@@ -407,6 +437,8 @@ accounts:
       sources: ["mentions", "my_threads"]
       only_if_my_thread: true
       reply_num_max: 0
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
       per_target:
         Maya19960330:
           actions: [like, bookmark, retweet, comment]
@@ -424,6 +456,8 @@ accounts:
       sources: ["mentions", "my_threads"]
       only_if_my_thread: true
       reply_num_max: 0
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
       per_target:
         Maya19960330:
           actions: [like, bookmark, comment]
@@ -441,6 +475,8 @@ accounts:
       sources: ["mentions", "my_threads"]
       only_if_my_thread: true
       reply_num_max: 0
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
       per_target:
         Maya19960330:
           actions: [like, bookmark, comment]
@@ -458,6 +494,8 @@ accounts:
       sources: ["mentions", "my_threads"]
       only_if_my_thread: true
       reply_num_max: 0
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
       per_target:
         Maya19960330:
           actions: [like, bookmark, retweet, comment]
@@ -475,6 +513,8 @@ accounts:
       sources: ["mentions", "my_threads"]
       only_if_my_thread: true
       reply_num_max: 0
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
       per_target:
         Maya19960330:
           actions: [like, bookmark, comment]
@@ -492,6 +532,8 @@ accounts:
       sources: ["mentions", "my_threads"]
       only_if_my_thread: true
       reply_num_max: 0
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
       per_target:
         Maya19960330:
           actions: [like, bookmark, retweet, comment]
@@ -509,6 +551,8 @@ accounts:
       sources: ["mentions", "my_threads"]
       only_if_my_thread: true
       reply_num_max: 0
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
       per_target:
         Maya19960330:
           actions: [like, bookmark, retweet, comment]

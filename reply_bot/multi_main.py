@@ -145,7 +145,7 @@ def run_for_account(acct: Dict[str, Any], live_run: bool, hours: int | None) -> 
 
         if getattr(cfg, 'DIRECT_ACTIONS_ONLY', False):
             # 直接アクションモード: accounts.yaml の設定に従い、対象ユーザーの最新ツイートへ実行
-            from .operate_latest_tweet import get_latest_tweet_id_from_profile, _detect_existing_actions_via_ui, run_actions_on_tweet
+            from .operate_latest_tweet import get_latest_tweet_id_from_profile, get_top_tweet_ids_from_profile, _detect_existing_actions_via_ui, run_actions_on_tweet
 
             is_dry_run = not live_run
             features = acct.get('features', {}) or {}
@@ -157,6 +157,10 @@ def run_for_account(acct: Dict[str, Any], live_run: bool, hours: int | None) -> 
             from selenium.webdriver.common.by import By
 
             per_target = (policies or {}).get('per_target', {}) or {}
+            # 新設定: 先頭からの対象個数 / 対象ユーザー切替の間隔
+            tweet_selection = (policies or {}).get('tweet_selection', {}) or {}
+            top_n = int(tweet_selection.get('top_n', 1))
+            switch_interval_sec = int((policies or {}).get('user_switch_interval_seconds', 0))
             if not per_target:
                 logging.warning("per_target が空です。自分のプロフィールに対して実行します。")
                 per_target = {handle: {'actions': [k for k, v in features.items() if v]}}
@@ -187,33 +191,47 @@ def run_for_account(acct: Dict[str, Any], live_run: bool, hours: int | None) -> 
                             logging.info(f"@{target_handle}: 実行可能なアクションがありません（features / per_target.actions）")
                             break
 
-                        # 先頭ツイート取得
-                        logging.info(f"@{target_handle}: 最新ツイートを取得します。")
-                        tweet_id = get_latest_tweet_id_from_profile(driver, target_handle)
-                        if not tweet_id:
-                            logging.warning(f"@{target_handle}: 最新ツイートIDの取得に失敗しました。スキップします。")
+                        # 先頭から top_n 件のツイートを対象（ピン留め/リポストは除外）
+                        if top_n <= 1:
+                            logging.info(f"@{target_handle}: 最新ツイートを取得します。")
+                            tweet_ids = []
+                            tid = get_latest_tweet_id_from_profile(driver, target_handle)
+                            if tid:
+                                tweet_ids = [tid]
+                        else:
+                            tweet_ids = get_top_tweet_ids_from_profile(driver, target_handle, top_n=top_n)
+
+                        if not tweet_ids:
+                            logging.warning(f"@{target_handle}: ツイートIDの取得に失敗しました。スキップします。")
                             break
 
-                        tweet_url = f"https://x.com/any/status/{tweet_id}"
-                        logging.info(f"@{target_handle}: ツイートに移動してUI状態検出: {tweet_url}")
-                        driver.get(tweet_url)
-                        WebDriverWait(driver, 30).until(
-                            EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweetText"]'))
-                        )
-                        states = _detect_existing_actions_via_ui(driver)
-                        logging.info(f"@{target_handle}: UI状態検出: {states}")
+                        for tweet_id in tweet_ids:
+                            tweet_url = f"https://x.com/any/status/{tweet_id}"
+                            logging.info(f"@{target_handle}: ツイートに移動してUI状態検出: {tweet_url}")
+                            driver.get(tweet_url)
+                            WebDriverWait(driver, 30).until(
+                                EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweetText"]'))
+                            )
+                            states = _detect_existing_actions_via_ui(driver)
+                            logging.info(f"@{target_handle}: UI状態検出: {states}")
 
-                        run_actions_on_tweet(
-                            driver=driver,
-                            account_id=account_id,
-                            target_handle=target_handle,
-                            tweet_id=tweet_id,
-                            actions=enabled_actions,
-                            policy=policies,
-                            rate_limits=rate_limits,
-                            live_run=live_run,
-                            existing_states=states,
-                        )
+                            run_actions_on_tweet(
+                                driver=driver,
+                                account_id=account_id,
+                                target_handle=target_handle,
+                                tweet_id=tweet_id,
+                                actions=enabled_actions,
+                                policy=policies,
+                                rate_limits=rate_limits,
+                                live_run=live_run,
+                                existing_states=states,
+                            )
+
+                        # ターゲット切替のインターバル（次のユーザーへ進む前に待機）
+                        if switch_interval_sec > 0:
+                            logging.info(f"@{target_handle}: 次ユーザーへ切替前に {switch_interval_sec}s 待機します。")
+                            from time import sleep as _sleep
+                            _sleep(switch_interval_sec)
                         break
                     except InvalidSessionIdException as e:
                         logging.warning(f"@{target_handle}: セッションが無効です。WebDriverを再起動して再試行します: {e}")

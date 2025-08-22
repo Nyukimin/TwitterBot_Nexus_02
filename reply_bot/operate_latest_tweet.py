@@ -137,6 +137,72 @@ def get_latest_tweet_id_from_profile(driver: webdriver.Chrome, target_handle: st
     return None
 
 
+def get_top_tweet_ids_from_profile(driver: webdriver.Chrome, target_handle: str, top_n: int = 2) -> List[str]:
+    """プロフィール上から先頭の通常ツイートIDを最大 top_n 件取得（ピン留め/リポストは除外）。"""
+    if top_n <= 0:
+        return []
+    profile_url = f"https://x.com/{target_handle}"
+    logging.info(f"プロフィールに移動（top_n={top_n}）: {profile_url}")
+    driver.get(profile_url)
+
+    # 早期に『このアカウントは存在しません』等を検出
+    not_found_phrases = [
+        'このアカウントは存在しません',
+        "this account doesn't exist",
+        'this account doesn’t exist',
+        '帳戶不存在',
+        'account does not exist',
+    ]
+    try:
+        for _ in range(10):
+            src = (driver.page_source or '').lower()
+            if any(p.lower() in src for p in not_found_phrases):
+                logging.warning(f"@{target_handle}: アカウント不存在を検出。スキップします。")
+                logging.warning(f"[account-not-found] handle={target_handle}")
+                return []
+            soup_tmp = BeautifulSoup(src, 'html.parser')
+            if soup_tmp.select_one('article[data-testid="tweet"]'):
+                break
+            time.sleep(1)
+        else:
+            wait_for_profile_tweets(driver, timeout_sec=20)
+    except Exception:
+        wait_for_profile_tweets(driver, timeout_sec=20)
+
+    # 最上部にスクロールして安定
+    driver.execute_script("window.scrollTo(0, 0);")
+    time.sleep(2)
+
+    soup = BeautifulSoup(driver.page_source, 'html.parser')
+    articles = soup.select('article[data-testid="tweet"]')
+    logging.info(f"記事要素検出数: {len(articles)} (top_n={top_n})")
+    if not articles:
+        return []
+
+    ids: List[str] = []
+    for idx, article in enumerate(articles):
+        if len(ids) >= top_n:
+            break
+        try:
+            if detect_pinned_article(article):
+                logging.info(f"{idx+1}件目はピン留めと推測。スキップします。")
+                continue
+            if detect_retweet_article(article):
+                logging.info(f"{idx+1}件目はリポストと推測。スキップします。")
+                continue
+            tweet_id = _extract_tweet_id_robust(article)
+            if tweet_id:
+                ids.append(tweet_id)
+        except Exception:
+            continue
+
+    if not ids:
+        logging.warning("通常ツイートが見つかりません（ピン留め/リポストのみ）。")
+    else:
+        logging.info(f"取得した先頭ツイートID: {ids}")
+    return ids
+
+
 def _detect_existing_actions_via_ui(driver: webdriver.Chrome) -> Dict[str, bool]:
     """
     ツイート詳細画面上で、現在のアカウントが既に実施しているアクションのUI状態を推定する。
