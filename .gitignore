@@ -9,4 +9,5 @@ cookie/
 # Database file
 *.db
 *.db-journal
-/reply_bot/replies.db 
+/reply_bot/replies.db /log/
+/profile/
