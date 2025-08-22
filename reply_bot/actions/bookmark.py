@@ -8,14 +8,32 @@ from selenium import webdriver
 from ..db import record_action_log, has_action_log, count_actions_last_hours
 
 
+def _is_allowed_for_user(action: str, user_handle: str | None, policy: dict) -> bool:
+    per_target = (policy or {}).get('per_target', {})
+    if not user_handle:
+        return True
+    cfg = per_target.get(user_handle)
+    if cfg is None:
+        return True
+    if isinstance(cfg, str):
+        # 固定コメント指定のみ → bookmark の明示指定がない場合は許可（運用に合わせて調整可）
+        return True
+    if isinstance(cfg, dict):
+        actions = cfg.get('actions')
+        if actions is None:
+            return True
+        return action in actions
+    return True
+
+
 def run(driver: webdriver.Chrome, tweets: list[dict], policy: dict, rate_limits: dict, account_id: str, dry_run: bool) -> None:
     """
     Bookmarkアクションを実行する。
     tweets: { 'reply_id': str, ... } を含む辞書のリスト
     rate_limits: { 'bookmark_per_hour': int, 'min_interval_seconds': int }
     """
-    bookmark_per_hour = int(rate_limits.get('bookmark_per_hour', 60))
-    min_interval = int(rate_limits.get('min_interval_seconds', 7))
+    bookmark_per_hour = int(rate_limits.get('bookmark_per_hour', 0))
+    min_interval = int(rate_limits.get('min_interval_seconds', 0))
 
     processed = 0
     for row in tweets:
@@ -23,12 +41,17 @@ def run(driver: webdriver.Chrome, tweets: list[dict], policy: dict, rate_limits:
         if not tweet_id:
             continue
 
+        user_handle = str(row.get('UserID') or '').strip()
+        if not _is_allowed_for_user('bookmark', user_handle, policy):
+            logging.info(f"[bookmark] skip by per_target policy for @{user_handle}: {tweet_id}")
+            continue
+
         if has_action_log(account_id, tweet_id, 'bookmark'):
             logging.info(f"[bookmark] skip by idempotency: {tweet_id}")
             continue
 
         used = count_actions_last_hours(account_id, 'bookmark', hours=1)
-        if used >= bookmark_per_hour:
+        if bookmark_per_hour > 0 and used >= bookmark_per_hour:
             logging.warning(f"[bookmark] hourly limit reached ({used}/{bookmark_per_hour}). stop.")
             break
 

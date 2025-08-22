@@ -325,8 +325,12 @@ def main_process(driver: webdriver.Chrome, output_csv_path: str, max_scrolls: in
         
         time.sleep(2)  # 最終的な安定化待機
         
-        # 0ページ目のHTMLソースを保存
+        # 0ページ目のHTMLソースを保存（デバッグ用ディレクトリを保証）
         initial_html_source = driver.page_source
+        try:
+            os.makedirs("source", exist_ok=True)
+        except Exception:
+            pass
         debug_html_file_path = "source/debug_page_source_000.html"
         with open(debug_html_file_path, "w", encoding="utf-8") as f:
             f.write(initial_html_source)
@@ -375,6 +379,10 @@ def main_process(driver: webdriver.Chrome, output_csv_path: str, max_scrolls: in
             current_html_source = driver.page_source
             
             # 各スクロール後にHTMLソースを連番で保存
+            try:
+                os.makedirs("source", exist_ok=True)
+            except Exception:
+                pass
             debug_html_file_path = f"source/debug_page_source_{scroll_count:03d}.html"
             with open(debug_html_file_path, "w", encoding="utf-8") as f:
                 f.write(current_html_source)

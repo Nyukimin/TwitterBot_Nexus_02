@@ -10,7 +10,7 @@ import logging
 import os
 from selenium import webdriver
 
-from .config import POST_INTERVAL_SECONDS
+from .config import POST_INTERVAL_SECONDS, LEGACY_COMMENT_ENABLED
 from .actions.like import run as run_like
 from .actions.comment import run as run_comment
 
@@ -40,10 +40,13 @@ def main_process(driver: webdriver.Chrome, input_csv: str, dry_run: bool = True,
         pass
 
     policy = { 'only_if_my_thread': True, 'reply_num_max': 0 }
-    rate_limits = { 'like_per_hour': 30, 'comment_per_hour': 10, 'min_interval_seconds': interval or POST_INTERVAL_SECONDS }
+    rate_limits = { 'like_per_hour': 0, 'comment_per_hour': 0, 'min_interval_seconds': interval or POST_INTERVAL_SECONDS }
 
     run_like(driver, rows, policy, rate_limits, account_id=account_id, dry_run=dry_run)
-    run_comment(driver, rows, policy, rate_limits, account_id=account_id, dry_run=dry_run)
+    if LEGACY_COMMENT_ENABLED:
+        run_comment(driver, rows, policy, rate_limits, account_id=account_id, dry_run=dry_run)
+    else:
+        logging.info("[legacy-comment] disabled by config (LEGACY_COMMENT_ENABLED=False)")
 
 
 if __name__ == '__main__':

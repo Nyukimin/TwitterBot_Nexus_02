@@ -5,9 +5,10 @@ from datetime import datetime
 from typing import List, Dict, Any
 
 import yaml
+from selenium.common.exceptions import InvalidSessionIdException, WebDriverException
 
 from . import config as cfg
-from .utils import setup_driver, close_driver
+from .utils import setup_driver, close_driver, force_restart_driver
 from .csv_generator import main_process as csv_generator_main
 from .reply_processor import main_process as reply_processor_main
 from .post_reply import main_process as post_reply_main
@@ -98,6 +99,27 @@ def remove_logging_filter(prefix_filter: AccountPrefixFilter) -> None:
             pass
 
 
+def _ensure_driver_alive(driver, *, headless: bool, profile_dir: str | None):
+    """invalid session を事前検知し、必要に応じて自動再起動して返す。失敗時は None。"""
+    try:
+        # 軽いコマンドでセッション有効性を確認
+        driver.execute_script("return 1")
+        return driver
+    except InvalidSessionIdException:
+        logging.warning("WebDriver セッションが無効です。再起動します。")
+    except WebDriverException as e:
+        if 'invalid session id' in str(e).lower():
+            logging.warning("WebDriver で invalid session id を検出。再起動します。")
+        else:
+            # その他の例外はそのまま伝播
+            raise
+    new_driver = force_restart_driver(headless=headless, profile_path=profile_dir)
+    if not new_driver:
+        logging.error("WebDriver の再起動に失敗しました。")
+        return None
+    return new_driver
+
+
 def run_for_account(acct: Dict[str, Any], live_run: bool, hours: int | None) -> None:
     account_id = str(acct.get('id', 'unknown'))
     handle = str(acct.get('handle', '')).strip()
@@ -121,46 +143,143 @@ def run_for_account(acct: Dict[str, Any], live_run: bool, hours: int | None) -> 
             logging.error("WebDriverの初期化に失敗しました。処理をスキップします。")
             return
 
-        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        csv_path = os.path.join('output', f'extracted_tweets_{account_id}_{timestamp}.csv')
+        if getattr(cfg, 'DIRECT_ACTIONS_ONLY', False):
+            # 直接アクションモード: accounts.yaml の設定に従い、対象ユーザーの最新ツイートへ実行
+            from .operate_latest_tweet import get_latest_tweet_id_from_profile, _detect_existing_actions_via_ui, run_actions_on_tweet
 
-        # ステップ1: 抽出
-        hours_to_collect = hours if hours is not None else cfg.HOURS_TO_COLLECT
-        logging.info(f"[抽出] 過去{hours_to_collect}時間を対象にCSV生成を開始: {csv_path}")
-        extracted_csv = csv_generator_main(
-            driver=driver,
-            output_csv_path=csv_path,
-            hours_to_collect=hours_to_collect,
-        )
-        if not extracted_csv or not os.path.exists(extracted_csv):
-            logging.error("抽出フェーズでCSV生成に失敗しました。次のアカウントへ進みます。")
-            return
+            is_dry_run = not live_run
+            features = acct.get('features', {}) or {}
+            policies = acct.get('policies', {}) or {}
+            rate_limits = acct.get('rate_limits', {}) or {}
 
-        # ステップ2: 解析/返信生成
-        logging.info("[解析] スレッド解析と返信生成を開始します。")
-        processed_csv = reply_processor_main(driver, extracted_csv)
-        if not processed_csv or not os.path.exists(processed_csv):
-            logging.warning("解析フェーズで処理済みCSVの生成が確認できませんでした。投稿フェーズをスキップします。")
-            return
+            from selenium.webdriver.support.ui import WebDriverWait
+            from selenium.webdriver.support import expected_conditions as EC
+            from selenium.webdriver.common.by import By
 
-        # ステップ3: 投稿/アクション実行（features と policies を反映）
-        is_dry_run = not live_run
-        features = acct.get('features', {}) or {}
-        policies = acct.get('policies', {}) or {}
-        rate_limits = acct.get('rate_limits', {}) or {}
+            per_target = (policies or {}).get('per_target', {}) or {}
+            if not per_target:
+                logging.warning("per_target が空です。自分のプロフィールに対して実行します。")
+                per_target = {handle: {'actions': [k for k, v in features.items() if v]}}
 
-        import pandas as _pd
-        rows = _pd.read_csv(processed_csv).fillna('').to_dict(orient='records')
+            # per_target の順に処理
+            for target_handle, target_cfg in per_target.items():
+                # セッションの事前ヘルスチェック（必要なら再起動）
+                try:
+                    checked = _ensure_driver_alive(driver, headless=headless, profile_dir=profile_dir)
+                except Exception as _e:
+                    logging.warning(f"@{target_handle}: ドライバーの健全性確認で例外: {_e}")
+                    checked = None
+                if not checked:
+                    logging.error("WebDriver が利用不可のためスキップします。")
+                    break
+                driver = checked
+                attempts = 0
+                while attempts < 2:
+                    try:
+                        # アクション: accountのfeaturesとper_target側actionsの積集合
+                        account_enabled = [k for k, v in features.items() if v]
+                        target_actions = target_cfg.get('actions') if isinstance(target_cfg, dict) else None
+                        if target_actions is None:
+                            enabled_actions = account_enabled
+                        else:
+                            enabled_actions = [a for a in account_enabled if a in target_actions]
+                        if not enabled_actions:
+                            logging.info(f"@{target_handle}: 実行可能なアクションがありません（features / per_target.actions）")
+                            break
 
-        if features.get('like', False):
-            action_like(driver, rows, policies, rate_limits, account_id=account_id, dry_run=is_dry_run)
-        if features.get('comment', False):
-            action_comment(driver, rows, policies, rate_limits, account_id=account_id, dry_run=is_dry_run)
-        if features.get('bookmark', False):
-            action_bookmark(driver, rows, policies, rate_limits, account_id=account_id, dry_run=is_dry_run)
-        if features.get('retweet', False):
-            action_retweet(driver, rows, policies, rate_limits, account_id=account_id, dry_run=is_dry_run)
-        logging.info(f"=== アカウント '{account_id}' の処理が完了しました ===")
+                        # 先頭ツイート取得
+                        logging.info(f"@{target_handle}: 最新ツイートを取得します。")
+                        tweet_id = get_latest_tweet_id_from_profile(driver, target_handle)
+                        if not tweet_id:
+                            logging.warning(f"@{target_handle}: 最新ツイートIDの取得に失敗しました。スキップします。")
+                            break
+
+                        tweet_url = f"https://x.com/any/status/{tweet_id}"
+                        logging.info(f"@{target_handle}: ツイートに移動してUI状態検出: {tweet_url}")
+                        driver.get(tweet_url)
+                        WebDriverWait(driver, 30).until(
+                            EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweetText"]'))
+                        )
+                        states = _detect_existing_actions_via_ui(driver)
+                        logging.info(f"@{target_handle}: UI状態検出: {states}")
+
+                        run_actions_on_tweet(
+                            driver=driver,
+                            account_id=account_id,
+                            target_handle=target_handle,
+                            tweet_id=tweet_id,
+                            actions=enabled_actions,
+                            policy=policies,
+                            rate_limits=rate_limits,
+                            live_run=live_run,
+                            existing_states=states,
+                        )
+                        break
+                    except InvalidSessionIdException as e:
+                        logging.warning(f"@{target_handle}: セッションが無効です。WebDriverを再起動して再試行します: {e}")
+                        new_driver = force_restart_driver(headless=headless, profile_path=profile_dir)
+                        if not new_driver:
+                            logging.error("WebDriverの再起動に失敗。スキップします。")
+                            break
+                        driver = new_driver
+                        attempts += 1
+                        continue
+                    except WebDriverException as e:
+                        if 'invalid session id' in str(e).lower():
+                            logging.warning(f"@{target_handle}: invalid session id を検出。WebDriverを再起動して再試行します。")
+                            new_driver = force_restart_driver(headless=headless, profile_path=profile_dir)
+                            if not new_driver:
+                                logging.error("WebDriverの再起動に失敗。スキップします。")
+                                break
+                            driver = new_driver
+                            attempts += 1
+                            continue
+                        logging.warning(f"@{target_handle}: 直接アクション処理でエラー: {e}")
+                        break
+                    except Exception as e:
+                        logging.warning(f"@{target_handle}: 直接アクション処理でエラー: {e}")
+                        break
+
+            logging.info(f"=== アカウント '{account_id}' の直接アクション処理が完了しました ===")
+        else:
+            # 旧パイプライン
+            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+            csv_path = os.path.join('output', f'extracted_tweets_{account_id}_{timestamp}.csv')
+
+            hours_to_collect = hours if hours is not None else cfg.HOURS_TO_COLLECT
+            logging.info(f"[抽出] 過去{hours_to_collect}時間を対象にCSV生成を開始: {csv_path}")
+            extracted_csv = csv_generator_main(
+                driver=driver,
+                output_csv_path=csv_path,
+                hours_to_collect=hours_to_collect,
+            )
+            if not extracted_csv or not os.path.exists(extracted_csv):
+                logging.error("抽出フェーズでCSV生成に失敗しました。次のアカウントへ進みます。")
+                return
+
+            logging.info("[解析] スレッド解析と返信生成を開始します。")
+            processed_csv = reply_processor_main(driver, extracted_csv)
+            if not processed_csv or not os.path.exists(processed_csv):
+                logging.warning("解析フェーズで処理済みCSVの生成が確認できませんでした。投稿フェーズをスキップします。")
+                return
+
+            is_dry_run = not live_run
+            features = acct.get('features', {}) or {}
+            policies = acct.get('policies', {}) or {}
+            rate_limits = acct.get('rate_limits', {}) or {}
+
+            import pandas as _pd
+            rows = _pd.read_csv(processed_csv).fillna('').to_dict(orient='records')
+
+            if features.get('like', False):
+                action_like(driver, rows, policies, rate_limits, account_id=account_id, dry_run=is_dry_run)
+            if features.get('comment', False):
+                action_comment(driver, rows, policies, rate_limits, account_id=account_id, dry_run=is_dry_run)
+            if features.get('bookmark', False):
+                action_bookmark(driver, rows, policies, rate_limits, account_id=account_id, dry_run=is_dry_run)
+            if features.get('retweet', False):
+                action_retweet(driver, rows, policies, rate_limits, account_id=account_id, dry_run=is_dry_run)
+            logging.info(f"=== アカウント '{account_id}' の処理が完了しました ===")
 
     except Exception as e:
         logging.error(f"アカウント '{account_id}' の処理中に予期せぬエラー: {e}", exc_info=True)

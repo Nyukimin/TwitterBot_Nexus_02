@@ -174,26 +174,31 @@ def setup_driver(headless: bool = True, profile_path: str | None = None, max_ret
     # アカウントごとにChromeユーザープロファイルを分離
     if profile_path:
         try:
-            os.makedirs(profile_path, exist_ok=True)
+            abs_profile = os.path.abspath(profile_path)
+            os.makedirs(abs_profile, exist_ok=True)
         except Exception as e:
             logging.warning(f"ユーザープロファイルディレクトリの作成に失敗しました: {profile_path} ({e})")
-        options.add_argument(f"--user-data-dir={profile_path}")
-        logging.info(f"Chromeユーザープロファイルを使用します: {profile_path}")
-        # 最後に使用したプロファイルを記録
-        global _last_profile_path
-        _last_profile_path = profile_path
+        else:
+            options.add_argument(f"--user-data-dir={abs_profile}")
+            logging.info(f"Chromeユーザープロファイルを使用します: {abs_profile}")
+            # 最後に使用したプロファイルを記録
+            global _last_profile_path
+            _last_profile_path = abs_profile
     
     # メモリリーク対策とパフォーマンス向上のオプション
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-gpu")
     options.add_argument("--disable-extensions")
-    options.add_argument("--disable-plugins")
-    options.add_argument("--disable-images")  # 画像読み込みを無効化
-    options.add_argument("--disable-javascript")  # JavaScriptを無効化（必要に応じて）
-    options.add_argument("--memory-pressure-off")  # メモリ圧迫制御を無効化
-    options.add_argument("--max_old_space_size=4096")  # メモリ制限を設定
+    options.add_argument("--no-first-run")
+    options.add_argument("--no-default-browser-check")
+    options.add_argument("--remote-debugging-port=0")
     options.add_argument('--log-level=3') # INFO, WARNING, ERROR 以外のログを抑制
+    try:
+        options.add_experimental_option('excludeSwitches', ['enable-automation', 'enable-logging'])
+        options.add_experimental_option('useAutomationExtension', False)
+    except Exception:
+        pass
     
     # メモリ使用量を監視
     check_memory_usage()

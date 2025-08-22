@@ -8,6 +8,23 @@ from selenium import webdriver
 from ..db import record_action_log, has_action_log, count_actions_last_hours
 
 
+def _is_allowed_for_user(action: str, user_handle: str | None, policy: dict) -> bool:
+    per_target = (policy or {}).get('per_target', {})
+    if not user_handle:
+        return True
+    target_cfg = per_target.get(user_handle)
+    if target_cfg is None:
+        return True  # 設定なし → デフォルト許可
+    # 旧仕様: 文字列（固定コメントのみの指定）
+    if isinstance(target_cfg, str):
+        return True
+    # 新仕様: { actions: [...], fixed_comment: "..." }
+    actions = target_cfg.get('actions') if isinstance(target_cfg, dict) else None
+    if actions is None:
+        return True
+    return action in actions
+
+
 def run(driver: webdriver.Chrome, tweets: list[dict], policy: dict, rate_limits: dict, account_id: str, dry_run: bool) -> None:
     """
     Likeアクションを実行する。
@@ -17,13 +34,18 @@ def run(driver: webdriver.Chrome, tweets: list[dict], policy: dict, rate_limits:
     account_id: 実行アカウント識別子
     dry_run: ドライラン時は実行せずログのみ
     """
-    like_per_hour = int(rate_limits.get('like_per_hour', 30))
-    min_interval = int(rate_limits.get('min_interval_seconds', 7))
+    like_per_hour = int(rate_limits.get('like_per_hour', 0))
+    min_interval = int(rate_limits.get('min_interval_seconds', 0))
 
     processed = 0
     for row in tweets:
         tweet_id = str(row.get('reply_id'))
         if not tweet_id:
+            continue
+
+        user_handle = str(row.get('UserID') or '').strip()
+        if not _is_allowed_for_user('like', user_handle, policy):
+            logging.info(f"[like] skip by per_target policy for @{user_handle}: {tweet_id}")
             continue
 
         # 冪等性: 既に成功ログがあればスキップ
@@ -33,7 +55,7 @@ def run(driver: webdriver.Chrome, tweets: list[dict], policy: dict, rate_limits:
 
         # レート制御: 直近1hの回数チェック
         used = count_actions_last_hours(account_id, 'like', hours=1)
-        if used >= like_per_hour:
+        if like_per_hour > 0 and used >= like_per_hour:
             logging.warning(f"[like] hourly limit reached ({used}/{like_per_hour}). stop.")
             break
 

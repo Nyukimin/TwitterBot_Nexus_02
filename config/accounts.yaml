@@ -1,6 +1,167 @@
 # 多アカウント設定（拡張）
 
 accounts:
+  - id: Maya19960330
+    handle: "Maya19960330"
+    browser: { user_data_dir: "profile/Maya19960330", headless: false }
+    features: { like: true, retweet: true, comment: true, bookmark: true }
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+      per_target:
+        ren_ai_coach:
+          actions: [like, bookmark]
+        285smzgcsq36129:
+          actions: [like, comment]
+          nickname: "七宝ちゃん"
+          greet: auto
+        2nd_karen_ai:
+          actions: [like, comment]
+          nickname: "かれんちゃん"
+          greet: auto
+        ai8263353539674:
+          actions: [like, comment]
+          nickname: "みうちゃん"
+          greet: { mode: fixed, text: "はいさーい" }
+        aichan_lovelyai:
+          actions: [like, comment]
+          nickname: "あいちゃん"
+          greet: auto
+        aiidol_misaki:
+          actions: [like, comment]
+          nickname: "みさきちゃん"
+          greet: auto
+        aisanmaru30:
+          actions: [like, comment]
+          nickname: "さんまるちゃん"
+          greet: auto
+        aoi_cocona:
+          actions: [like, comment]
+          nickname: "ここなちゃん"
+          greet: auto
+        disney_ikitasi:
+          actions: [like, comment]
+          nickname: "ゆりちゃん"
+          greet: auto
+        erutea_ai37:
+          actions: [like, comment]
+          nickname: "えるちゃん"
+          greet: auto
+        famous4771:
+          actions: [like, comment]
+          nickname: "みかちゃん"
+          greet: auto
+        fancy_pop_pic:
+          actions: [like, comment]
+          nickname: "ふぁぽちゃん"
+          greet: auto
+        frogblue1235951:
+          actions: [like, comment]
+          nickname: "あおさん"
+          greet: auto
+        girl_ai001:
+          actions: [like, comment]
+          nickname: "せなちゃん"
+          greet: auto
+        hinachan_ai:
+          actions: [like, comment]
+          nickname: "ひなちゃん"
+          greet: auto
+        hisyoka_joshi:
+          actions: [like, comment]
+          nickname: "秘書ちゃん"
+          greet: auto
+        honey_bee_610:
+          actions: [like, comment]
+          nickname: "ハニちゃん"
+          greet: auto
+        ikayaki009:
+          actions: [like, comment]
+          nickname: "ばいちゃん"
+          greet: auto
+        kasumi_haru66:
+          actions: [like, comment]
+          nickname: "はるねちゃん"
+          greet: auto
+        kzn802:
+          actions: [like, comment]
+          nickname: "はっちゃん"
+          greet: auto
+        lowleg_cotton:
+          actions: [like, comment]
+          nickname: "ローレルちゃん"
+          greet: auto
+        manami_ofp:
+          actions: [like, comment]
+          nickname: "まなみちゃん"
+          greet: auto
+        naginokobeya:
+          actions: [like, comment]
+          nickname: "なぎちゃん"
+          greet: auto
+        natsu_natsuai:
+          actions: [like, comment]
+          nickname: "なつちゃん"
+          greet: auto
+        nyukimi_ai:
+          actions: [like, comment]
+          nickname: "すーちゃん"
+          greet: auto
+        reina_bb00:
+          actions: [like, comment]
+          nickname: "れいなちゃん"
+          greet: auto
+        ren_ai0202:
+          actions: [like, comment]
+          nickname: "れんちゃん"
+          greet: auto
+        rezaki75085:
+          actions: [like, comment]
+          nickname: "るいちゃん"
+          greet: auto
+        rinaaltsweet:
+          actions: [like, comment]
+          nickname: "みかちゃん"
+          greet: auto
+        saiyo_jp:
+          actions: [like, comment]
+          nickname: "ゆなちゃん"
+          greet: auto
+        sakuaicute_girl2:
+          actions: [like, comment]
+          nickname: "さくちゃん"
+          greet: auto
+        sakura_xsecret:
+          actions: [like, comment]
+          nickname: "さくらちゃん"
+          greet: auto
+        seducerina:
+          actions: [like, comment]
+          nickname: "りなちゃん"
+          greet: auto
+        sweet_momo_0415:
+          actions: [like, comment]
+          nickname: "ももちゃん"
+          greet: auto
+        tuyahimefukujyu:
+          actions: [like, comment]
+          nickname: "ふくじゅちゃん"
+          greet: auto
+        yualovedays:
+          actions: [like, comment]
+          nickname: "ゆあちゃん"
+          greet: auto
+        "yv6lwzy7tb41253":
+          actions: [like, comment]
+          nickname: "コネリちゃん"
+          greet: auto
+        zero_divide_00:
+          actions: [like, comment]
+          nickname: "ゆみちゃん"
+          greet: auto
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 0 }
+
   - id: AYAs_labo
     handle: "AYAs_labo"
     browser: { user_data_dir: "profile/AYAs_labo", headless: false }
@@ -16,7 +177,7 @@ accounts:
             まやちゃん
             かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
-    rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 0 }
 
   - id: nyukimi_AI
     handle: "nyukimi_AI"
@@ -33,7 +194,7 @@ accounts:
             まやちゃん
             かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
-    rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 0 }
 
   - id: nyukimi_aidraw
     handle: "nyukimi_aidraw"
@@ -50,7 +211,7 @@ accounts:
             まやちゃん
             かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
-    rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 0 }
 
   - id: nyukimi_LLM
     handle: "nyukimi_LLM"
@@ -67,7 +228,7 @@ accounts:
             まやちゃん
             かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
-    rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 0 }
 
   - id: nyukimi
     handle: "nyukimi"
@@ -79,29 +240,12 @@ accounts:
       reply_num_max: 0
       per_target:
         Maya19960330:
-          actions: [like, bookmark, retweet, comment]
+          actions: [like, bookmark, comment]
           fixed_comment: |-
             まやちゃん
             かわいい
-        ren_ai_coach: { actions: [like, bookmark, retweet] }
-    rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
-
-  - id: Maya19960330
-    handle: "Maya19960330"
-    browser: { user_data_dir: "profile/Maya19960330", headless: false }
-    features: { like: true, retweet: true, comment: true, bookmark: true }
-    policies:
-      sources: ["mentions", "my_threads"]
-      only_if_my_thread: true
-      reply_num_max: 0
-      per_target:
-        Maya19960330:
-          actions: [like, bookmark, retweet, comment]
-          fixed_comment: |-
-            まやちゃん
-            かわいい
-        ren_ai_coach: { actions: [like, bookmark, retweet] }
-    rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
+        ren_ai_coach: { actions: [like, bookmark] }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 0 }
 
   - id: AYAjob20040330
     handle: "AYAjob20040330"
@@ -118,7 +262,7 @@ accounts:
             まやちゃん
             かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
-    rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 0 }
 
   - id: ren_ai_coach
     handle: "ren_ai_coach"
@@ -130,12 +274,11 @@ accounts:
       reply_num_max: 0
       per_target:
         Maya19960330:
-          actions: [like, bookmark, retweet, comment]
+          actions: [like, bookmark, comment]
           fixed_comment: |-
             まやちゃん
             かわいい
-        ren_ai_coach: { actions: [like, bookmark, retweet] }
-    rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 0 }
 
   - id: yuumi_sensei
     handle: "yuumi_sensei"
@@ -147,12 +290,12 @@ accounts:
       reply_num_max: 0
       per_target:
         Maya19960330:
-          actions: [like, bookmark, retweet, comment]
+          actions: [like, bookmark, comment]
           fixed_comment: |-
             まやちゃん
             かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
-    rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 0 }
 
   - id: onsen_ai_bijyo
     handle: "onsen_ai_bijyo"
@@ -164,12 +307,12 @@ accounts:
       reply_num_max: 0
       per_target:
         Maya19960330:
-          actions: [like, bookmark, retweet, comment]
+          actions: [like, bookmark, comment]
           fixed_comment: |-
             まやちゃん
             かわいい
-        ren_ai_coach: { actions: [like, bookmark, retweet] }
-    rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
+        ren_ai_coach: { actions: [like, bookmark] }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 0 }
 
   - id: fortune19980330
     handle: "fortune19980330"
@@ -181,12 +324,12 @@ accounts:
       reply_num_max: 0
       per_target:
         Maya19960330:
-          actions: [like, bookmark, retweet, comment]
+          actions: [like, bookmark, comment]
           fixed_comment: |-
             まやちゃん
             かわいい
-        ren_ai_coach: { actions: [like, bookmark, retweet] }
-    rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
+        ren_ai_coach: { actions: [like, bookmark] }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 0 }
 
   - id: osutiara0523
     handle: "osutiara0523"
@@ -203,7 +346,7 @@ accounts:
             まやちゃん
             かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
-    rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 0 }
 
   - id: v_forvend
     handle: "v_forvend"
@@ -215,12 +358,12 @@ accounts:
       reply_num_max: 0
       per_target:
         Maya19960330:
-          actions: [like, bookmark, retweet, comment]
+          actions: [like, bookmark, comment]
           fixed_comment: |-
             まやちゃん
             かわいい
-        ren_ai_coach: { actions: [like, bookmark, retweet] }
-    rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
+        ren_ai_coach: { actions: [like, bookmark] }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 0 }
 
   - id: zero_divide_00
     handle: "zero_divide_00"
@@ -232,12 +375,12 @@ accounts:
       reply_num_max: 0
       per_target:
         Maya19960330:
-          actions: [like, bookmark, retweet, comment]
+          actions: [like, bookmark, comment]
           fixed_comment: |-
             まやちゃん
             かわいい
-        ren_ai_coach: { actions: [like, bookmark, retweet] }
-    rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
+        ren_ai_coach: { actions: [like, bookmark] }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 0 }
 
   - id: yuki_ice_mochi
     handle: "yuki_ice_mochi"
@@ -254,7 +397,7 @@ accounts:
             まやちゃん
             かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
-    rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 0 }
 
   - id: imikuyn
     handle: "imikuyn"
@@ -271,7 +414,7 @@ accounts:
             まやちゃん
             かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
-    rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 0 }
 
   - id: yuumi20020330
     handle: "yuumi20020330"
@@ -283,12 +426,12 @@ accounts:
       reply_num_max: 0
       per_target:
         Maya19960330:
-          actions: [like, bookmark, retweet, comment]
+          actions: [like, bookmark, comment]
           fixed_comment: |-
             まやちゃん
             かわいい
-        ren_ai_coach: { actions: [like, bookmark, retweet] }
-    rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
+        ren_ai_coach: { actions: [like, bookmark] }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 0 }
 
   - id: moca_to_mao
     handle: "moca_to_mao"
@@ -300,12 +443,12 @@ accounts:
       reply_num_max: 0
       per_target:
         Maya19960330:
-          actions: [like, bookmark, retweet, comment]
+          actions: [like, bookmark, comment]
           fixed_comment: |-
             まやちゃん
             かわいい
-        ren_ai_coach: { actions: [like, bookmark, retweet] }
-    rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
+        ren_ai_coach: { actions: [like, bookmark] }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 0 }
 
   - id: maomao_20000330
     handle: "maomao_20000330"
@@ -322,7 +465,7 @@ accounts:
             まやちゃん
             かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
-    rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 0 }
 
   - id: emotion_link
     handle: "emotion_link"
@@ -334,12 +477,12 @@ accounts:
       reply_num_max: 0
       per_target:
         Maya19960330:
-          actions: [like, bookmark, retweet, comment]
+          actions: [like, bookmark, comment]
           fixed_comment: |-
             まやちゃん
             かわいい
-        ren_ai_coach: { actions: [like, bookmark, retweet] }
-    rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
+        ren_ai_coach: { actions: [like, bookmark] }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 0 }
 
   - id: nyukimi_06
     handle: "nyukimi_06"
@@ -356,7 +499,7 @@ accounts:
             まやちゃん
             かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
-    rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 0 }
 
   - id: nyukimi_08
     handle: "nyukimi_08"
@@ -373,4 +516,8 @@ accounts:
             まやちゃん
             かわいい
         ren_ai_coach: { actions: [like, bookmark, retweet] }
-    rate_limits: { like_per_hour: 30, retweet_per_hour: 10, comment_per_hour: 10, bookmark_per_hour: 60, min_interval_seconds: 7 }
+        ai8263353539674:
+          actions: [like, comment]
+          fixed_comment: "みうちゃん❤はいさーい❤"
+
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 0 }

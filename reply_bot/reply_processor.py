@@ -102,6 +102,37 @@ def format_reply(text: str, lang: str = 'ja') -> str:
         processed_text = re.sub(r'\n+', '\n', processed_text)
     return processed_text.strip()
 
+
+# --- 挨拶検出（basic_response == 'greet' 用） ---
+def _detect_greeting(cleaned_text: str, lang: str) -> str | None:
+    t = cleaned_text.lower()
+    try:
+        if lang == 'ja':
+            if 'おはよ' in cleaned_text or 'おはよう' in cleaned_text:
+                return 'おはよう🩷'
+            if 'こんにちは' in cleaned_text:
+                return 'こんにちは🩷'
+            if 'こんばんは' in cleaned_text:
+                return 'こんばんは🩷'
+            if 'おやすみ' in cleaned_text:
+                return 'おやすみ🩷'
+            # デフォルト挨拶
+            return 'こんにちは🩷'
+
+        # 英語圏
+        if 'good morning' in t or t.startswith('gm'):
+            return 'Good morning🩷'
+        if 'good night' in t or t.startswith('gn'):
+            return 'Good night🩷'
+        if 'good evening' in t:
+            return 'Good evening🩷'
+        if 'hello' in t or t.startswith('hi'):
+            return 'Hello🩷'
+        # デフォルト
+        return 'Hello🩷' if lang == 'en' else None
+    except Exception:
+        return None
+
 # --- Selenium & BeautifulSoup 解析関数 ---
 
 def _get_tweet_text(article: BeautifulSoup) -> str:
@@ -865,11 +896,18 @@ def generate_reply(thread_data: dict, history: list) -> str:
     cleaned_reply_text = re.sub(r'@[\w_]+', '', reply_text).strip()
     cleaned_reply_text = re.sub(r'^[…,:・、。]', '', cleaned_reply_text).strip()
 
-    # ニックネームの有無を先に取得
+    # ニックネームとbasic_responseの取得
     preference = get_user_preference(replier_id.lower()) if replier_id else None
     nickname = preference[0] if preference else None
+    basic_response = preference[2] if preference else None
 
     # 1. 定型文での返信（ニックネームがないユーザーに限定）
+    # basic_response が greet の場合は「ニックネーム+挨拶」を優先
+    if basic_response == 'greet':
+        greeting = _detect_greeting(cleaned_reply_text, lang)
+        if greeting:
+            return f"{nickname}\n{greeting}" if nickname else greeting
+    # それ以外の早期レスポンス（ニックネームなし時のみ）
     if ("おはよう" in cleaned_reply_text or "おはよー" in cleaned_reply_text) and not nickname:
         return format_reply(f"おはよう{random.choice(['❤️', '🩷'])}", lang)
     if "こんにちは" in cleaned_reply_text and not nickname:

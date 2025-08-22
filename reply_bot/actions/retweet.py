@@ -27,8 +27,8 @@ def _is_allowed_for_user(action: str, user_handle: str | None, policy: dict) -> 
 
 
 def run(driver: webdriver.Chrome, tweets: list[dict], policy: dict, rate_limits: dict, account_id: str, dry_run: bool) -> None:
-    retweet_per_hour = int(rate_limits.get('retweet_per_hour', 10))
-    min_interval = int(rate_limits.get('min_interval_seconds', 7))
+    retweet_per_hour = int(rate_limits.get('retweet_per_hour', 0))
+    min_interval = int(rate_limits.get('min_interval_seconds', 0))
 
     processed = 0
     for row in tweets:
@@ -46,7 +46,7 @@ def run(driver: webdriver.Chrome, tweets: list[dict], policy: dict, rate_limits:
             continue
 
         used = count_actions_last_hours(account_id, 'retweet', hours=1)
-        if used >= retweet_per_hour:
+        if retweet_per_hour > 0 and used >= retweet_per_hour:
             logging.warning(f"[retweet] hourly limit reached ({used}/{retweet_per_hour}). stop.")
             break
 

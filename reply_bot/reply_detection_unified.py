@@ -4,12 +4,14 @@
 """
 
 import logging
+import os
 import re
 from typing import Dict, List, Tuple, Optional
 from bs4 import BeautifulSoup
 from .thread_analysis_fix import _get_complete_thread_improved
 
 # 返信判定専用ログ
+os.makedirs('log', exist_ok=True)
 unified_logger = logging.getLogger('unified_reply_detection')
 handler = logging.FileHandler('log/unified_reply_detection.log', encoding='utf-8')
 handler.setLevel(logging.DEBUG)

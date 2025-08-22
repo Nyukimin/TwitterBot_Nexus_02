@@ -1,14 +1,48 @@
 import logging
 import time
 import pyperclip
+import re
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium import webdriver
 
-from ..db import record_action_log, has_action_log, count_actions_last_hours
+from ..db import record_action_log, has_action_log, count_actions_last_hours, get_user_preference
+from .send_helpers import send_clipboard_paste_then_ctrl_enter
 from ..reply_processor import fetch_and_analyze_thread, generate_reply
+
+
+def _build_fixed_reply_for_user(user_handle: str | None, policy: dict) -> str | None:
+    per_target = (policy or {}).get('per_target', {})
+    if not user_handle:
+        return None
+    cfg = per_target.get(user_handle)
+    if cfg is None:
+        return None
+    if isinstance(cfg, str):
+        return cfg
+    if isinstance(cfg, dict):
+        return cfg.get('fixed_comment')
+    return None
+
+
+def _is_allowed_for_user(action: str, user_handle: str | None, policy: dict) -> bool:
+    per_target = (policy or {}).get('per_target', {})
+    if not user_handle:
+        return True
+    cfg = per_target.get(user_handle)
+    if cfg is None:
+        return True
+    if isinstance(cfg, str):
+        return True  # 固定コメント指定のみ → コメントは許可
+    if isinstance(cfg, dict):
+        actions = cfg.get('actions')
+        if actions is None:
+            return True
+        return action in actions
+    return True
 
 
 def run(driver: webdriver.Chrome, tweets: list[dict], policy: dict, rate_limits: dict, account_id: str, dry_run: bool) -> None:
@@ -20,8 +54,8 @@ def run(driver: webdriver.Chrome, tweets: list[dict], policy: dict, rate_limits:
     account_id: 実行アカウント識別子
     dry_run: ドライラン時は実行せずログのみ
     """
-    comment_per_hour = int(rate_limits.get('comment_per_hour', 10))
-    min_interval = int(rate_limits.get('min_interval_seconds', 7))
+    comment_per_hour = int(rate_limits.get('comment_per_hour', 0))
+    min_interval = int(rate_limits.get('min_interval_seconds', 0))
 
     processed = 0
     for row in tweets:
@@ -36,7 +70,7 @@ def run(driver: webdriver.Chrome, tweets: list[dict], policy: dict, rate_limits:
 
         # レート制御
         used = count_actions_last_hours(account_id, 'comment', hours=1)
-        if used >= comment_per_hour:
+        if comment_per_hour > 0 and used >= comment_per_hour:
             logging.warning(f"[comment] hourly limit reached ({used}/{comment_per_hour}). stop.")
             break
 
@@ -46,15 +80,76 @@ def run(driver: webdriver.Chrome, tweets: list[dict], policy: dict, rate_limits:
             logging.info(f"[comment] skip by thread condition: {tweet_id}")
             continue
 
-        # 固定コメント設定（per_target: { user_handle: fixed_text }）
-        fixed_map = (policy or {}).get('per_target', {})
+        # per-target ポリシーでコメント許可/固定文面
         current_replier = thread.get('current_replier_id')
+        if not _is_allowed_for_user('comment', current_replier, policy):
+            logging.info(f"[comment] skip by per_target policy for @{current_replier}: {tweet_id}")
+            continue
+
+        # 1) greet 設定の解釈（fixed / auto）
         reply_text = None
-        if current_replier and current_replier in fixed_map:
-            reply_text = fixed_map[current_replier]
-            logging.info(f"[comment] use fixed reply for @{current_replier}")
-        else:
-            # 返信生成
+        per_target = (policy or {}).get('per_target', {})
+        target_cfg = per_target.get(current_replier) if current_replier else None
+        greet_cfg = None
+        nickname = None
+
+        if isinstance(target_cfg, dict):
+            greet_cfg = target_cfg.get('greet')
+            nickname = target_cfg.get('nickname')
+
+        # ニックネームが設定されていない場合はDBから取得
+        if not nickname and current_replier:
+            pref = get_user_preference(current_replier.lower())
+            nickname = pref[0] if pref else None
+
+        def _detect_greeting(text: str, lang: str) -> str | None:
+            t = text.lower()
+            try:
+                if lang == 'ja':
+                    if 'おはよ' in text or 'おはよう' in text:
+                        return 'おはよう🩷'
+                    if 'こんにちは' in text:
+                        return 'こんにちは🩷'
+                    if 'こんばんは' in text:
+                        return 'こんばんは🩷'
+                    if 'おやすみ' in text:
+                        return 'おやすみ🩷'
+                    return 'こんにちは🩷'
+                if 'good morning' in t or t.startswith('gm'):
+                    return 'Good morning🩷'
+                if 'good night' in t or t.startswith('gn'):
+                    return 'Good night🩷'
+                if 'good evening' in t:
+                    return 'Good evening🩷'
+                if 'hello' in t or t.startswith('hi'):
+                    return 'Hello🩷'
+                return 'Hello🩷' if lang == 'en' else None
+            except Exception:
+                return None
+
+        if greet_cfg:
+            # 文字列で 'auto' 指定も許容
+            if isinstance(greet_cfg, str) and greet_cfg.lower() == 'auto':
+                greeting = _detect_greeting(thread.get('current_reply_text', ''), thread.get('lang', 'und'))
+                if greeting:
+                    reply_text = f"{nickname}\n{greeting}" if nickname else greeting
+            elif isinstance(greet_cfg, dict):
+                mode = str(greet_cfg.get('mode', '')).lower()
+                if mode == 'fixed':
+                    text = greet_cfg.get('text')
+                    if text:
+                        reply_text = f"{nickname}\n{text}" if nickname else text
+                elif mode == 'auto':
+                    greeting = _detect_greeting(thread.get('current_reply_text', ''), thread.get('lang', 'und'))
+                    if greeting:
+                        reply_text = f"{nickname}\n{greeting}" if nickname else greeting
+
+        # 2) 固定コメントがあれば優先
+        if not reply_text:
+            reply_text = _build_fixed_reply_for_user(current_replier, policy)
+
+        # 3) ここまでで決まらなければ通常生成
+        if not reply_text:
             reply_text = generate_reply(thread, history=[])
         if not reply_text:
             logging.info(f"[comment] no reply generated: {tweet_id}")
@@ -74,11 +169,7 @@ def run(driver: webdriver.Chrome, tweets: list[dict], policy: dict, rate_limits:
                 driver.execute_script("arguments[0].focus(); arguments[0].click();", reply_input)
                 time.sleep(1)
 
-                final_reply_text = reply_text.replace('<br>', '\n')
-                pyperclip.copy(final_reply_text)
-                reply_input.send_keys(Keys.CONTROL, 'v')
-                time.sleep(0.5)
-                reply_input.send_keys(Keys.CONTROL, Keys.ENTER)
+                send_clipboard_paste_then_ctrl_enter(driver, reply_input, reply_text, paste_delay_seconds=0.5)
                 record_action_log(account_id, tweet_id, 'comment', 'success', meta=None)
                 processed += 1
                 logging.info(f"[comment] success: {tweet_id}")
