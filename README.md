@@ -132,3 +132,82 @@ python -m reply_bot.main --live-run
 
 ## 出力ファイル
 `/output` フォルダに、処理結果のCSVファイル (`replies_YYYYMMDD_HHMMSS.csv`) が生成されます。このファイルには、収集したツイート、生成した返信、AIの思考プロセス、投稿結果などがすべて記録されます。
+
+---
+
+## CLI 実行方法と引数（最新版）
+
+### 1) 多アカウント・直接アクション実行（推奨）
+人間らしさモードや事前閲覧を含め、`accounts.yaml` の `features`/`policies` に従って like・comment 等を実行します。
+
+- コマンド
+```bash
+python -m reply_bot.multi_main [--accounts <id_or_handle_csv>|all] [--live-run] [--hours N] [--concurrency 1] [--config config/accounts.yaml]
+```
+
+- 引数
+  - `--accounts`: 実行対象アカウント。id または handle のカンマ区切り。省略/`all` は全アカウント。
+  - `--live-run`: 実操作を有効化（省略時はドライラン）。
+  - `--hours`: 旧パイプラインでの収集対象時間。直接アクション時は未使用。
+  - `--concurrency`: 予約（現状逐次のみ）。
+  - `--config`: `accounts.yaml` のパス（デフォルト `config/accounts.yaml`）。
+
+- 例
+```bash
+python -m reply_bot.multi_main --accounts Maya19960330 --live-run
+```
+
+- 補足
+  - `policies.human_like_on_start` が有効なら、起動直後に人間らしい閲覧（open/dwell）を実施。
+  - `policies.per_target_prefetch` が有効なら、対象ユーザーごとに `top_n` 件を事前閲覧し、その全ツイートへ `actions`（例: like, comment）を実行。
+  - `policies.tweet_selection.top_n` と `user_switch_interval_seconds` で、各対象の件数と切替待機を制御。
+
+### 2) 単一ターゲットに直接アクション
+対象ユーザーの最新ツイートに対して、指定のアクションを実行します。
+
+- コマンド
+```bash
+python -m reply_bot.operate_latest_tweet --account <acct> --target <handle> [--actions like,comment] [--config config/accounts.yaml] [--live-run]
+```
+
+- 引数
+  - `--account`: 実行アカウント（id または handle）。
+  - `--target`: 対象ユーザーの handle（@なし）。
+  - `--actions`: 実行アクションのカンマ区切り（`like,bookmark,retweet,comment`）。
+  - `--config`: `accounts.yaml` のパス。
+  - `--live-run`: 実操作を有効化（省略時はドライラン）。
+
+- 例
+```bash
+python -m reply_bot.operate_latest_tweet --account Maya19960330 --target 2nd_karen_ai --actions like,comment --live-run
+```
+
+### 3) ログイン支援（任意）
+ユーザー名のプレフィルを行い、手動ログインを補助します。
+
+```bash
+python -m reply_bot.login_assist [--accounts <id_or_handle_csv>|all] [--config config/accounts.yaml]
+```
+
+### 4) 旧パイプライン（抽出→分析/生成→投稿）
+必要に応じて従来の一連の処理も単体実行できます。
+
+- 全体（メインコントローラー）
+```bash
+python -m reply_bot.main [--timestamp YYYYMMDD_HHMMSS] [--hours N] [--live-run]
+```
+
+- リプライ抽出
+```bash
+python -m reply_bot.csv_generator [--output <path>] [--scrolls N] [--pixels N] [--hours N]
+```
+
+- 返信生成（スレッド解析）
+```bash
+python -m reply_bot.reply_processor input_csv [--limit N]
+```
+
+- 返信投稿
+```bash
+python -m reply_bot.post_reply input_csv [--limit N] [--interval SEC] [--live-run]
+```

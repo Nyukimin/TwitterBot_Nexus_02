@@ -3,7 +3,7 @@
 accounts:
   - id: Maya19960330
     handle: "Maya19960330"
-    browser: { user_data_dir: "profile/Maya19960330", headless: true }
+    browser: { user_data_dir: "profile/Maya19960330", headless: false }
     features: { like: true, retweet: true, comment: true, bookmark: true }
     policies:
       sources: ["mentions", "my_threads"]
@@ -166,7 +166,7 @@ accounts:
 
   - id: AYAs_labo
     handle: "AYAs_labo"
-    browser: { user_data_dir: "profile/AYAs_labo", headless: true }
+    browser: { user_data_dir: "profile/AYAs_labo", headless: false }
     features: { like: true, retweet: true, comment: true, bookmark: true }
     policies:
       sources: ["mentions", "my_threads"]
@@ -185,7 +185,7 @@ accounts:
 
   - id: nyukimi_AI
     handle: "nyukimi_AI"
-    browser: { user_data_dir: "profile/nyukimi_AI", headless: true }
+    browser: { user_data_dir: "profile/nyukimi_AI", headless: false }
     features: { like: true, retweet: true, comment: true, bookmark: true }
     policies:
       sources: ["mentions", "my_threads"]
@@ -204,7 +204,7 @@ accounts:
 
   - id: nyukimi_aidraw
     handle: "nyukimi_aidraw"
-    browser: { user_data_dir: "profile/nyukimi_aidraw", headless: true }
+    browser: { user_data_dir: "profile/nyukimi_aidraw", headless: false }
     features: { like: true, retweet: true, comment: true, bookmark: true }
     policies:
       sources: ["mentions", "my_threads"]
@@ -223,7 +223,7 @@ accounts:
 
   - id: nyukimi_LLM
     handle: "nyukimi_LLM"
-    browser: { user_data_dir: "profile/nyukimi_LLM", headless: true }
+    browser: { user_data_dir: "profile/nyukimi_LLM", headless: false }
     features: { like: true, retweet: true, comment: true, bookmark: true }
     policies:
       sources: ["mentions", "my_threads"]
@@ -242,7 +242,7 @@ accounts:
 
   - id: nyukimi
     handle: "nyukimi"
-    browser: { user_data_dir: "profile/nyukimi", headless: true }
+    browser: { user_data_dir: "profile/nyukimi", headless: false }
     features: { like: true, retweet: true, comment: true, bookmark: true }
     policies:
       sources: ["mentions", "my_threads"]
@@ -261,7 +261,7 @@ accounts:
 
   - id: AYAjob20040330
     handle: "AYAjob20040330"
-    browser: { user_data_dir: "profile/AYAjob20040330", headless: true }
+    browser: { user_data_dir: "profile/AYAjob20040330", headless: false }
     features: { like: true, retweet: true, comment: true, bookmark: true }
     policies:
       sources: ["mentions", "my_threads"]
@@ -280,7 +280,7 @@ accounts:
 
   - id: ren_ai_coach
     handle: "ren_ai_coach"
-    browser: { user_data_dir: "profile/ren_ai_coach", headless: true }
+    browser: { user_data_dir: "profile/ren_ai_coach", headless: false }
     features: { like: true, retweet: true, comment: true, bookmark: true }
     policies:
       sources: ["mentions", "my_threads"]
@@ -298,7 +298,7 @@ accounts:
 
   - id: yuumi_sensei
     handle: "yuumi_sensei"
-    browser: { user_data_dir: "profile/yuumi_sensei", headless: true }
+    browser: { user_data_dir: "profile/yuumi_sensei", headless: false }
     features: { like: true, retweet: true, comment: true, bookmark: true }
     policies:
       sources: ["mentions", "my_threads"]
@@ -317,7 +317,7 @@ accounts:
 
   - id: onsen_ai_bijyo
     handle: "onsen_ai_bijyo"
-    browser: { user_data_dir: "profile/onsen_ai_bijyo", headless: true }
+    browser: { user_data_dir: "profile/onsen_ai_bijyo", headless: false }
     features: { like: true, retweet: true, comment: true, bookmark: true }
     policies:
       sources: ["mentions", "my_threads"]
@@ -336,7 +336,7 @@ accounts:
 
   - id: fortune19980330
     handle: "fortune19980330"
-    browser: { user_data_dir: "profile/fortune19980330", headless: true }
+    browser: { user_data_dir: "profile/fortune19980330", headless: false }
     features: { like: true, retweet: true, comment: true, bookmark: true }
     policies:
       sources: ["mentions", "my_threads"]
@@ -355,7 +355,7 @@ accounts:
 
   - id: osutiara0523
     handle: "osutiara0523"
-    browser: { user_data_dir: "profile/osutiara0523", headless: true }
+    browser: { user_data_dir: "profile/osutiara0523", headless: false }
     features: { like: true, retweet: true, comment: true, bookmark: true }
     policies:
       sources: ["mentions", "my_threads"]
@@ -374,7 +374,7 @@ accounts:
 
   - id: v_forvend
     handle: "v_forvend"
-    browser: { user_data_dir: "profile/v_forvend", headless: true }
+    browser: { user_data_dir: "profile/v_forvend", headless: false }
     features: { like: true, retweet: true, comment: true, bookmark: true }
     policies:
       sources: ["mentions", "my_threads"]
@@ -393,7 +393,7 @@ accounts:
 
   - id: zero_divide_00
     handle: "zero_divide_00"
-    browser: { user_data_dir: "profile/zero_divide_00", headless: true }
+    browser: { user_data_dir: "profile/zero_divide_00", headless: false }
     features: { like: true, retweet: true, comment: true, bookmark: true }
     policies:
       sources: ["mentions", "my_threads"]
@@ -412,7 +412,7 @@ accounts:
 
   - id: yuki_ice_mochi
     handle: "yuki_ice_mochi"
-    browser: { user_data_dir: "profile/yuki_ice_mochi", headless: true }
+    browser: { user_data_dir: "profile/yuki_ice_mochi", headless: false }
     features: { like: true, retweet: true, comment: true, bookmark: true }
     policies:
       sources: ["mentions", "my_threads"]
@@ -431,7 +431,7 @@ accounts:
 
   - id: imikuyn
     handle: "imikuyn"
-    browser: { user_data_dir: "profile/imikuyn", headless: true }
+    browser: { user_data_dir: "profile/imikuyn", headless: false }
     features: { like: true, retweet: true, comment: true, bookmark: true }
     policies:
       sources: ["mentions", "my_threads"]
@@ -450,7 +450,7 @@ accounts:
 
   - id: yuumi20020330
     handle: "yuumi20020330"
-    browser: { user_data_dir: "profile/yuumi20020330", headless: true }
+    browser: { user_data_dir: "profile/yuumi20020330", headless: false }
     features: { like: true, retweet: true, comment: true, bookmark: true }
     policies:
       sources: ["mentions", "my_threads"]
@@ -469,7 +469,7 @@ accounts:
 
   - id: moca_to_mao
     handle: "moca_to_mao"
-    browser: { user_data_dir: "profile/moca_to_mao", headless: true }
+    browser: { user_data_dir: "profile/moca_to_mao", headless: false }
     features: { like: true, retweet: true, comment: true, bookmark: true }
     policies:
       sources: ["mentions", "my_threads"]
@@ -488,7 +488,7 @@ accounts:
 
   - id: maomao_20000330
     handle: "maomao_20000330"
-    browser: { user_data_dir: "profile/maomao_20000330", headless: true }
+    browser: { user_data_dir: "profile/maomao_20000330", headless: false }
     features: { like: true, retweet: true, comment: true, bookmark: true }
     policies:
       sources: ["mentions", "my_threads"]
@@ -507,7 +507,7 @@ accounts:
 
   - id: emotion_link
     handle: "emotion_link"
-    browser: { user_data_dir: "profile/emotion_link", headless: true }
+    browser: { user_data_dir: "profile/emotion_link", headless: false }
     features: { like: true, retweet: true, comment: true, bookmark: true }
     policies:
       sources: ["mentions", "my_threads"]
@@ -526,7 +526,7 @@ accounts:
 
   - id: nyukimi_06
     handle: "nyukimi_06"
-    browser: { user_data_dir: "profile/nyukimi_06", headless: true }
+    browser: { user_data_dir: "profile/nyukimi_06", headless: false }
     features: { like: true, retweet: true, comment: true, bookmark: true }
     policies:
       sources: ["mentions", "my_threads"]
@@ -545,7 +545,7 @@ accounts:
 
   - id: nyukimi_08
     handle: "nyukimi_08"
-    browser: { user_data_dir: "profile/nyukimi_08", headless: true }
+    browser: { user_data_dir: "profile/nyukimi_08", headless: false }
     features: { like: true, retweet: true, comment: true, bookmark: true }
     policies:
       sources: ["mentions", "my_threads"]
