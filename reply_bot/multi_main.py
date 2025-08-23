@@ -1,6 +1,7 @@
 import argparse
 import logging
 import os
+import time
 from datetime import datetime
 from typing import List, Dict, Any
 
@@ -17,6 +18,80 @@ from .actions.comment import run as action_comment
 from .actions.bookmark import run as action_bookmark
 from .actions.retweet import run as action_retweet
 from .db import init_db
+from .operate_latest_tweet import get_top_tweet_ids_from_profile
+
+
+def _human_view_handle_tweets(driver, view_handle: str, top_n: int, dwell_seconds: int) -> None:
+    try:
+        ids = get_top_tweet_ids_from_profile(driver, view_handle, top_n=max(1, int(top_n)))
+    except Exception as e:
+        logging.warning(f"[human-view] @{view_handle}: 取得失敗: {e}")
+        return
+    for idx, tid in enumerate(ids, start=1):
+        url = f"https://x.com/any/status/{tid}"
+        logging.info(f"[human-view] @{view_handle}: {idx}/{len(ids)} open {url} dwell={dwell_seconds}s")
+        try:
+            driver.get(url)
+            from selenium.webdriver.support.ui import WebDriverWait as _W
+            from selenium.webdriver.support import expected_conditions as _EC
+            from selenium.webdriver.common.by import By as _By
+            _W(driver, 20).until(_EC.presence_of_element_located((_By.CSS_SELECTOR, '[data-testid="tweetText"]')))
+        except Exception:
+            pass
+        try:
+            time.sleep(max(0, int(dwell_seconds)))
+        except Exception:
+            pass
+
+
+def _run_human_like_on_start(driver, account_handle: str, policies: Dict[str, Any]) -> None:
+    conf = (policies or {}).get('human_like_on_start', {}) or {}
+    enabled = bool(conf.get('enabled', True))
+    if not enabled:
+        return
+    sequence = conf.get('sequence') or [
+        {'handle': 'Maya19960330', 'top_n': 10, 'dwell_seconds': 10},
+        {'handle': 'ren_ai_coach', 'top_n': 10, 'dwell_seconds': 10},
+        {'handle': '@self', 'top_n': 1, 'dwell_seconds': 10},
+    ]
+    logging.info(f"[human-start] enabled, steps={len(sequence)}")
+    for step in sequence:
+        try:
+            h = str(step.get('handle', '')).strip()
+            top_n = int(step.get('top_n', 1))
+            dwell = int(step.get('dwell_seconds', 10))
+            if h in ('@self', 'self'):
+                target = account_handle
+            else:
+                target = h.lstrip('@')
+            _human_view_handle_tweets(driver, target, top_n, dwell)
+        except Exception as e:
+            logging.warning(f"[human-start] step failed: {e}")
+
+
+def _prefetch_view_collect_ids(driver, view_handle: str, top_n: int, dwell_seconds: int) -> List[str]:
+    """per_target 事前閲覧: 先頭 top_n を開いて各 dwell 秒滞在し、対象 tweet_id を返す"""
+    try:
+        ids = get_top_tweet_ids_from_profile(driver, view_handle, top_n=max(1, int(top_n)))
+    except Exception as e:
+        logging.warning(f"[prefetch-view] @{view_handle}: 取得失敗: {e}")
+        return []
+    for idx, tid in enumerate(ids, start=1):
+        url = f"https://x.com/any/status/{tid}"
+        logging.info(f"[human-view] @{view_handle}: {idx}/{len(ids)} open {url} dwell={dwell_seconds}s")
+        try:
+            driver.get(url)
+            from selenium.webdriver.support.ui import WebDriverWait as _W
+            from selenium.webdriver.support import expected_conditions as _EC
+            from selenium.webdriver.common.by import By as _By
+            _W(driver, 20).until(_EC.presence_of_element_located((_By.CSS_SELECTOR, '[data-testid="tweetText"]')))
+        except Exception:
+            pass
+        try:
+            time.sleep(max(0, int(dwell_seconds)))
+        except Exception:
+            pass
+    return ids
 
 
 def _ensure_log_dir() -> None:
@@ -157,10 +232,18 @@ def run_for_account(acct: Dict[str, Any], live_run: bool, hours: int | None) -> 
             from selenium.webdriver.common.by import By
 
             per_target = (policies or {}).get('per_target', {}) or {}
+            # 起動時の人間らしさモード
+            try:
+                _run_human_like_on_start(driver, account_handle=handle, policies=policies)
+            except Exception as _e:
+                logging.warning(f"[human-start] 例外: {_e}")
+
             # 新設定: 先頭からの対象個数 / 対象ユーザー切替の間隔
             tweet_selection = (policies or {}).get('tweet_selection', {}) or {}
             top_n = int(tweet_selection.get('top_n', 1))
             switch_interval_sec = int((policies or {}).get('user_switch_interval_seconds', 0))
+            # オプション: プロフィール読込の上限秒（上限超過や不備検知時のみ再起動）
+            profile_load_timeout_sec = int((policies or {}).get('profile_load_timeout_seconds', 12))
             if not per_target:
                 logging.warning("per_target が空です。自分のプロフィールに対して実行します。")
                 per_target = {handle: {'actions': [k for k, v in features.items() if v]}}
@@ -191,7 +274,20 @@ def run_for_account(acct: Dict[str, Any], live_run: bool, hours: int | None) -> 
                             logging.info(f"@{target_handle}: 実行可能なアクションがありません（features / per_target.actions）")
                             break
 
+                        # per_target 事前閲覧（閲覧のみ）
+                        prefetch = (policies or {}).get('per_target_prefetch', {}) or {}
+                        pre_ids: List[str] = []
+                        if bool(prefetch.get('enabled', True)):
+                            pre_top_n = int(prefetch.get('top_n', 5))
+                            pre_dwell = int(prefetch.get('dwell_seconds', 5))
+                            try:
+                                logging.info(f"[prefetch-view] @{target_handle}: top_n={pre_top_n} dwell={pre_dwell}s")
+                                pre_ids = _prefetch_view_collect_ids(driver, target_handle, pre_top_n, pre_dwell)
+                            except Exception as _e:
+                                logging.warning(f"[prefetch-view] 例外: {_e}")
+
                         # 先頭から top_n 件のツイートを対象（ピン留め/リポストは除外）
+                        start_ts = time.time()
                         if top_n <= 1:
                             logging.info(f"@{target_handle}: 最新ツイートを取得します。")
                             tweet_ids = []
@@ -200,8 +296,51 @@ def run_for_account(acct: Dict[str, Any], live_run: bool, hours: int | None) -> 
                                 tweet_ids = [tid]
                         else:
                             tweet_ids = get_top_tweet_ids_from_profile(driver, target_handle, top_n=top_n)
+                        duration = time.time() - start_ts
+                        # 読み込みが遅延（上限超過）または取得失敗時は一度だけブラウザ再起動して再試行
+                        if (not tweet_ids) and duration >= profile_load_timeout_sec:
+                            logging.warning(f"@{target_handle}: プロフィール読込が遅延({duration:.1f}s)のためブラウザ再起動→再試行します。")
+                            # 既存ブラウザを先に閉じる
+                            try:
+                                driver.quit()
+                            except Exception:
+                                pass
+                            new_driver = force_restart_driver(headless=headless, profile_path=profile_dir)
+                            if not new_driver:
+                                logging.error("WebDriverの再起動に失敗。スキップします。")
+                                break
+                            driver = new_driver
+                            start_ts = time.time()
+                            if top_n <= 1:
+                                tid = get_latest_tweet_id_from_profile(driver, target_handle)
+                                tweet_ids = [tid] if tid else []
+                            else:
+                                tweet_ids = get_top_tweet_ids_from_profile(driver, target_handle, top_n=top_n)
 
-                        if not tweet_ids:
+                        # 事前閲覧で収集したIDがあればそれら全てに対して actions を実行
+                        if pre_ids:
+                            for pre_tid in pre_ids:
+                                tweet_url = f"https://x.com/any/status/{pre_tid}"
+                                logging.info(f"@{target_handle}: ツイートに移動してUI状態検出: {tweet_url}")
+                                driver.get(tweet_url)
+                                WebDriverWait(driver, 30).until(
+                                    EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweetText"]'))
+                                )
+                                states = _detect_existing_actions_via_ui(driver)
+                                logging.info(f"@{target_handle}: UI状態検出: {states}")
+                                run_actions_on_tweet(
+                                    driver=driver,
+                                    account_id=account_id,
+                                    target_handle=target_handle,
+                                    tweet_id=pre_tid,
+                                    actions=enabled_actions,
+                                    policy=policies,
+                                    rate_limits=rate_limits,
+                                    live_run=live_run,
+                                    existing_states=states,
+                                )
+
+                        if not tweet_ids and not pre_ids:
                             logging.warning(f"@{target_handle}: ツイートIDの取得に失敗しました。スキップします。")
                             break
 
@@ -235,6 +374,10 @@ def run_for_account(acct: Dict[str, Any], live_run: bool, hours: int | None) -> 
                         break
                     except InvalidSessionIdException as e:
                         logging.warning(f"@{target_handle}: セッションが無効です。WebDriverを再起動して再試行します: {e}")
+                        try:
+                            driver.quit()
+                        except Exception:
+                            pass
                         new_driver = force_restart_driver(headless=headless, profile_path=profile_dir)
                         if not new_driver:
                             logging.error("WebDriverの再起動に失敗。スキップします。")
@@ -245,6 +388,10 @@ def run_for_account(acct: Dict[str, Any], live_run: bool, hours: int | None) -> 
                     except WebDriverException as e:
                         if 'invalid session id' in str(e).lower():
                             logging.warning(f"@{target_handle}: invalid session id を検出。WebDriverを再起動して再試行します。")
+                            try:
+                                driver.quit()
+                            except Exception:
+                                pass
                             new_driver = force_restart_driver(headless=headless, profile_path=profile_dir)
                             if not new_driver:
                                 logging.error("WebDriverの再起動に失敗。スキップします。")

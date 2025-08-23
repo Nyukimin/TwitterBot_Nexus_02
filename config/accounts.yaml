@@ -104,7 +104,7 @@ accounts:
           greet: auto
         natsu_natsuai:
           actions: [like, comment]
-          nickname: "なつちゃん"
+          nickname: "なっちゃん"
           greet: auto
         nyukimi_ai:
           actions: [like, comment]

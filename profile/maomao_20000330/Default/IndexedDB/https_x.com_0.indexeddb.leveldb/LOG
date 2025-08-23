@@ -1,2 +1,3 @@
-2025/08/19-23:28:02.184 5844 Creating DB E:\GenerativeAI\Twitter_reply_orchestrator\profile\maomao_20000330\Default\IndexedDB\https_x.com_0.indexeddb.leveldb since it was missing.
-2025/08/19-23:28:02.189 5844 Reusing MANIFEST E:\GenerativeAI\Twitter_reply_orchestrator\profile\maomao_20000330\Default\IndexedDB\https_x.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/08/23-13:34:26.017 1440 Reusing MANIFEST E:\GenerativeAI\Twitter_reply_orchestrator\profile\maomao_20000330\Default\IndexedDB\https_x.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/08/23-13:34:26.020 1440 Recovering log #3
+2025/08/23-13:34:26.022 1440 Reusing old log E:\GenerativeAI\Twitter_reply_orchestrator\profile\maomao_20000330\Default\IndexedDB\https_x.com_0.indexeddb.leveldb/000003.log 

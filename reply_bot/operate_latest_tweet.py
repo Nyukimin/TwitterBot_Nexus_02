@@ -138,12 +138,18 @@ def get_latest_tweet_id_from_profile(driver: webdriver.Chrome, target_handle: st
 
 
 def get_top_tweet_ids_from_profile(driver: webdriver.Chrome, target_handle: str, top_n: int = 2) -> List[str]:
-    """プロフィール上から先頭の通常ツイートIDを最大 top_n 件取得（ピン留め/リポストは除外）。"""
+    """プロフィール上から先頭の通常ツイートIDを最大 top_n 件取得（ピン留め/リポストは除外）。
+    停止を避けるため、全体タイムアウトと短いフォールバック待機を用いる。
+    """
     if top_n <= 0:
         return []
     profile_url = f"https://x.com/{target_handle}"
     logging.info(f"プロフィールに移動（top_n={top_n}）: {profile_url}")
-    driver.get(profile_url)
+    try:
+        driver.get(profile_url)
+    except Exception as e:
+        logging.warning(f"@{target_handle}: プロフィール遷移で例外: {e}")
+        return []
 
     # 早期に『このアカウントは存在しません』等を検出
     not_found_phrases = [
@@ -153,7 +159,9 @@ def get_top_tweet_ids_from_profile(driver: webdriver.Chrome, target_handle: str,
         '帳戶不存在',
         'account does not exist',
     ]
+    deadline = time.time() + 20  # 全体タイムアウト（秒）
     try:
+        visible = False
         for _ in range(10):
             src = (driver.page_source or '').lower()
             if any(p.lower() in src for p in not_found_phrases):
@@ -161,17 +169,27 @@ def get_top_tweet_ids_from_profile(driver: webdriver.Chrome, target_handle: str,
                 logging.warning(f"[account-not-found] handle={target_handle}")
                 return []
             soup_tmp = BeautifulSoup(src, 'html.parser')
-            if soup_tmp.select_one('article[data-testid="tweet"]'):
+            if soup_tmp.select_one('article[data-testid=\"tweet\"]'):
+                visible = True
+                break
+            if time.time() > deadline:
                 break
             time.sleep(1)
-        else:
-            wait_for_profile_tweets(driver, timeout_sec=20)
+        if not visible:
+            try:
+                wait_for_profile_tweets(driver, timeout_sec=5)
+                visible = True
+            except Exception:
+                pass
     except Exception:
-        wait_for_profile_tweets(driver, timeout_sec=20)
+        try:
+            wait_for_profile_tweets(driver, timeout_sec=5)
+        except Exception:
+            pass
 
     # 最上部にスクロールして安定
     driver.execute_script("window.scrollTo(0, 0);")
-    time.sleep(2)
+    time.sleep(1)
 
     soup = BeautifulSoup(driver.page_source, 'html.parser')
     articles = soup.select('article[data-testid="tweet"]')
@@ -294,6 +312,18 @@ def _wait_for_comment_confirmation(driver: webdriver.Chrome, timeout_sec: int = 
             pass
         _time.sleep(0.5)
     return False
+
+
+def _detect_duplicate_tweet_warning(driver: webdriver.Chrome) -> bool:
+    """重複投稿警告（例: すでに同じツイートを送信済みです）を検出"""
+    try:
+        src = (driver.page_source or '').lower()
+        jp = 'すでに同じツイート'
+        en1 = "you’ve already sent this tweet"
+        en2 = "you've already sent this tweet"
+        return (jp in src) or (en1 in src) or (en2 in src)
+    except Exception:
+        return False
 
 
 def _build_fixed_reply_for_user(user_handle: str | None, policy: Dict[str, Any] | None) -> str | None:
@@ -588,6 +618,16 @@ def _post_comment_light(driver: webdriver.Chrome, tweet_id: str, reply_text: str
             # 送信（Ctrl+Enter）
             reply_input.send_keys(Keys.CONTROL, Keys.ENTER)
 
+        # 重複警告を早期検出してスキップ
+        try:
+            time.sleep(0.5)
+        except Exception:
+            pass
+        if _detect_duplicate_tweet_warning(driver):
+            record_action_log(account_id, tweet_id, 'comment', 'skipped', meta='duplicate')
+            logging.info(f"[comment-light] duplicate detected -> skip: {tweet_id}")
+            return True
+
         # 送信後の反映確認（実際に自アカの返信が現れたか）
         if _wait_for_comment_confirmation(driver, timeout_sec=8):
             record_action_log(account_id, tweet_id, 'comment', 'success', meta='light')
@@ -654,6 +694,16 @@ def _post_comment_light_on_current_page(driver: webdriver.Chrome, tweet_id: str,
                     logging.warning("[comment-light] insert failed (on-current: paste & fallback)")
             # 送信（Ctrl+Enter）
             reply_input.send_keys(Keys.CONTROL, Keys.ENTER)
+
+        # 重複警告を早期検出してスキップ
+        try:
+            time.sleep(0.5)
+        except Exception:
+            pass
+        if _detect_duplicate_tweet_warning(driver):
+            record_action_log(account_id, tweet_id, 'comment', 'skipped', meta='duplicate:on-current')
+            logging.info(f"[comment-light] duplicate detected (on-current) -> skip: {tweet_id}")
+            return True
 
         # 送信後の反映確認
         if _wait_for_comment_confirmation(driver, timeout_sec=8):

@@ -1,2 +1,3 @@
-2025/08/19-23:29:20.353 9ab4 Creating DB E:\GenerativeAI\Twitter_reply_orchestrator\profile\nyukimi_08\Default\shared_proto_db\metadata since it was missing.
-2025/08/19-23:29:20.363 9ab4 Reusing MANIFEST E:\GenerativeAI\Twitter_reply_orchestrator\profile\nyukimi_08\Default\shared_proto_db\metadata/MANIFEST-000001
+2025/08/22-19:31:11.583 5594 Reusing MANIFEST E:\GenerativeAI\Twitter_reply_orchestrator\profile\nyukimi_08\Default\shared_proto_db\metadata/MANIFEST-000001
+2025/08/22-19:31:11.585 5594 Recovering log #3
+2025/08/22-19:31:11.585 5594 Reusing old log E:\GenerativeAI\Twitter_reply_orchestrator\profile\nyukimi_08\Default\shared_proto_db\metadata/000003.log 

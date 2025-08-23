@@ -1,0 +1,463 @@
+# 多アカウント設定（拡張）
+
+accounts:
+  - id: Maya19960330
+    handle: "Maya19960330"
+    browser: { user_data_dir: "profile/Maya19960330", headless: false }
+    features: { like: true, retweet: true, comment: true, bookmark: true }
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+      restart_on_user_switch: true
+      profile_load_timeout_seconds: 12
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
+      per_target:
+        ren_ai_coach:
+          actions: [like, bookmark]
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 7 }
+
+  - id: AYAs_labo
+    handle: "AYAs_labo"
+    browser: { user_data_dir: "profile/AYAs_labo", headless: false }
+    features: { like: true, retweet: true, comment: true, bookmark: true }
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+      restart_on_user_switch: true
+      profile_load_timeout_seconds: 12
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
+      per_target:
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
+        ren_ai_coach: { actions: [like, bookmark, retweet] }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 7 }
+
+  - id: nyukimi_AI
+    handle: "nyukimi_AI"
+    browser: { user_data_dir: "profile/nyukimi_AI", headless: false }
+    features: { like: true, retweet: true, comment: true, bookmark: true }
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+      restart_on_user_switch: true
+      profile_load_timeout_seconds: 12
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
+      per_target:
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
+        ren_ai_coach: { actions: [like, bookmark, retweet] }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 7 }
+
+  - id: nyukimi_aidraw
+    handle: "nyukimi_aidraw"
+    browser: { user_data_dir: "profile/nyukimi_aidraw", headless: false }
+    features: { like: true, retweet: true, comment: true, bookmark: true }
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+      restart_on_user_switch: true
+      profile_load_timeout_seconds: 12
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
+      per_target:
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
+        ren_ai_coach: { actions: [like, bookmark, retweet] }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 7 }
+
+  - id: nyukimi_LLM
+    handle: "nyukimi_LLM"
+    browser: { user_data_dir: "profile/nyukimi_LLM", headless: false }
+    features: { like: true, retweet: true, comment: true, bookmark: true }
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+      restart_on_user_switch: true
+      profile_load_timeout_seconds: 12
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
+      per_target:
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
+        ren_ai_coach: { actions: [like, bookmark, retweet] }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 7 }
+
+  - id: nyukimi
+    handle: "nyukimi"
+    browser: { user_data_dir: "profile/nyukimi", headless: false }
+    features: { like: true, retweet: true, comment: true, bookmark: true }
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+      restart_on_user_switch: true
+      profile_load_timeout_seconds: 12
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
+      per_target:
+        Maya19960330:
+          actions: [like, bookmark, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
+        ren_ai_coach: { actions: [like, bookmark] }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 7 }
+
+  - id: AYAjob20040330
+    handle: "AYAjob20040330"
+    browser: { user_data_dir: "profile/AYAjob20040330", headless: false }
+    features: { like: true, retweet: true, comment: true, bookmark: true }
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+      restart_on_user_switch: true
+      profile_load_timeout_seconds: 12
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
+      per_target:
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
+        ren_ai_coach: { actions: [like, bookmark, retweet] }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 7 }
+
+  - id: ren_ai_coach
+    handle: "ren_ai_coach"
+    browser: { user_data_dir: "profile/ren_ai_coach", headless: false }
+    features: { like: true, retweet: true, comment: true, bookmark: true }
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+      restart_on_user_switch: true
+      profile_load_timeout_seconds: 12
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
+      per_target:
+        Maya19960330:
+          actions: [like, bookmark, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 7 }
+
+  - id: yuumi_sensei
+    handle: "yuumi_sensei"
+    browser: { user_data_dir: "profile/yuumi_sensei", headless: false }
+    features: { like: true, retweet: true, comment: true, bookmark: true }
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+      restart_on_user_switch: true
+      profile_load_timeout_seconds: 12
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
+      per_target:
+        Maya19960330:
+          actions: [like, bookmark, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
+        ren_ai_coach: { actions: [like, bookmark, retweet] }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 7 }
+
+  - id: onsen_ai_bijyo
+    handle: "onsen_ai_bijyo"
+    browser: { user_data_dir: "profile/onsen_ai_bijyo", headless: false }
+    features: { like: true, retweet: true, comment: true, bookmark: true }
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+      restart_on_user_switch: true
+      profile_load_timeout_seconds: 12
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
+      per_target:
+        Maya19960330:
+          actions: [like, bookmark, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
+        ren_ai_coach: { actions: [like, bookmark] }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 7 }
+
+  - id: fortune19980330
+    handle: "fortune19980330"
+    browser: { user_data_dir: "profile/fortune19980330", headless: false }
+    features: { like: true, retweet: true, comment: true, bookmark: true }
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+      restart_on_user_switch: true
+      profile_load_timeout_seconds: 12
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
+      per_target:
+        Maya19960330:
+          actions: [like, bookmark, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
+        ren_ai_coach: { actions: [like, bookmark] }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 7 }
+
+  - id: osutiara0523
+    handle: "osutiara0523"
+    browser: { user_data_dir: "profile/osutiara0523", headless: false }
+    features: { like: true, retweet: true, comment: true, bookmark: true }
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+      restart_on_user_switch: true
+      profile_load_timeout_seconds: 12
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
+      per_target:
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
+        ren_ai_coach: { actions: [like, bookmark, retweet] }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 7 }
+
+  - id: v_forvend
+    handle: "v_forvend"
+    browser: { user_data_dir: "profile/v_forvend", headless: false }
+    features: { like: true, retweet: true, comment: true, bookmark: true }
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+      restart_on_user_switch: true
+      profile_load_timeout_seconds: 12
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
+      per_target:
+        Maya19960330:
+          actions: [like, bookmark, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
+        ren_ai_coach: { actions: [like, bookmark] }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 7 }
+
+  - id: zero_divide_00
+    handle: "zero_divide_00"
+    browser: { user_data_dir: "profile/zero_divide_00", headless: false }
+    features: { like: true, retweet: true, comment: true, bookmark: true }
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+      restart_on_user_switch: true
+      profile_load_timeout_seconds: 12
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
+      per_target:
+        Maya19960330:
+          actions: [like, bookmark, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
+        ren_ai_coach: { actions: [like, bookmark] }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 7 }
+
+  - id: yuki_ice_mochi
+    handle: "yuki_ice_mochi"
+    browser: { user_data_dir: "profile/yuki_ice_mochi", headless: false }
+    features: { like: true, retweet: true, comment: true, bookmark: true }
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+      restart_on_user_switch: true
+      profile_load_timeout_seconds: 12
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
+      per_target:
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
+        ren_ai_coach: { actions: [like, bookmark, retweet] }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 7 }
+
+  - id: imikuyn
+    handle: "imikuyn"
+    browser: { user_data_dir: "profile/imikuyn", headless: false }
+    features: { like: true, retweet: true, comment: true, bookmark: true }
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+      restart_on_user_switch: true
+      profile_load_timeout_seconds: 12
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
+      per_target:
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
+        ren_ai_coach: { actions: [like, bookmark, retweet] }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 7 }
+
+  - id: yuumi20020330
+    handle: "yuumi20020330"
+    browser: { user_data_dir: "profile/yuumi20020330", headless: false }
+    features: { like: true, retweet: true, comment: true, bookmark: true }
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+      restart_on_user_switch: true
+      profile_load_timeout_seconds: 12
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
+      per_target:
+        Maya19960330:
+          actions: [like, bookmark, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
+        ren_ai_coach: { actions: [like, bookmark] }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 7 }
+
+  - id: moca_to_mao
+    handle: "moca_to_mao"
+    browser: { user_data_dir: "profile/moca_to_mao", headless: false }
+    features: { like: true, retweet: true, comment: true, bookmark: true }
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+      restart_on_user_switch: true
+      profile_load_timeout_seconds: 12
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
+      per_target:
+        Maya19960330:
+          actions: [like, bookmark, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
+        ren_ai_coach: { actions: [like, bookmark] }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 7 }
+
+  - id: maomao_20000330
+    handle: "maomao_20000330"
+    browser: { user_data_dir: "profile/maomao_20000330", headless: false }
+    features: { like: true, retweet: true, comment: true, bookmark: true }
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+      restart_on_user_switch: true
+      profile_load_timeout_seconds: 12
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
+      per_target:
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
+        ren_ai_coach: { actions: [like, bookmark, retweet] }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 7 }
+
+  - id: emotion_link
+    handle: "emotion_link"
+    browser: { user_data_dir: "profile/emotion_link", headless: false }
+    features: { like: true, retweet: true, comment: true, bookmark: true }
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+      restart_on_user_switch: true
+      profile_load_timeout_seconds: 12
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
+      per_target:
+        Maya19960330:
+          actions: [like, bookmark, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
+        ren_ai_coach: { actions: [like, bookmark] }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 7 }
+
+  - id: nyukimi_06
+    handle: "nyukimi_06"
+    browser: { user_data_dir: "profile/nyukimi_06", headless: false }
+    features: { like: true, retweet: true, comment: true, bookmark: true }
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+      restart_on_user_switch: true
+      profile_load_timeout_seconds: 12
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
+      per_target:
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
+        ren_ai_coach: { actions: [like, bookmark, retweet] }
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 7 }
+
+  - id: nyukimi_08
+    handle: "nyukimi_08"
+    browser: { user_data_dir: "profile/nyukimi_08", headless: false }
+    features: { like: true, retweet: true, comment: true, bookmark: true }
+    policies:
+      sources: ["mentions", "my_threads"]
+      only_if_my_thread: true
+      reply_num_max: 0
+      restart_on_user_switch: true
+      profile_load_timeout_seconds: 12
+      tweet_selection: { top_n: 2 }
+      user_switch_interval_seconds: 2
+      per_target:
+        Maya19960330:
+          actions: [like, bookmark, retweet, comment]
+          fixed_comment: |-
+            まやちゃん
+            かわいい
+        ren_ai_coach: { actions: [like, bookmark, retweet] }
+        ai8263353539674:
+          actions: [like, comment]
+          fixed_comment: "みうちゃん❤はいさーい❤"
+
+    rate_limits: { like_per_hour: 0, retweet_per_hour: 0, comment_per_hour: 0, bookmark_per_hour: 0, min_interval_seconds: 7 }
