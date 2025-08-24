@@ -215,3 +215,53 @@ python -m reply_bot.reply_processor input_csv [--limit N]
 ```bash
 python -m reply_bot.post_reply input_csv [--limit N] [--interval SEC] [--live-run]
 ```
+
+
+アカウント登録（ログインプロファイル作成）コマンド
+使用例
+```bash
+python -m reply_bot.login_assist --config <設定ファイルパス> --accounts <アカウントID>
+```
+例えば、config/accounts.yaml に定義されている Maya19960330 というアカウントのログインプロファイルを作成したい場合：
+```bash
+python -m reply_bot.login_assist --config .\config\accounts_Maya19960330.yaml --accounts Maya19960330
+```
+コマンドの説明
+--config <設定ファイルパス>: 使用する accounts.yaml ファイルのパスを指定します。
+--accounts <アカウントID>: ログインプロファイルを作成したいアカウントの id を指定します。
+注意点
+このコマンドを実行すると、指定されたアカウントのプロファイルでChromeブラウザが起動します。
+初回のみ、手動でTwitterにログインしてください。
+ログイン後、ブラウザを閉じるとログイン状態がプロファイルに保存されます。
+以前使用されていた add_user_preferences.py はデータベースの削除に伴い廃止されました。アカウントの設定（ニックネームなど）は accounts.yaml 内の policies.per_target セクションで直接管理するようになっています。
+
+
+動作開始コマンド
+使用例
+```bash
+python -m reply_bot.multi_main --config <設定ファイルパス> --live-run
+```
+例えば、config/accounts.yaml に定義されているアカウント群を動作させたい場合：
+```bash
+python -m reply_bot.multi_main --config .\config\accounts_Maya19960330.yaml --live-run
+```
+コマンドの説明
+--config <設定ファイルパス>: 使用する accounts.yaml ファイルのパスを指定します。
+--live-run: このフラグを付けることで、実際にアクションが実行されます。このフラグがない場合（ドライランモード）、ログに記録されるだけで実際のアクションは行われません。
+その他のオプション（必要に応じて）
+--accounts <アカウントID1> [<アカウントID2> ...]: 特定のアカウントのみを動作させたい場合に、アカウントIDをスペース区切りで指定します。
+例: --accounts Maya19960330 ren_ai_coach
+--target-users <ユーザーハンドル1> [<ユーザーハンドル2> ...]: 特定のターゲットユーザーに対してのみアクションを実行したい場合に、ユーザーハンドルをスペース区切りで指定します。
+例: --target-users AIchan_lovelyAI
+--headless: accounts.yaml で headless: false に設定されているアカウントでも、このフラグを付けると強制的にヘッドレスモードで実行されます。
+並列動作の場合
+複数の accounts.yaml ファイル（例: accounts_A.yaml, accounts_B.yaml）を用意し、それぞれ別々のターミナルで上記のコマンドを実行します。
+```bash
+# ターミナル1
+python -m reply_bot.multi_main --config .\config\accounts_nyukimi_06.yaml --live-run
+
+# ターミナル2
+python -m reply_bot.multi_main --config .\config\accounts_nyukimi_08.yaml --live-run
+```
+これで、設定した自動操作を開始できます。
+

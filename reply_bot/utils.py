@@ -3,6 +3,7 @@ import pickle
 import os
 import time
 import psutil
+import random
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
@@ -334,3 +335,7 @@ def get_cookie(driver: webdriver.Chrome):
         raise e
         
     return None # ループが正常に終了した場合（通常は起こらない） 
+
+def get_random_interval() -> int:
+    """20秒から40秒のランダムな整数を返します。"""
+    return random.randint(20, 40) 

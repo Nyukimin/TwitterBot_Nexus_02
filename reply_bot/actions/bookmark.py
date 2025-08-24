@@ -6,6 +6,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium import webdriver
 
 from ..db_stubs import record_action_log, has_action_log, count_actions_last_hours
+from .. import config
+from .. import db_stubs as db
+from ..utils import get_random_interval
 
 
 def _is_allowed_for_user(action: str, user_handle: str | None, policy: dict) -> bool:
@@ -78,7 +81,9 @@ def run(driver: webdriver.Chrome, tweets: list[dict], policy: dict, rate_limits:
             logging.warning(f"[bookmark] failed: {tweet_id}: {e}")
             record_action_log(account_id, tweet_id, 'bookmark', 'failed', meta=str(e))
 
-        time.sleep(min_interval)
+        finally:
+            # config.get_account_rate_limit() の代わりに get_random_interval() を使用
+            time.sleep(get_random_interval())
 
     logging.info(f"[bookmark] processed={processed}")
 

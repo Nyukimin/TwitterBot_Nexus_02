@@ -12,6 +12,7 @@ from selenium import webdriver
 from ..db_stubs import record_action_log, has_action_log, count_actions_last_hours
 from .send_helpers import send_clipboard_paste_then_ctrl_enter
 from ..reply_processor import fetch_and_analyze_thread, generate_reply
+from ..utils import get_random_interval
 
 
 def _build_fixed_reply_for_user(user_handle: str | None, policy: dict) -> str | None:
@@ -175,7 +176,7 @@ def run(driver: webdriver.Chrome, tweets: list[dict], policy: dict, rate_limits:
             logging.warning(f"[comment] failed: {tweet_id}: {e}")
             record_action_log(account_id, tweet_id, 'comment', 'failed', meta=str(e))
 
-        time.sleep(min_interval)
+        time.sleep(get_random_interval())
 
     logging.info(f"[comment] processed={processed}")
 
