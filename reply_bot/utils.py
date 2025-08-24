@@ -13,6 +13,7 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException, WebDriverException
 
 from .config import LOGIN_URL, LOGIN_TIMEOUT_ENABLED, LOGIN_TIMEOUT_SECONDS, PAGE_LOAD_TIMEOUT_SECONDS
+from .profile_lock import ProfileLock
 
 COOKIE_FILE = "cookie/twitter_cookies_01.pkl"
 
@@ -184,6 +185,8 @@ def setup_driver(headless: bool = True, profile_path: str | None = None, max_ret
             # 最後に使用したプロファイルを記録
             global _last_profile_path
             _last_profile_path = abs_profile
+    else:
+        abs_profile = None
     
     # メモリリーク対策とパフォーマンス向上のオプション
     options.add_argument("--no-sandbox")
@@ -203,8 +206,18 @@ def setup_driver(headless: bool = True, profile_path: str | None = None, max_ret
     # メモリ使用量を監視
     check_memory_usage()
 
-    # WebDriverのセットアップ
+    # WebDriverのセットアップ（同一プロファイルの同時起動を防ぐロック取得）
     try:
+        profile_lock = None
+        if abs_profile:
+            try:
+                profile_lock = ProfileLock(abs_profile, timeout_seconds=180)
+                if not profile_lock.acquire():
+                    logging.error(f"[profile-lock] ロック取得に失敗しました: {abs_profile}")
+                    return None
+            except Exception as e:
+                logging.warning(f"[profile-lock] 取得中に例外が発生しました（続行）: {e}")
+
         global _chromedriver_path
         if not _chromedriver_path:
             _chromedriver_path = ChromeDriverManager().install()
@@ -213,6 +226,21 @@ def setup_driver(headless: bool = True, profile_path: str | None = None, max_ret
         _driver_process_count += 1
         logging.info(f"新しいWebDriverインスタンスを初期化しました（起動回数: {_driver_process_count}）")
         check_memory_usage()
+
+        # quit 時にロックを解放するようにフック
+        if profile_lock is not None:
+            original_quit = driver.quit
+
+            def _quit_and_release(*args, **kwargs):
+                try:
+                    return original_quit(*args, **kwargs)
+                finally:
+                    try:
+                        profile_lock.release()
+                    except Exception:
+                        pass
+
+            driver.quit = _quit_and_release  # type: ignore[attr-defined]
     except Exception as e:
         logging.error(f"WebDriverの初期化中にエラーが発生しました: {e}")
         return None

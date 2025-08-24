@@ -16,7 +16,7 @@ from selenium import webdriver
 
 from .utils import setup_driver, close_driver
 from . import config as cfg
-from .db import init_db, record_action_log, has_action_log, count_actions_last_hours
+from .db_stubs import record_action_log, has_action_log, count_actions_last_hours
 from .thread_analysis_fix import _extract_tweet_id_robust
 from .actions.like import run as action_like  # 互換性のため残置（本ファイルでは直接操作）
 from .actions.bookmark import run as action_bookmark  # 同上
@@ -869,8 +869,7 @@ def main() -> None:
     if not os.path.exists(args.config):
         raise FileNotFoundError(f"アカウント設定ファイルが見つかりません: {args.config}")
 
-    # DB初期化
-    init_db()
+    # DBは廃止。ログのみで運用します。
 
     cfg_data = load_accounts_config(args.config)
     account = select_account(cfg_data, args.account)

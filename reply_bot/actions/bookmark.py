@@ -5,7 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium import webdriver
 
-from ..db import record_action_log, has_action_log, count_actions_last_hours
+from ..db_stubs import record_action_log, has_action_log, count_actions_last_hours
 
 
 def _is_allowed_for_user(action: str, user_handle: str | None, policy: dict) -> bool:

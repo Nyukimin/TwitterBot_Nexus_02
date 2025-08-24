@@ -17,7 +17,7 @@ from .actions.like import run as action_like
 from .actions.comment import run as action_comment
 from .actions.bookmark import run as action_bookmark
 from .actions.retweet import run as action_retweet
-from .db import init_db
+from .db_stubs import has_action_log, record_action_log, count_actions_last_hours
 from .operate_latest_tweet import get_top_tweet_ids_from_profile
 
 
@@ -473,8 +473,7 @@ def main() -> None:
     if not os.path.exists(cfg_path):
         raise FileNotFoundError(f"アカウント設定ファイルが見つかりません: {cfg_path}")
 
-    # DB初期化（actions_log 等）
-    init_db()
+    # DBは廃止。UI検出とログのみで運用します。
 
     cfg_data = load_accounts_config(cfg_path)
     targets = select_accounts(cfg_data, args.accounts)

@@ -19,7 +19,6 @@ from .config import (
     GEMINI_API_KEY, MAYA_PERSONALITY_PROMPT, THANK_YOU_PHRASES, 
     REPLY_RULES_PROMPT, GEMINI_MODEL_NAME
 )
-from .db import get_user_preference
 from .utils import setup_driver
 from .reply_detection_unified import detect_reply_unified
 
@@ -896,10 +895,9 @@ def generate_reply(thread_data: dict, history: list) -> str:
     cleaned_reply_text = re.sub(r'@[\w_]+', '', reply_text).strip()
     cleaned_reply_text = re.sub(r'^[…,:・、。]', '', cleaned_reply_text).strip()
 
-    # ニックネームとbasic_responseの取得
-    preference = get_user_preference(replier_id.lower()) if replier_id else None
-    nickname = preference[0] if preference else None
-    basic_response = preference[2] if preference else None
+    # ニックネームとbasic_response（DB廃止に伴い未使用）。必要な場合はaccounts.yamlのpoliciesで管理してください。
+    nickname = None
+    basic_response = None
 
     # 1. 定型文での返信（ニックネームがないユーザーに限定）
     # basic_response が greet の場合は「ニックネーム+挨拶」を優先

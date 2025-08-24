@@ -5,7 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium import webdriver
 
-from ..db import record_action_log, has_action_log, count_actions_last_hours
+from ..db_stubs import record_action_log, has_action_log, count_actions_last_hours
 
 
 def _is_allowed_for_user(action: str, user_handle: str | None, policy: dict) -> bool:
@@ -48,7 +48,7 @@ def run(driver: webdriver.Chrome, tweets: list[dict], policy: dict, rate_limits:
             logging.info(f"[like] skip by per_target policy for @{user_handle}: {tweet_id}")
             continue
 
-        # 冪等性: 既に成功ログがあればスキップ
+        # 冪等性: 既に成功ログがあればスキップ（DB削除後もin-memoryロガーで機能）
         if has_action_log(account_id, tweet_id, 'like'):
             logging.info(f"[like] skip by idempotency: {tweet_id}")
             continue

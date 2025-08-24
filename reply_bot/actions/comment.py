@@ -9,7 +9,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium import webdriver
 
-from ..db import record_action_log, has_action_log, count_actions_last_hours, get_user_preference
+from ..db_stubs import record_action_log, has_action_log, count_actions_last_hours
 from .send_helpers import send_clipboard_paste_then_ctrl_enter
 from ..reply_processor import fetch_and_analyze_thread, generate_reply
 
@@ -98,9 +98,7 @@ def run(driver: webdriver.Chrome, tweets: list[dict], policy: dict, rate_limits:
             nickname = target_cfg.get('nickname')
 
         # ニックネームが設定されていない場合はDBから取得
-        if not nickname and current_replier:
-            pref = get_user_preference(current_replier.lower())
-            nickname = pref[0] if pref else None
+        # DB廃止に伴い nickname は accounts.yaml の policies.per_target で設定する運用に変更
 
         def _detect_greeting(text: str, lang: str) -> str | None:
             t = text.lower()

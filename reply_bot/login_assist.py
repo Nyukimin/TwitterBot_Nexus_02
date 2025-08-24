@@ -11,6 +11,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
+from .profile_lock import ProfileLock
 
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -40,10 +41,21 @@ def open_login_with_prefill(handle: str, profile_dir: str) -> None:
     except Exception:
         pass
 
-    service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service, options=options)
-
+    abs_profile = os.path.abspath(profile_dir)
+    lock = None
+    service = None
+    driver = None
+    # 以降のどの失敗でも lock/driver を解放するために、単一の try/finally で囲む
     try:
+        # 同一プロファイル多重起動の衝突を防止
+        lock = ProfileLock(abs_profile, timeout_seconds=180)
+        if not lock.acquire():
+            logging.error(f"[profile-lock] ロック取得に失敗: {abs_profile}")
+            return
+
+        service = Service(ChromeDriverManager().install())
+        driver = webdriver.Chrome(service=service, options=options)
+
         # 視認用の案内ページ
         html = f"""
         <html><body style='font-family: sans-serif'>
@@ -81,9 +93,16 @@ def open_login_with_prefill(handle: str, profile_dir: str) -> None:
         input("続行するにはEnterキーを押してください（このアカウントのログイン完了後）。")
     finally:
         try:
-            driver.quit()
+            if driver:
+                driver.quit()
         except Exception:
             pass
+        finally:
+            try:
+                if lock:
+                    lock.release()
+            except Exception:
+                pass
 
 
 def main():

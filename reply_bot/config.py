@@ -4,7 +4,7 @@ LOGIN_URL     = "https://x.com/login"
 USERNAME      = "Maya19960330" # Xのログインに使用するユーザー名またはメールアドレス
 PASSWORD      = "USHIneko1" # Xのログインに使用するパスワード
 # OPENAI_API_KEY= "sk-..."        # OpenAI APIキー
-DB_FILE       = "replies.db"    # SQLiteデータベースのファイル名
+# DBは廃止
 GEMINI_API_KEY= "AIzaSyA7aSuSGwd2weVFYXbnbA1fIznLdbHqlbE" # Geminiを使用する場合
 GEMINI_MODEL_NAME = "gemini-2.0-flash-lite" # 使用するGeminiモデル名
 
