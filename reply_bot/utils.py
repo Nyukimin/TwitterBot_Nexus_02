@@ -163,8 +163,9 @@ def close_driver():
 
 def setup_driver(headless: bool = True, profile_path: str | None = None, max_retries: int = 3) -> webdriver.Chrome | None:
     """
-    Selenium WebDriverをセットアップし、Cookieを使ってログイン状態を復元します。
-    ホームページの読み込みに失敗した場合、指定された回数だけ再試行します。
+    Selenium WebDriverをセットアップし、ログイン状態を復元します。
+    プロファイルパスが指定されている場合はプロファイルベース、
+    指定されていない場合はCookieベースでログインを行います。
     """
     global _driver_process_count
     
@@ -173,21 +174,22 @@ def setup_driver(headless: bool = True, profile_path: str | None = None, max_ret
         options.add_argument("--headless")
         logging.info("ヘッドレスモードでWebDriverを起動します。")
     
-    # アカウントごとにChromeユーザープロファイルを分離
+    # プロファイル設定の処理
     if profile_path:
-        try:
-            abs_profile = os.path.abspath(profile_path)
-            os.makedirs(abs_profile, exist_ok=True)
-        except Exception as e:
-            logging.warning(f"ユーザープロファイルディレクトリの作成に失敗しました: {profile_path} ({e})")
-        else:
-            options.add_argument(f"--user-data-dir={abs_profile}")
-            logging.info(f"Chromeユーザープロファイルを使用します: {abs_profile}")
-            # 最後に使用したプロファイルを記録
-            global _last_profile_path
-            _last_profile_path = abs_profile
+        # プロファイルベースログイン
+        abs_profile = os.path.abspath(profile_path)
+        os.makedirs(abs_profile, exist_ok=True)
+        options.add_argument(f"--user-data-dir={abs_profile}")
+        logging.info(f"プロファイルベースログイン: {abs_profile}")
     else:
-        abs_profile = None
+        # Cookieベースログイン用の一時プロファイル
+        import tempfile
+        import uuid
+        temp_profile = os.path.join(tempfile.gettempdir(), f"twitter_reply_profile_{uuid.uuid4().hex[:8]}")
+        os.makedirs(temp_profile, exist_ok=True)
+        options.add_argument(f"--user-data-dir={temp_profile}")
+        abs_profile = temp_profile
+        logging.info(f"Cookieベースログイン用一時プロファイル: {temp_profile}")
     
     # メモリリーク対策とパフォーマンス向上のオプション
     options.add_argument("--no-sandbox")
@@ -207,18 +209,8 @@ def setup_driver(headless: bool = True, profile_path: str | None = None, max_ret
     # メモリ使用量を監視
     check_memory_usage()
 
-    # WebDriverのセットアップ（同一プロファイルの同時起動を防ぐロック取得）
+    # WebDriverのセットアップ（Cookieベースログインのためプロファイルロック不要）
     try:
-        profile_lock = None
-        if abs_profile:
-            try:
-                profile_lock = ProfileLock(abs_profile, timeout_seconds=180)
-                if not profile_lock.acquire():
-                    logging.error(f"[profile-lock] ロック取得に失敗しました: {abs_profile}")
-                    return None
-            except Exception as e:
-                logging.warning(f"[profile-lock] 取得中に例外が発生しました（続行）: {e}")
-
         global _chromedriver_path
         if not _chromedriver_path:
             _chromedriver_path = ChromeDriverManager().install()
@@ -227,40 +219,25 @@ def setup_driver(headless: bool = True, profile_path: str | None = None, max_ret
         _driver_process_count += 1
         logging.info(f"新しいWebDriverインスタンスを初期化しました（起動回数: {_driver_process_count}）")
         check_memory_usage()
-
-        # quit 時にロックを解放するようにフック
-        if profile_lock is not None:
-            original_quit = driver.quit
-
-            def _quit_and_release(*args, **kwargs):
-                try:
-                    return original_quit(*args, **kwargs)
-                finally:
-                    try:
-                        profile_lock.release()
-                    except Exception:
-                        pass
-
-            driver.quit = _quit_and_release  # type: ignore[attr-defined]
     except Exception as e:
         logging.error(f"WebDriverの初期化中にエラーが発生しました: {e}")
         return None
 
-    # ログイン状態の確認と初期遷移（プロファイルあり/なしで分岐、リトライ付き）
+    # ログイン状態の確認と初期遷移（プロファイルベース/Cookieベース対応、リトライ付き）
     for attempt in range(max_retries):
         try:
             logging.info(f"初期ナビゲーションを実行します... ({attempt + 1}/{max_retries})")
 
             if profile_path:
-                # プロファイルを使用する場合はCookie注入を行わず、ホームに直接アクセス
+                # プロファイルベースログイン: 直接ホームページにアクセス
                 driver.get("https://x.com/home")
                 WebDriverWait(driver, PAGE_LOAD_TIMEOUT_SECONDS).until(
                     EC.presence_of_element_located((By.XPATH, '//article[@data-testid="tweet"]'))
                 )
-                logging.info("Xのホームページが正常に読み込まれました（プロファイル使用）。")
+                logging.info("プロファイルベースでXのホームページが正常に読み込まれました。")
                 return driver
             else:
-                # 従来のCookieファイルを使用してログイン状態を復元
+                # Cookieベースログイン: Cookieファイルを使用してログイン状態を復元
                 driver.get(LOGIN_URL)
                 if os.path.exists(COOKIE_FILE):
                     with open(COOKIE_FILE, "rb") as f:
@@ -277,7 +254,7 @@ def setup_driver(headless: bool = True, profile_path: str | None = None, max_ret
                 WebDriverWait(driver, PAGE_LOAD_TIMEOUT_SECONDS).until(
                     EC.presence_of_element_located((By.XPATH, '//article[@data-testid="tweet"]'))
                 )
-                logging.info("Xのホームページが正常に読み込まれました。")
+                logging.info("CookieベースでXのホームページが正常に読み込まれました。")
                 return driver
 
         except TimeoutException as e:

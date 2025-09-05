@@ -219,41 +219,77 @@ def main_process(driver: webdriver.Chrome, output_csv_path: str, max_scrolls: in
             # 2. notifications
             logging.info("[2/5] 通知ページにアクセスします...")
             driver.get("https://x.com/notifications")
-            WebDriverWait(driver, PAGE_LOAD_TIMEOUT_SECONDS).until(
-                EC.presence_of_element_located((By.XPATH, '//article[@data-testid="tweet"]'))
-            )
-            logging.info("通知ページの読み込み完了。")
+            try:
+                WebDriverWait(driver, PAGE_LOAD_TIMEOUT_SECONDS).until(
+                    EC.any_of(
+                        EC.presence_of_element_located((By.XPATH, '//article[@data-testid="tweet"]')),
+                        EC.presence_of_element_located((By.XPATH, '//div[@data-testid="primaryColumn"]')),
+                        EC.presence_of_element_located((By.XPATH, '//section[contains(@aria-label, "")]'))
+                    )
+                )
+                logging.info("通知ページの読み込み完了。")
+            except TimeoutException:
+                logging.warning("通知ページの読み込みでタイムアウトが発生しましたが、処理を続行します。")
 
             # 3. notifications/mentions
             logging.info("[3/5] 通知（メンション）ページにアクセスします...")
             driver.get("https://x.com/notifications/mentions")
-            WebDriverWait(driver, PAGE_LOAD_TIMEOUT_SECONDS).until(
-                EC.presence_of_element_located((By.XPATH, '//article[@data-testid="tweet"]'))
-            )
-            logging.info("通知（メンション）ページの読み込み完了。")
+            try:
+                WebDriverWait(driver, PAGE_LOAD_TIMEOUT_SECONDS).until(
+                    EC.any_of(
+                        EC.presence_of_element_located((By.XPATH, '//article[@data-testid="tweet"]')),
+                        EC.presence_of_element_located((By.XPATH, '//div[@data-testid="primaryColumn"]')),
+                        EC.presence_of_element_located((By.XPATH, '//section[contains(@aria-label, "")]'))
+                    )
+                )
+                logging.info("通知（メンション）ページの読み込み完了。")
+            except TimeoutException:
+                logging.warning("通知（メンション）ページの読み込みでタイムアウトが発生しましたが、処理を続行します。")
             time.sleep(5)  # 完全ロードを待機
 
             # 4. notifications/mentions (again)
             logging.info("[4/5] 再度、通知（メンション）ページにアクセスします...")
             driver.get("https://x.com/notifications/mentions")
-            WebDriverWait(driver, PAGE_LOAD_TIMEOUT_SECONDS).until(
-                EC.presence_of_element_located((By.XPATH, '//article[@data-testid="tweet"]'))
-            )
+            try:
+                WebDriverWait(driver, PAGE_LOAD_TIMEOUT_SECONDS).until(
+                    EC.any_of(
+                        EC.presence_of_element_located((By.XPATH, '//article[@data-testid="tweet"]')),
+                        EC.presence_of_element_located((By.XPATH, '//div[@data-testid="primaryColumn"]')),
+                        EC.presence_of_element_located((By.XPATH, '//section[contains(@aria-label, "")]'))
+                    )
+                )
+            except TimeoutException:
+                logging.warning("再度の通知（メンション）ページ読み込みでタイムアウトが発生しましたが、処理を続行します。")
+            
             # 4. notifications (again)
             logging.info("[4/5] 再度、通知ページにアクセスします...")
             driver.get("https://x.com/notifications")
-            WebDriverWait(driver, PAGE_LOAD_TIMEOUT_SECONDS).until(
-                EC.presence_of_element_located((By.XPATH, '//article[@data-testid="tweet"]'))
-            )
-            logging.info("再度、通知ページの読み込み完了。")
+            try:
+                WebDriverWait(driver, PAGE_LOAD_TIMEOUT_SECONDS).until(
+                    EC.any_of(
+                        EC.presence_of_element_located((By.XPATH, '//article[@data-testid="tweet"]')),
+                        EC.presence_of_element_located((By.XPATH, '//div[@data-testid="primaryColumn"]')),
+                        EC.presence_of_element_located((By.XPATH, '//section[contains(@aria-label, "")]'))
+                    )
+                )
+                logging.info("再度、通知ページの読み込み完了。")
+            except TimeoutException:
+                logging.warning("再度の通知ページ読み込みでタイムアウトが発生しましたが、処理を続行します。")
 
             # 5. notifications/mentions (final)
             logging.info("[5/5] 最終的に通知（メンション）ページにアクセスします...")
             driver.get("https://x.com/notifications/mentions")
-            WebDriverWait(driver, PAGE_LOAD_TIMEOUT_SECONDS).until(
-                EC.presence_of_element_located((By.XPATH, '//article[@data-testid="tweet"]'))
-            )
-            logging.info("最終的な通知（メンション）ページの読み込み完了。")
+            try:
+                WebDriverWait(driver, PAGE_LOAD_TIMEOUT_SECONDS).until(
+                    EC.any_of(
+                        EC.presence_of_element_located((By.XPATH, '//article[@data-testid="tweet"]')),
+                        EC.presence_of_element_located((By.XPATH, '//div[@data-testid="primaryColumn"]')),
+                        EC.presence_of_element_located((By.XPATH, '//section[contains(@aria-label, "")]'))
+                    )
+                )
+                logging.info("最終的な通知（メンション）ページの読み込み完了。")
+            except TimeoutException:
+                logging.warning("最終的な通知（メンション）ページの読み込みでタイムアウトが発生しましたが、処理を続行します。")
             
             # 最新データを確実に取得するため、更新処理を実行
             logging.info("最新データ取得のためページの更新処理を実行します...")

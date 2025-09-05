@@ -463,8 +463,14 @@ def main() -> None:
     parser.add_argument('--hours', type=int, default=None, help='収集対象の時間（未指定時は config.HOURS_TO_COLLECT）')
     parser.add_argument('--concurrency', type=int, default=1, help='並列実行数（ステップ1では逐次のみ対応）')
     parser.add_argument('--config', type=str, default=os.path.join('config', 'accounts.yaml'), help='アカウント設定YAMLのパス')
+    parser.add_argument('--headless', action='store_true', help='強制ヘッドレスモード（accounts.yaml設定を上書き）')
+    parser.add_argument('--no-headless', action='store_true', help='強制描画モード（accounts.yaml設定を上書き）')
 
     args = parser.parse_args()
+
+    # --headlessと--no-headlessの同時指定チェック
+    if args.headless and args.no_headless:
+        raise ValueError("--headlessと--no-headlessは同時に指定できません")
 
     if args.concurrency and args.concurrency > 1:
         logging.warning("並列実行は未実装です。逐次実行にフォールバックします。")
@@ -477,6 +483,20 @@ def main() -> None:
 
     cfg_data = load_accounts_config(cfg_path)
     targets = select_accounts(cfg_data, args.accounts)
+
+    # ヘッドレス設定の上書き処理
+    if args.headless:
+        for acct in targets:
+            if 'browser' not in acct:
+                acct['browser'] = {}
+            acct['browser']['headless'] = True
+        logging.info("--headlessオプションにより、全アカウントでヘッドレスモードを強制有効化しました。")
+    elif args.no_headless:
+        for acct in targets:
+            if 'browser' not in acct:
+                acct['browser'] = {}
+            acct['browser']['headless'] = False
+        logging.info("--no-headlessオプションにより、全アカウントで描画モードを強制有効化しました。")
 
     for acct in targets:
         run_for_account(acct, live_run=args.live_run, hours=args.hours)
