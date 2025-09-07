@@ -1,6 +1,7 @@
 import argparse
 import logging
 import os
+import subprocess
 import time
 import yaml
 
@@ -17,6 +18,93 @@ from .profile_lock import ProfileLock
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
+def cleanup_chrome_processes_for_profile(profile_dir=None):
+    """特定のプロファイルを使用しているChromeプロセスのみを終了"""
+    try:
+        import psutil
+        
+        if profile_dir:
+            abs_profile_path = os.path.normpath(os.path.abspath(profile_dir)).lower()
+            logging.info(f"プロファイル {profile_dir} を使用しているChromeプロセスを確認中...")
+        else:
+            logging.info("全てのChromeプロセスを確認中...")
+            
+        killed_pids = []
+        
+        # 実行中の全プロセスをチェック
+        for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
+            try:
+                if proc.info['name'] and 'chrome' in proc.info['name'].lower():
+                    cmdline = proc.info['cmdline'] or []
+                    
+                    # 特定プロファイル指定時は該当プロファイルのみ終了
+                    if profile_dir:
+                        profile_found = False
+                        for arg in cmdline:
+                            if '--user-data-dir=' in arg:
+                                arg_path = os.path.normpath(arg.replace('--user-data-dir=', '')).lower()
+                                if abs_profile_path in arg_path:
+                                    profile_found = True
+                                    break
+                        
+                        if profile_found:
+                            logging.info(f"プロファイル {profile_dir} を使用中のChrome PID {proc.info['pid']} を終了します")
+                            proc.terminate()
+                            killed_pids.append(proc.info['pid'])
+                    else:
+                        # プロファイル指定なしの場合は全Chrome終了（従来動作）
+                        logging.info(f"Chrome PID {proc.info['pid']} を終了します")
+                        proc.terminate()
+                        killed_pids.append(proc.info['pid'])
+                        
+            except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                continue
+        
+        if killed_pids:
+            logging.info(f"{len(killed_pids)}個のChromeプロセスを終了しました: {killed_pids}")
+            time.sleep(2)  # プロセス終了完了まで待機
+            
+            # 強制終了が必要なプロセスをチェック
+            force_kill_count = 0
+            for proc in psutil.process_iter(['pid', 'name']):
+                try:
+                    if proc.info['name'] and 'chrome' in proc.info['name'].lower() and proc.info['pid'] in killed_pids:
+                        logging.warning(f"Chrome PID {proc.info['pid']} を強制終了します")
+                        proc.kill()
+                        force_kill_count += 1
+                except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                    continue
+                    
+            if force_kill_count > 0:
+                time.sleep(1)
+        else:
+            if profile_dir:
+                logging.info(f"プロファイル {profile_dir} を使用中のChromeプロセスは見つかりませんでした")
+            else:
+                logging.info("終了対象のChromeプロセスは見つかりませんでした")
+                
+    except ImportError:
+        logging.warning("psutilがインストールされていないため、従来の方法で全Chromeプロセスを終了します")
+        # psutilが使えない場合のフォールバック
+        try:
+            result = subprocess.run(['tasklist', '/FI', 'IMAGENAME eq chrome.exe'],
+                                  capture_output=True, text=True, shell=True)
+            if result.returncode == 0 and 'chrome.exe' in result.stdout:
+                subprocess.run(['taskkill', '/F', '/IM', 'chrome.exe'],
+                             capture_output=True, text=True, shell=True)
+                logging.info("全Chromeプロセスを終了しました（プロファイル選択不可）")
+                time.sleep(2)
+        except Exception:
+            pass
+    except Exception as e:
+        logging.warning(f"Chromeプロセス確認・終了処理でエラー: {e}")
+
+
+def cleanup_chrome_processes():
+    """下位互換性のため維持（全Chrome終了）"""
+    cleanup_chrome_processes_for_profile(None)
+
+
 def load_accounts(cfg_path: str):
     with open(cfg_path, 'r', encoding='utf-8') as f:
         data = yaml.safe_load(f) or {}
@@ -24,6 +112,9 @@ def load_accounts(cfg_path: str):
 
 
 def open_login_with_prefill(handle: str, profile_dir: str) -> None:
+    # このプロファイルを使用しているChromeプロセスのみを事前終了
+    cleanup_chrome_processes_for_profile(profile_dir)
+    
     options = Options()
     abs_profile = os.path.abspath(profile_dir)
     os.makedirs(abs_profile, exist_ok=True)

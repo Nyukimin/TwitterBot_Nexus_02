@@ -18,6 +18,7 @@ from .utils import setup_driver, close_driver
 from . import config as cfg
 from .db_stubs import record_action_log, has_action_log, count_actions_last_hours
 from .thread_analysis_fix import _extract_tweet_id_robust
+from .greeting_tracker import GreetingTracker, get_varied_greeting
 from .actions.like import run as action_like  # 互換性のため残置（本ファイルでは直接操作）
 from .actions.bookmark import run as action_bookmark  # 同上
 from .actions.retweet import run as action_retweet  # 同上
@@ -350,7 +351,7 @@ def _get_target_cfg(user_handle: str | None, policy: Dict[str, Any] | None) -> D
     return None
 
 
-def _build_greet_auto_reply(user_handle: str | None, policy: Dict[str, Any] | None) -> str | None:
+def _build_greet_auto_reply(user_handle: str | None, policy: Dict[str, Any] | None, account_id: str = "unknown") -> str | None:
     cfg = _get_target_cfg(user_handle, policy)
     if not cfg:
         return None
@@ -366,19 +367,35 @@ def _build_greet_auto_reply(user_handle: str | None, policy: Dict[str, Any] | No
     if not is_auto:
         return None
 
-    # 時刻ベースの簡易あいさつ（JST前提）
+    # 時刻ベースの挨拶タイプを決定
     try:
         hour = time.localtime().tm_hour
         if 5 <= hour < 10:
-            g = 'おはよう🩷'
+            greeting_type = 'morning'
         elif 10 <= hour < 17:
-            g = 'こんにちは🩷'
+            greeting_type = 'afternoon'
         elif 17 <= hour < 24:
-            g = 'こんばんは🩷'
+            greeting_type = 'evening'
         else:
-            g = 'おやすみ🩷'
+            greeting_type = 'night'
+        
+        # 挨拶追跡システムを使用してバリエーションのある挨拶を取得
+        if user_handle:
+            tracker = GreetingTracker()
+            g = get_varied_greeting(account_id, user_handle, greeting_type, tracker)
+        else:
+            # ユーザーハンドルが不明の場合は従来通り
+            greeting_map = {
+                'morning': 'おはよう🩷',
+                'afternoon': 'こんにちは🩷',
+                'evening': 'こんばんは🩷',
+                'night': 'おやすみ🩷'
+            }
+            g = greeting_map.get(greeting_type, 'こんにちは🩷')
+        
         return f"{nickname}、{g}" if nickname else g
-    except Exception:
+    except Exception as e:
+        logging.warning(f"挨拶生成でエラー: {e}")
         return None
 
 
@@ -739,7 +756,7 @@ def _attempt_comment_light(driver: webdriver.Chrome, tweet_id: str, policy: Dict
     # fixed_comment 優先。なければ greet:auto を使用
     reply_text = _build_fixed_reply_for_user(target_handle, policy)
     if not reply_text:
-        reply_text = _build_greet_auto_reply(target_handle, policy)
+        reply_text = _build_greet_auto_reply(target_handle, policy, account_id)
     if not reply_text:
         logging.info("[comment-light] fixed_comment / greet:auto が未設定のためスキップ")
         return
@@ -845,7 +862,7 @@ def run_actions_on_tweet(driver: webdriver.Chrome,
                 continue
             reply_text = _build_fixed_reply_for_user(target_handle, policy)
             if not reply_text:
-                reply_text = _build_greet_auto_reply(target_handle, policy)
+                reply_text = _build_greet_auto_reply(target_handle, policy, account_id)
             if not reply_text:
                 logging.info("[comment-light] fixed_comment / greet:auto 未設定のためスキップ")
                 continue

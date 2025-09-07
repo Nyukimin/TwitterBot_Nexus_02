@@ -101,37 +101,53 @@ def run(driver: webdriver.Chrome, tweets: list[dict], policy: dict, rate_limits:
         # ニックネームが設定されていない場合はDBから取得
         # DB廃止に伴い nickname は accounts.yaml の policies.per_target で設定する運用に変更
 
-        def _detect_greeting(text: str, lang: str) -> str | None:
+        def _detect_greeting_type(text: str, lang: str) -> str | None:
+            """ツイート内容から挨拶タイプを判定"""
             t = text.lower()
             try:
                 if lang == 'ja':
                     if 'おはよ' in text or 'おはよう' in text:
-                        return 'おはよう🩷'
+                        return 'morning'
                     if 'こんにちは' in text:
-                        return 'こんにちは🩷'
+                        return 'afternoon'
                     if 'こんばんは' in text:
-                        return 'こんばんは🩷'
+                        return 'evening'
                     if 'おやすみ' in text:
-                        return 'おやすみ🩷'
-                    return 'こんにちは🩷'
+                        return 'night'
+                    # デフォルトは時刻ベース判定に委ねる
+                    return None
                 if 'good morning' in t or t.startswith('gm'):
-                    return 'Good morning🩷'
+                    return 'good_morning'
                 if 'good night' in t or t.startswith('gn'):
-                    return 'Good night🩷'
+                    return 'good_night'
                 if 'good evening' in t:
-                    return 'Good evening🩷'
+                    return 'good_evening'
                 if 'hello' in t or t.startswith('hi'):
-                    return 'Hello🩷'
-                return 'Hello🩷' if lang == 'en' else None
+                    return 'hello'
+                return 'hello' if lang == 'en' else None
             except Exception:
                 return None
 
         if greet_cfg:
             # 文字列で 'auto' 指定も許容
             if isinstance(greet_cfg, str) and greet_cfg.lower() == 'auto':
-                greeting = _detect_greeting(thread.get('current_reply_text', ''), thread.get('lang', 'und'))
-                if greeting:
-                    reply_text = f"{nickname}\n{greeting}" if nickname else greeting
+                # 新しい挨拶システムを使用
+                detected_type = _detect_greeting_type(thread.get('current_reply_text', ''), thread.get('lang', 'und'))
+                if detected_type:
+                    greeting = get_varied_greeting(account_id, current_replier, detected_type, GreetingTracker())
+                else:
+                    # 時刻ベース判定
+                    hour = time.localtime().tm_hour
+                    if 5 <= hour < 10:
+                        greeting_type = 'morning'
+                    elif 10 <= hour < 17:
+                        greeting_type = 'afternoon'
+                    elif 17 <= hour < 24:
+                        greeting_type = 'evening'
+                    else:
+                        greeting_type = 'night'
+                    greeting = get_varied_greeting(account_id, current_replier, greeting_type, GreetingTracker())
+                reply_text = f"{nickname}\n{greeting}" if nickname else greeting
             elif isinstance(greet_cfg, dict):
                 mode = str(greet_cfg.get('mode', '')).lower()
                 if mode == 'fixed':
@@ -139,9 +155,23 @@ def run(driver: webdriver.Chrome, tweets: list[dict], policy: dict, rate_limits:
                     if text:
                         reply_text = f"{nickname}\n{text}" if nickname else text
                 elif mode == 'auto':
-                    greeting = _detect_greeting(thread.get('current_reply_text', ''), thread.get('lang', 'und'))
-                    if greeting:
-                        reply_text = f"{nickname}\n{greeting}" if nickname else greeting
+                    # 新しい挨拶システムを使用
+                    detected_type = _detect_greeting_type(thread.get('current_reply_text', ''), thread.get('lang', 'und'))
+                    if detected_type:
+                        greeting = get_varied_greeting(account_id, current_replier, detected_type, GreetingTracker())
+                    else:
+                        # 時刻ベース判定
+                        hour = time.localtime().tm_hour
+                        if 5 <= hour < 10:
+                            greeting_type = 'morning'
+                        elif 10 <= hour < 17:
+                            greeting_type = 'afternoon'
+                        elif 17 <= hour < 24:
+                            greeting_type = 'evening'
+                        else:
+                            greeting_type = 'night'
+                        greeting = get_varied_greeting(account_id, current_replier, greeting_type, GreetingTracker())
+                    reply_text = f"{nickname}\n{greeting}" if nickname else greeting
 
         # 2) 固定コメントがあれば優先
         if not reply_text:

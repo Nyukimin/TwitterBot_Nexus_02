@@ -1,0 +1,117 @@
+{
+  "date": "2025-09-07",
+  "greetings": {
+    "Maya19960330:manami_ofp": [
+      {
+        "type": "morning",
+        "time": "15:37:10"
+      },
+      {
+        "type": "morning",
+        "time": "15:37:10"
+      },
+      {
+        "type": "morning",
+        "time": "15:37:10"
+      },
+      {
+        "type": "morning",
+        "time": "15:37:10"
+      },
+      {
+        "type": "afternoon",
+        "time": "15:37:10"
+      },
+      {
+        "type": "afternoon",
+        "time": "15:37:10"
+      },
+      {
+        "type": "afternoon",
+        "time": "15:37:10"
+      },
+      {
+        "type": "morning",
+        "time": "15:59:15"
+      },
+      {
+        "type": "morning",
+        "time": "15:59:15"
+      },
+      {
+        "type": "morning",
+        "time": "15:59:15"
+      },
+      {
+        "type": "morning",
+        "time": "15:59:15"
+      },
+      {
+        "type": "afternoon",
+        "time": "15:59:15"
+      },
+      {
+        "type": "afternoon",
+        "time": "15:59:15"
+      },
+      {
+        "type": "afternoon",
+        "time": "15:59:15"
+      },
+      {
+        "type": "morning",
+        "time": "16:14:41"
+      },
+      {
+        "type": "morning",
+        "time": "16:14:41"
+      },
+      {
+        "type": "morning",
+        "time": "16:14:41"
+      },
+      {
+        "type": "morning",
+        "time": "16:14:41"
+      },
+      {
+        "type": "afternoon",
+        "time": "16:14:41"
+      },
+      {
+        "type": "afternoon",
+        "time": "16:14:41"
+      },
+      {
+        "type": "afternoon",
+        "time": "16:14:41"
+      }
+    ],
+    "Maya19960330:test_user": [
+      {
+        "type": "morning",
+        "time": "15:37:10"
+      },
+      {
+        "type": "morning",
+        "time": "15:37:10"
+      },
+      {
+        "type": "morning",
+        "time": "15:59:15"
+      },
+      {
+        "type": "morning",
+        "time": "15:59:15"
+      },
+      {
+        "type": "morning",
+        "time": "16:14:41"
+      },
+      {
+        "type": "morning",
+        "time": "16:14:41"
+      }
+    ]
+  }
+}
