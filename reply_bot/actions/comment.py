@@ -64,9 +64,9 @@ def run(driver: webdriver.Chrome, tweets: list[dict], policy: dict, rate_limits:
         if not tweet_id:
             continue
 
-        # 冪等性
+        # 冪等性チェック（ファイルベース）
         if has_action_log(account_id, tweet_id, 'comment'):
-            logging.info(f"[comment] skip by idempotency: {tweet_id}")
+            logging.info(f"[comment] skip by action log: {tweet_id}")
             continue
 
         # レート制御
