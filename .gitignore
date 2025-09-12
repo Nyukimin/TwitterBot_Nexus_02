@@ -11,3 +11,7 @@ cookie/
 *.db-journal
 /reply_bot/replies.db /log/
 /profile/
+
+./serena/
+./Chrome/Chrome*.zip
+./fixed_chrome/chrome*/
