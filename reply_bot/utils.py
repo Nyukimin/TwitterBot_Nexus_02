@@ -7,11 +7,11 @@ import random
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException, WebDriverException
+from pathlib import Path
 
 from .config import LOGIN_URL, LOGIN_TIMEOUT_ENABLED, LOGIN_TIMEOUT_SECONDS, PAGE_LOAD_TIMEOUT_SECONDS
 from .profile_lock import ProfileLock
@@ -24,6 +24,63 @@ _driver_process_count = 0  # WebDriverの起動回数をカウント
 _memory_monitor_enabled = True  # メモリ監視の有効/無効フラグ
 _last_profile_path: str | None = None  # 直近に使用したChromeプロファイルパス
 _chromedriver_path: str | None = None  # ドライババイナリのキャッシュ（起動時1回のバージョンチェック）
+
+def _get_fixed_chrome_paths():
+    """fixed_chromeディレクトリのパスを取得"""
+    project_root = Path(__file__).parent.parent
+    chrome_binary = project_root / "fixed_chrome" / "chrome" / "chrome.exe"
+    chromedriver_binary = project_root / "fixed_chrome" / "chromedriver" / "chromedriver.exe"
+    return str(chrome_binary), str(chromedriver_binary)
+
+def _cleanup_profile_for_setup(profile_path: str):
+    """setup_driver用のプロファイルクリーンアップ"""
+    import glob
+    import shutil
+    
+    try:
+        profile_dir = Path(profile_path)
+        
+        # プロファイル使用中のChromeプロセスを終了
+        try:
+            for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
+                try:
+                    proc_info = proc.info
+                    if proc_info['name'] and 'chrome' in proc_info['name'].lower():
+                        cmdline = proc_info.get('cmdline')
+                        if cmdline and any(profile_path in arg for arg in cmdline):
+                            logging.info(f"プロファイル使用中のChromeプロセスを終了: PID {proc.pid}")
+                            proc.terminate()
+                            proc.wait(timeout=3)
+                except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.TimeoutExpired):
+                    continue
+        except Exception as e:
+            logging.debug(f"プロセスクリーンアップエラー: {e}")
+        
+        # ロックファイルのクリーンアップ
+        lock_patterns = [
+            str(profile_dir / "Singleton*"),
+            str(profile_dir / "*.lock"),
+            str(profile_dir / "lockfile*"),
+            str(profile_dir / "Default" / "Singleton*"),
+            str(profile_dir / "Default" / "*.lock")
+        ]
+        
+        for pattern in lock_patterns:
+            for lock_file in glob.glob(pattern):
+                try:
+                    if os.path.exists(lock_file):
+                        if os.path.isfile(lock_file):
+                            os.remove(lock_file)
+                        elif os.path.isdir(lock_file):
+                            shutil.rmtree(lock_file, ignore_errors=True)
+                except Exception:
+                    pass
+        
+        # 少し待機
+        time.sleep(0.5)
+        
+    except Exception as e:
+        logging.debug(f"プロファイルクリーンアップエラー: {e}")
 
 def get_driver(headless: bool = True) -> webdriver.Chrome:
     """
@@ -39,9 +96,13 @@ def get_driver(headless: bool = True) -> webdriver.Chrome:
             options.add_argument('--disable-dev-shm-usage')
 
         try:
-            service = Service(ChromeDriverManager().install())
+            # fixed_chromeを使用
+            chrome_binary, chromedriver_path = _get_fixed_chrome_paths()
+            options.binary_location = chrome_binary
+            
+            service = Service(chromedriver_path)
             _driver = webdriver.Chrome(service=service, options=options)
-            logging.info("新しいWebDriverインスタンスを初期化しました。")
+            logging.info(f"新しいWebDriverインスタンスを初期化しました（fixed_chrome使用）: {chrome_binary}")
             
             # Cookieを読み込んでログイン
             if not os.path.exists(COOKIE_FILE):
@@ -179,6 +240,10 @@ def setup_driver(headless: bool = True, profile_path: str | None = None, max_ret
         # プロファイルベースログイン
         abs_profile = os.path.abspath(profile_path)
         os.makedirs(abs_profile, exist_ok=True)
+        
+        # プロファイルクリーンアップ（login_assistと同様）
+        _cleanup_profile_for_setup(abs_profile)
+        
         options.add_argument(f"--user-data-dir={abs_profile}")
         logging.info(f"プロファイルベースログイン: {abs_profile}")
     else:
@@ -194,12 +259,19 @@ def setup_driver(headless: bool = True, profile_path: str | None = None, max_ret
     # メモリリーク対策とパフォーマンス向上のオプション
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--disable-gpu")
+    if headless:
+        options.add_argument("--disable-gpu")
     options.add_argument("--disable-extensions")
     options.add_argument("--no-first-run")
     options.add_argument("--no-default-browser-check")
     options.add_argument("--remote-debugging-port=0")
     options.add_argument('--log-level=3') # INFO, WARNING, ERROR 以外のログを抑制
+    
+    # プロファイル競合を避けるための追加オプション（login_assistと同様）
+    options.add_argument("--disable-features=LockProfileData")
+    options.add_argument("--disable-features=ProcessSingletonLock")
+    options.add_argument("--disable-blink-features=AutomationControlled")
+    
     try:
         options.add_experimental_option('excludeSwitches', ['enable-automation', 'enable-logging'])
         options.add_experimental_option('useAutomationExtension', False)
@@ -213,11 +285,16 @@ def setup_driver(headless: bool = True, profile_path: str | None = None, max_ret
     try:
         global _chromedriver_path
         if not _chromedriver_path:
-            _chromedriver_path = ChromeDriverManager().install()
+            # fixed_chromeを使用
+            chrome_binary, chromedriver_path = _get_fixed_chrome_paths()
+            _chromedriver_path = chromedriver_path
+            options.binary_location = chrome_binary
+            
         service = Service(_chromedriver_path)
+        logging.info("====== WebDriver manager ======")
         driver = webdriver.Chrome(service=service, options=options)
         _driver_process_count += 1
-        logging.info(f"新しいWebDriverインスタンスを初期化しました（起動回数: {_driver_process_count}）")
+        logging.info(f"新しいWebDriverインスタンスを初期化しました（fixed_chrome使用、起動回数: {_driver_process_count}）")
         check_memory_usage()
     except Exception as e:
         logging.error(f"WebDriverの初期化中にエラーが発生しました: {e}")
