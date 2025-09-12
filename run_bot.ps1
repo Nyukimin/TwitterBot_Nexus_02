@@ -1,9 +1,10 @@
 param(
   [switch]$ForceClean = $false,  # まずは誤爆防止のため既定は false。必要時に -ForceClean で上書き
-  [string]$ProfilePath = "C:\GenerativeAI\Twitter_reply_02\profile\twitter_main",
+  [string]$ProfilePath = "C:\GenerativeAI\Twitter_reply_orchestrator_02\profile\Maya19960330",
   [switch]$UseEphemeralRunProfile = $false,  # true なら実行ごとに一時プロファイルを派生
   [string]$PythonExe = "C:\Users\nyuki\miniconda3\envs\TwitterReplyEnv\python.exe",
-  [string]$BotName = "Maya19970330"    # 多重起動防止用 Mutex 名
+  [string]$BotName = "Maya19960330",    # 多重起動防止用 Mutex 名
+  [string]$ConfigFile = ".\config\accounts_Maya19960330.yaml"  # 設定ファイルパス
 )
 
 # ===== 基本設定 =====
@@ -12,7 +13,7 @@ $Hours   = 24
 $LiveRun = $true
 
 # 作業ディレクトリ固定（タスクスケジューラ対策）
-Set-Location "C:\GenerativeAI\Twitter_reply_02"
+Set-Location "C:\GenerativeAI\Twitter_reply_orchestrator_02"
 
 # Python の標準出力エンコードを UTF-8 に固定（ログ文字化け防止）
 $env:PYTHONIOENCODING = 'utf-8'
@@ -62,11 +63,11 @@ $timestamp  = Get-Date -Format yyyyMMdd_HHmmss
 $runProfile = if ($UseEphemeralRunProfile) { "$ProfilePath`_run_$timestamp" } else { $ProfilePath }
 
 # ログ出力先（UTF-8）
-$logDir = "C:\GenerativeAI\Twitter_reply_02\log"
+$logDir = "C:\GenerativeAI\Twitter_reply_orchestrator_02\log"
 if (-not (Test-Path $logDir)) { New-Item -ItemType Directory -Path $logDir | Out-Null }
 $logFile = Join-Path $logDir "bot_$timestamp.log"
 Add-Content -LiteralPath $logFile -Value "[$timestamp] RUN START" -Encoding utf8
-Write-Host "[$timestamp] RUNNING reply_bot.main"
+Write-Host "[$timestamp] RUNNING reply_bot.multi_main"
 
 # ===== 多重起動防止（Mutex）=====
 $mutexName  = "Global\$BotName"
@@ -90,8 +91,9 @@ try {
   # 必要ならプロファイル名も：$env:REPLYBOT_PROFILE_DIR = "Default"
 
   # ===== Python 実行引数を確定 =====
-  $pyArgs = @('-m','reply_bot.main','--timestamp',$timestamp,'--hours',$Hours)
+  $pyArgs = @('-m','reply_bot.multi_main','--config',$ConfigFile)
   if ($LiveRun) { $pyArgs += '--live-run' }
+  if ($Hours) { $pyArgs += @('--hours', $Hours) }
 
   # ===== 実行：Start-Process で標準出力／標準エラーを確実に捕捉 =====
   $tmpDir    = Join-Path $env:TEMP "reply_bot_$timestamp"
