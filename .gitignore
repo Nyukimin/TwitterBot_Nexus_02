@@ -11,3 +11,10 @@ cookie/
 *.db-journal
 /reply_bot/replies.db /log/
 /profile/
+
+.serena/
+Chrome/*.zip
+Chrome/chrome-*.zip
+Chrome/chromedriver-*.zip
+fixed_chrome/chrome/
+fixed_chrome/chromedriver/
