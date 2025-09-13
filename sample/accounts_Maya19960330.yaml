@@ -5,10 +5,38 @@ accounts:
     handle: "Maya19960330"
     browser: { user_data_dir: "profile/Maya19960330", headless: true }
     features: { like: true, retweet: true, comment: true, bookmark: true, tweet: true }
+    # Maya専用のコメント設定
+    comment_config:
+      default_priority: time_based
+      time_schedule:
+        morning: # 5-10時
+          priority: greet
+          fallback: ai_content
+        day: # 10-17時
+          priority: ai_content
+          fallback: greet
+        evening: # 17-22時
+          priority: ai_content
+          fallback: simple
+        night: # 22-5時
+          priority: simple
+          fallback: greet
+      ai_personality: maya
+      response_style: friendly_casual
+      # 新規ツイート応答用設定
+      new_tweet_response:
+        enabled: true
+        priority: new_tweet_content
+        style: supportive_engaging
     # ツイート投稿機能設定
     tweet_config:
       enabled: true
       schedule:
+        # 定期ツイート設定
+        regular_tweets:
+          enabled: true
+          interval_hours: 6  # 6時間おき
+          time_slots: ["06:00", "12:00", "18:00"]  # 投稿時刻
         # 定型ツイート
         fixed_tweets:
           - text: "おはよう❤\n"
@@ -18,11 +46,7 @@ accounts:
               enabled: true
               prompt: "「今日も一日頑張ろう」のニュアンスで、以下の例を参考に自然で前向きな続きの文章を生成してください。例：今日も素敵な一日にしよう、今日も笑顔で過ごそう、今日も元気に行こう、今日もがんばっていこう"
               max_length: 30
-            image:
-              enabled: true
-              folder: "images/morning"
-              selection: "sequential"  # sequential: 数字順に選択、一周したら先頭に戻る
-              
+          
           - text: "おひるだね❤\n"
             time: "12:00"
             days: ["all"]
@@ -30,10 +54,6 @@ accounts:
               enabled: true
               prompt: "「ゆっくりしよう」のニュアンスで、以下の例を参考にリラックスした続きの文章を生成してください。例：お昼休みを楽しもう、少し休憩しよう、リラックスタイムだね、のんびりしよう"
               max_length: 30
-            image:
-              enabled: true
-              folder: "images/lunch"
-              selection: "sequential"
           
           - text: "おつかれさま❤\n"
             time: "18:00"
@@ -42,10 +62,6 @@ accounts:
               enabled: true
               prompt: "「今日はどんな一日でしたか？」のニュアンスで、以下の例を参考に労いの続きの文章を生成してください。例：今日はお疲れさまでした、一日お疲れさま、今日も一日ありがとう、お疲れさまでした"
               max_length: 30
-            image:
-              enabled: true
-              folder: "images/evening"
-              selection: "sequential"
           
           - text: "今週もお疲れさま❤"
             time: "18:00"
@@ -54,10 +70,39 @@ accounts:
               enabled: true
               prompt: "「ゆっくり休んでね」のニュアンスで、以下の例を参考に週末への励ましの続きの文章を生成してください。例：週末はゆっくりしてね、いい週末を過ごしてね、お疲れさまでした、ゆっくり休息してね"
               max_length: 30
-            image:
+        # AI生成ツイート
+        ai_generated:
+          enabled: true
+          schedule:
+            # ランダム投稿（定型ツイート以外の時間）
+            random_tweets:
               enabled: true
-              folder: "images/evening"
-              selection: "sequential"
+              frequency: "2-4_per_day"  # 1日2-4回
+              avoid_times: ["06:00", "12:00", "18:00"]  # 定型ツイートの時間を避ける
+              time_range: ["07:00", "23:00"]  # 投稿可能時間帯
+            # 特定時間の投稿
+            scheduled_times:
+              - time: "10:00"
+                frequency: "random"  # ランダムに投稿するかどうか
+              - time: "15:30"
+                frequency: "random"
+              - time: "20:00"
+                frequency: "random"
+          topics: ["日常", "感謝", "励まし", "季節の話題", "ポジティブな思考", "応援メッセージ"]
+          style: "friendly_positive"
+          max_length: 140
+          content_types:
+            - "motivational_quotes"    # 励ましの言葉
+            - "daily_thoughts"         # 日常の気づき
+            - "seasonal_observations"  # 季節の話題
+            - "gratitude_expressions"  # 感謝の表現
+            - "positive_reminders"     # ポジティブなリマインダー
+        # 画像投稿設定
+        image_posting:
+          enabled: true
+          image_folder: "images/maya_content"
+          with_text: true
+          schedule: "random"  # random, daily, weekly
     policies:
       sources: ["mentions", "my_threads"]
       only_if_my_thread: true
