@@ -851,10 +851,18 @@ def run_actions_on_tweet(driver: webdriver.Chrome,
         elif action_l == 'comment':
             # 固定コメントがある場合のみ軽量投稿を、同一ページ上で最後に実行
             #（重いスレッド解析やページ再読み込みは行わない）
-            # UI検出で既に自アカウントの返信がある場合はスキップ（要素ベースの済/未）
+            # 二重チェック: UI検出とログベースの冪等性チェック
             if states.get('commented'):
                 logging.info(f"[comment-light] 既に返信済み（UI検出）: {tweet_id}")
+                # UI検出でコメント済みの場合もログに記録
+                record_action_log(account_id, tweet_id, 'comment', 'skipped', meta='ui_detected')
                 continue
+            
+            # ログベースの冪等性チェック（ファイルベースの重複防止）
+            if has_action_log(account_id, tweet_id, 'comment'):
+                logging.info(f"[comment-light] skip by action log: {tweet_id}")
+                continue
+                
             used = count_actions_last_hours(account_id, 'comment', hours=1)
             limit = int(rate_limits.get('comment_per_hour', 0))
             if limit > 0 and used >= limit:
@@ -866,6 +874,14 @@ def run_actions_on_tweet(driver: webdriver.Chrome,
             if not reply_text:
                 logging.info("[comment-light] fixed_comment / greet:auto 未設定のためスキップ")
                 continue
+            
+            # コメント実行前にも再度UI状態をチェック（ページ更新等による状態変化に対応）
+            current_states = _detect_existing_actions_via_ui(driver)
+            if current_states.get('commented'):
+                logging.info(f"[comment-light] コメント直前UI再チェックで返信済み検出: {tweet_id}")
+                record_action_log(account_id, tweet_id, 'comment', 'skipped', meta='ui_recheck')
+                continue
+                
             _post_comment_light_on_current_page(driver, tweet_id, reply_text, dry_run=dry_run, account_id=account_id)
             time.sleep(min_interval)
         else:

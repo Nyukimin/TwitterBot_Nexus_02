@@ -439,7 +439,8 @@ def run_for_account(acct: Dict[str, Any], live_run: bool, hours: int | None) -> 
             if features.get('like', False):
                 action_like(driver, rows, policies, rate_limits, account_id=account_id, dry_run=is_dry_run)
             if features.get('comment', False):
-                action_comment(driver, rows, policies, rate_limits, account_id=account_id, dry_run=is_dry_run)
+                # アカウント設定を渡す（comment_config等）
+                action_comment(driver, rows, policies, rate_limits, account_id=account_id, dry_run=is_dry_run, account_config=account_config)
             if features.get('bookmark', False):
                 action_bookmark(driver, rows, policies, rate_limits, account_id=account_id, dry_run=is_dry_run)
             if features.get('retweet', False):

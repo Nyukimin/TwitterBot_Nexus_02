@@ -1,224 +1,301 @@
-import argparse
-import logging
-import os
-import subprocess
-import time
-import yaml
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+Twitterログイン支援ツール - fixed_chromeディレクトリの固定Chromeを使用
 
+WebDriverManagerを使わず、fixed_chrome/chromeとfixed_chrome/chromedriverを使用します。
+"""
+
+import os
+import sys
+import time
+import logging
+import argparse
+import subprocess
+import psutil
+import glob
+import shutil
+from pathlib import Path
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from webdriver_manager.chrome import ChromeDriverManager
+from selenium.common.exceptions import TimeoutException
+
+# プロファイルロック管理
 from .profile_lock import ProfileLock
 
+# ログ設定
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
-
-def cleanup_chrome_processes_for_profile(profile_dir=None):
-    """特定のプロファイルを使用しているChromeプロセスのみを終了"""
-    try:
-        import psutil
-        
-        if profile_dir:
-            abs_profile_path = os.path.normpath(os.path.abspath(profile_dir)).lower()
-            logging.info(f"プロファイル {profile_dir} を使用しているChromeプロセスを確認中...")
-        else:
-            logging.info("全てのChromeプロセスを確認中...")
-            
-        killed_pids = []
-        
-        # 実行中の全プロセスをチェック
-        for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
-            try:
-                if proc.info['name'] and 'chrome' in proc.info['name'].lower():
-                    cmdline = proc.info['cmdline'] or []
-                    
-                    # 特定プロファイル指定時は該当プロファイルのみ終了
-                    if profile_dir:
-                        profile_found = False
-                        for arg in cmdline:
-                            if '--user-data-dir=' in arg:
-                                arg_path = os.path.normpath(arg.replace('--user-data-dir=', '')).lower()
-                                if abs_profile_path in arg_path:
-                                    profile_found = True
-                                    break
-                        
-                        if profile_found:
-                            logging.info(f"プロファイル {profile_dir} を使用中のChrome PID {proc.info['pid']} を終了します")
-                            proc.terminate()
-                            killed_pids.append(proc.info['pid'])
-                    else:
-                        # プロファイル指定なしの場合は全Chrome終了（従来動作）
-                        logging.info(f"Chrome PID {proc.info['pid']} を終了します")
-                        proc.terminate()
-                        killed_pids.append(proc.info['pid'])
-                        
-            except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-                continue
-        
-        if killed_pids:
-            logging.info(f"{len(killed_pids)}個のChromeプロセスを終了しました: {killed_pids}")
-            time.sleep(2)  # プロセス終了完了まで待機
-            
-            # 強制終了が必要なプロセスをチェック
-            force_kill_count = 0
-            for proc in psutil.process_iter(['pid', 'name']):
-                try:
-                    if proc.info['name'] and 'chrome' in proc.info['name'].lower() and proc.info['pid'] in killed_pids:
-                        logging.warning(f"Chrome PID {proc.info['pid']} を強制終了します")
-                        proc.kill()
-                        force_kill_count += 1
-                except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-                    continue
-                    
-            if force_kill_count > 0:
-                time.sleep(1)
-        else:
-            if profile_dir:
-                logging.info(f"プロファイル {profile_dir} を使用中のChromeプロセスは見つかりませんでした")
-            else:
-                logging.info("終了対象のChromeプロセスは見つかりませんでした")
-                
-    except ImportError:
-        logging.warning("psutilがインストールされていないため、従来の方法で全Chromeプロセスを終了します")
-        # psutilが使えない場合のフォールバック
-        try:
-            result = subprocess.run(['tasklist', '/FI', 'IMAGENAME eq chrome.exe'],
-                                  capture_output=True, text=True, shell=True)
-            if result.returncode == 0 and 'chrome.exe' in result.stdout:
-                subprocess.run(['taskkill', '/F', '/IM', 'chrome.exe'],
-                             capture_output=True, text=True, shell=True)
-                logging.info("全Chromeプロセスを終了しました（プロファイル選択不可）")
-                time.sleep(2)
-        except Exception:
-            pass
-    except Exception as e:
-        logging.warning(f"Chromeプロセス確認・終了処理でエラー: {e}")
-
-
-def cleanup_chrome_processes():
-    """下位互換性のため維持（全Chrome終了）"""
-    cleanup_chrome_processes_for_profile(None)
-
-
-def load_accounts(cfg_path: str):
-    with open(cfg_path, 'r', encoding='utf-8') as f:
-        data = yaml.safe_load(f) or {}
-    return data.get('accounts', [])
-
-
-def open_login_with_prefill(handle: str, profile_dir: str) -> None:
-    # このプロファイルを使用しているChromeプロセスのみを事前終了
-    cleanup_chrome_processes_for_profile(profile_dir)
+class FixedChromeLoginAssist:
+    """fixed_chromeディレクトリの固定Chromeを使用するログイン支援クラス"""
     
-    options = Options()
-    abs_profile = os.path.abspath(profile_dir)
-    os.makedirs(abs_profile, exist_ok=True)
-    options.add_argument(f"--user-data-dir={abs_profile}")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--disable-gpu")
-    options.add_argument("--disable-extensions")
-    options.add_argument("--no-first-run")
-    options.add_argument("--no-default-browser-check")
-    options.add_argument("--remote-debugging-port=0")
-    try:
-        options.add_experimental_option('excludeSwitches', ['enable-automation', 'enable-logging'])
-        options.add_experimental_option('useAutomationExtension', False)
-    except Exception:
-        pass
-
-    abs_profile = os.path.abspath(profile_dir)
-    lock = None
-    service = None
-    driver = None
-    # 以降のどの失敗でも lock/driver を解放するために、単一の try/finally で囲む
-    try:
-        # 同一プロファイル多重起動の衝突を防止
-        lock = ProfileLock(abs_profile, timeout_seconds=180)
-        if not lock.acquire():
-            logging.error(f"[profile-lock] ロック取得に失敗: {abs_profile}")
-            return
-
-        service = Service(ChromeDriverManager().install())
-        driver = webdriver.Chrome(service=service, options=options)
-
-        # 視認用の案内ページ
-        html = f"""
-        <html><body style='font-family: sans-serif'>
-          <h1>このウィンドウは @{handle} のログイン用です</h1>
-          <p>続いてXのログイン画面に移動し、ユーザー名欄にハンドルをセットします。</p>
-        </body></html>
-        """
-        driver.get("data:text/html;charset=utf-8," + html)
-        time.sleep(1.5)
-
-        driver.get("https://x.com/login")
-        wait = WebDriverWait(driver, 30)
-        # ユーザー名入力欄の検出とプレフィル（name="text" or autocomplete="username"）
-        locator_candidates = [
-            (By.NAME, "text"),
-            (By.CSS_SELECTOR, "input[autocomplete='username']"),
-            (By.CSS_SELECTOR, "input[type='text']")
-        ]
-        filled = False
-        for by, sel in locator_candidates:
-            try:
-                input_elem = wait.until(EC.presence_of_element_located((by, sel)))
-                if input_elem:
-                    input_elem.clear()
-                    input_elem.send_keys(handle)
-                    filled = True
-                    break
-            except Exception:
-                continue
-        if filled:
-            logging.info(f"@{handle}: ログインユーザー名をセットしました。パスワード入力・2FAなどを完了してください。")
-        else:
-            logging.info(f"@{handle}: ログイン入力欄の検出に失敗。手動で入力してください。")
-
-        input("続行するにはEnterキーを押してください（このアカウントのログイン完了後）。")
-    finally:
+    def __init__(self):
+        self.driver = None
+        self.profile_lock = None
+        
+        # プロジェクトルートディレクトリを取得
+        self.project_root = Path(__file__).parent.parent
+        
+        # fixed_chromeディレクトリのパス
+        self.fixed_chrome_dir = self.project_root / "fixed_chrome"
+        self.chrome_binary_path = self.fixed_chrome_dir / "chrome" / "chrome.exe"
+        self.chromedriver_path = self.fixed_chrome_dir / "chromedriver" / "chromedriver.exe"
+        
+        # プロファイルディレクトリ
+        self.profiles_dir = self.project_root / "profile"
+        
+    def _validate_fixed_chrome_setup(self):
+        """fixed_chromeのセットアップ検証"""
+        if not self.chrome_binary_path.exists():
+            raise FileNotFoundError(
+                f"Chrome実行ファイルが見つかりません: {self.chrome_binary_path}\n"
+                f"fixed_chrome/chrome/chrome.exe が正しく配置されているか確認してください。"
+            )
+            
+        if not self.chromedriver_path.exists():
+            raise FileNotFoundError(
+                f"ChromeDriver実行ファイルが見つかりません: {self.chromedriver_path}\n"
+                f"fixed_chrome/chromedriver/chromedriver.exe が正しく配置されているか確認してください。"
+            )
+            
+        logger.info(f"固定Chromeセットアップ確認完了:")
+        logger.info(f"  Chrome: {self.chrome_binary_path}")
+        logger.info(f"  ChromeDriver: {self.chromedriver_path}")
+    
+    def _cleanup_profile_processes(self, profile_path: Path):
+        """プロファイル使用中のChromeプロセスをクリーンアップ"""
         try:
-            if driver:
-                driver.quit()
-        except Exception:
-            pass
-        finally:
-            try:
-                if lock:
-                    lock.release()
-            except Exception:
-                pass
+            logger.info(f"プロファイル {profile_path} を使用中のChromeプロセスを確認中...")
+            
+            killed_processes = []
+            profile_str = str(profile_path)
+            
+            for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
+                try:
+                    proc_info = proc.info
+                    if proc_info['name'] and 'chrome' in proc_info['name'].lower():
+                        cmdline = proc_info.get('cmdline')
+                        if cmdline and any(profile_str in arg for arg in cmdline):
+                            logger.info(f"プロファイル使用中のChromeプロセスを終了: PID {proc.pid}")
+                            proc.terminate()
+                            proc.wait(timeout=5)
+                            killed_processes.append(proc.pid)
+                except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.TimeoutExpired):
+                    continue
+            
+            if killed_processes:
+                logger.info(f"終了したプロセス: {killed_processes}")
+            else:
+                logger.info("プロファイル使用中のChromeプロセスは見つかりませんでした")
+                
+        except Exception as e:
+            logger.warning(f"プロセスクリーンアップ中のエラー: {e}")
+    
+    def _cleanup_profile_locks(self, profile_path: Path):
+        """プロファイルのロックファイルをクリーンアップ"""
+        try:
+            lock_patterns = [
+                profile_path / "Singleton*",
+                profile_path / "*.lock",
+                profile_path / "lockfile*",
+                profile_path / "Default" / "Singleton*",
+                profile_path / "Default" / "*.lock"
+            ]
+            
+            for pattern in lock_patterns:
+                for lock_file in glob.glob(str(pattern)):
+                    try:
+                        if os.path.exists(lock_file):
+                            if os.path.isfile(lock_file):
+                                os.remove(lock_file)
+                                logger.debug(f"ロックファイル削除: {lock_file}")
+                            elif os.path.isdir(lock_file):
+                                shutil.rmtree(lock_file, ignore_errors=True)
+                                logger.debug(f"ロックディレクトリ削除: {lock_file}")
+                    except Exception as e:
+                        logger.debug(f"ロックファイル削除失敗 {lock_file}: {e}")
+                        
+        except Exception as e:
+            logger.warning(f"ロックファイルクリーンアップ中のエラー: {e}")
 
+    def _setup_chrome_options(self, profile_name: str, headless: bool = False):
+        """Chrome起動オプションの設定（固定Chrome用）"""
+        options = Options()
+        
+        # 固定Chromeバイナリを指定
+        options.binary_location = str(self.chrome_binary_path)
+        
+        # プロファイル設定
+        profile_path = self.profiles_dir / profile_name
+        profile_path.mkdir(parents=True, exist_ok=True)
+        
+        # プロファイルクリーンアップ
+        self._cleanup_profile_processes(profile_path)
+        self._cleanup_profile_locks(profile_path)
+        
+        # 少し待機してからChromeを起動
+        time.sleep(1)
+        
+        options.add_argument(f"--user-data-dir={profile_path}")
+        options.add_argument("--profile-directory=Default")
+        
+        # プロファイル競合を避けるための追加オプション
+        options.add_argument("--disable-features=LockProfileData")
+        options.add_argument("--disable-features=ProcessSingletonLock")
+        options.add_argument("--remote-debugging-port=0")  # ランダムポート使用
+        
+        # ヘッドレス設定
+        if headless:
+            options.add_argument("--headless=new")
+            options.add_argument("--disable-gpu")
+        
+        # 基本設定
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--disable-blink-features=AutomationControlled")
+        options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        options.add_experimental_option('useAutomationExtension', False)
+        
+        # ウィンドウサイズ設定
+        options.add_argument("--window-size=1920,1080")
+        
+        # 通知やポップアップをブロック
+        prefs = {
+            "profile.default_content_setting_values": {
+                "notifications": 2,
+                "popups": 2
+            }
+        }
+        options.add_experimental_option("prefs", prefs)
+        
+        return options
+    
+    def start_login_assist(self, profile_name: str, headless: bool = False):
+        """ログイン支援を開始"""
+        try:
+            logger.info(f"=== @{profile_name} のログイン支援を開始 ===")
+            
+            # fixed_chromeセットアップの検証
+            self._validate_fixed_chrome_setup()
+            
+            # プロファイルロックの取得
+            profile_path = self.profiles_dir / profile_name
+            profile_path.mkdir(parents=True, exist_ok=True)
+            
+            self.profile_lock = ProfileLock(str(profile_path))
+            self.profile_lock.acquire()
+            
+            # Chrome起動オプション設定
+            options = self._setup_chrome_options(profile_name, headless)
+            
+            # ChromeDriverサービス設定（fixed_chromeを使用）
+            service = Service(str(self.chromedriver_path))
+            
+            logger.info("====== WebDriver manager ===\n====")
+            
+            # WebDriverを起動
+            logger.info(f"固定Chrome WebDriver起動中: {self.chromedriver_path}")
+            self.driver = webdriver.Chrome(service=service, options=options)
+            
+            # User-Agentを設定してボット検知を回避
+            self.driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+            
+            # Twitterログインページに移動
+            logger.info("Twitterログインページにアクセス中...")
+            self.driver.get("https://x.com/login")
+            
+            # ページの読み込み完了を待機
+            time.sleep(3)
+            
+            logger.info(f"@{profile_name}: ログインユーザー名をセットしました。パスワード入力・2FAなどを完了してください。")
+            logger.info("続行するにはEnterキーを押してください（このアカウントのログイン完了後）。")
+            
+            # ユーザーの入力を待機
+            input()
+            
+            logger.info("ログイン支援が完了しました。")
+            
+        except Exception as e:
+            logger.error(f"ログイン支援中にエラーが発生しました: {e}")
+            raise
+        finally:
+            self._cleanup()
+    
+    def _cleanup(self):
+        """リソースのクリーンアップ"""
+        try:
+            if self.driver:
+                self.driver.quit()
+                self.driver = None
+                
+            if self.profile_lock:
+                self.profile_lock.release()
+                self.profile_lock = None
+                
+        except Exception as e:
+            logger.warning(f"クリーンアップ中に警告: {e}")
+
+def load_account_config(config_path: str):
+    """アカウント設定ファイルを読み込み"""
+    import yaml
+    
+    if not os.path.exists(config_path):
+        raise FileNotFoundError(f"設定ファイルが見つかりません: {config_path}")
+    
+    with open(config_path, 'r', encoding='utf-8') as f:
+        config = yaml.safe_load(f)
+    
+    return config
 
 def main():
-    parser = argparse.ArgumentParser(description='Xログイン支援（ユーザー名プレフィル）')
-    parser.add_argument('--accounts', type=str, default='all', help='対象アカウント（id/handleのカンマ区切り）/ all')
-    parser.add_argument('--config', type=str, default=os.path.join('config', 'accounts.yaml'))
+    """メイン関数"""
+    parser = argparse.ArgumentParser(
+        description='Twitterログイン支援ツール（fixed_chrome使用）'
+    )
+    parser.add_argument(
+        '--config', 
+        required=True,
+        help='アカウント設定ファイルのパス（例: ./config/accounts_Maya19960330.yaml）'
+    )
+    parser.add_argument(
+        '--headless', 
+        action='store_true',
+        help='ヘッドレスモードで起動（デバッグ用、通常は使用しない）'
+    )
+    
     args = parser.parse_args()
+    
+    try:
+        # 設定ファイル読み込み
+        config = load_account_config(args.config)
+        
+        # アカウント名を設定ファイル名から推測
+        config_filename = Path(args.config).stem  # accounts_Maya19960330
+        if config_filename.startswith('accounts_'):
+            account_name = config_filename[9:]  # Maya19960330
+        else:
+            account_name = config_filename
+        
+        # ログイン支援を開始
+        assist = FixedChromeLoginAssist()
+        assist.start_login_assist(
+            profile_name=account_name,
+            headless=args.headless
+        )
+        
+    except KeyboardInterrupt:
+        logger.info("ユーザーによって中断されました")
+    except Exception as e:
+        logger.error(f"エラーが発生しました: {e}")
+        sys.exit(1)
 
-    accounts = load_accounts(args.config)
-    if args.accounts.lower() != 'all':
-        wanted = {s.strip().lower() for s in args.accounts.split(',')}
-        accounts = [a for a in accounts if str(a.get('id','')).lower() in wanted or str(a.get('handle','')).lower() in wanted]
-
-    for acct in accounts:
-        handle = acct.get('handle')
-        profile = (acct.get('browser') or {}).get('user_data_dir')
-        if not handle or not profile:
-            logging.warning(f"スキップ: handleまたはprofile未設定: {acct}")
-            continue
-        logging.info(f"=== @{handle} のログイン支援を開始 ===")
-        open_login_with_prefill(handle, profile)
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
-
-
-

@@ -2,6 +2,7 @@ import logging
 import time
 import pyperclip
 import re
+import random
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
@@ -11,7 +12,7 @@ from selenium import webdriver
 
 from ..db_stubs import record_action_log, has_action_log, count_actions_last_hours
 from .send_helpers import send_clipboard_paste_then_ctrl_enter
-from ..reply_processor import fetch_and_analyze_thread, generate_reply
+from ..reply_processor import fetch_and_analyze_thread, generate_reply, generate_new_tweet_reply
 from ..utils import get_random_interval
 
 
@@ -46,7 +47,7 @@ def _is_allowed_for_user(action: str, user_handle: str | None, policy: dict) -> 
     return True
 
 
-def run(driver: webdriver.Chrome, tweets: list[dict], policy: dict, rate_limits: dict, account_id: str, dry_run: bool) -> None:
+def run(driver: webdriver.Chrome, tweets: list[dict], policy: dict, rate_limits: dict, account_id: str, dry_run: bool, account_config: dict = None) -> None:
     """
     Comment(返信) アクションを実行する。
     tweets: { 'reply_id': str, ... } を含む辞書のリスト
@@ -54,6 +55,7 @@ def run(driver: webdriver.Chrome, tweets: list[dict], policy: dict, rate_limits:
     rate_limits: { 'comment_per_hour': int, 'min_interval_seconds': int }
     account_id: 実行アカウント識別子
     dry_run: ドライラン時は実行せずログのみ
+    account_config: アカウント専用設定（comment_config等）
     """
     comment_per_hour = int(rate_limits.get('comment_per_hour', 0))
     min_interval = int(rate_limits.get('min_interval_seconds', 0))
@@ -64,9 +66,9 @@ def run(driver: webdriver.Chrome, tweets: list[dict], policy: dict, rate_limits:
         if not tweet_id:
             continue
 
-        # 冪等性
+        # 冪等性チェック（ファイルベース）
         if has_action_log(account_id, tweet_id, 'comment'):
-            logging.info(f"[comment] skip by idempotency: {tweet_id}")
+            logging.info(f"[comment] skip by action log: {tweet_id}")
             continue
 
         # レート制御
@@ -128,16 +130,80 @@ def run(driver: webdriver.Chrome, tweets: list[dict], policy: dict, rate_limits:
             except Exception:
                 return None
 
-        if greet_cfg:
-            # 文字列で 'auto' 指定も許容
+        # Maya専用のcomment_config取得
+        comment_config = None
+        if account_config and 'comment_config' in account_config:
+            comment_config = account_config['comment_config']
+        
+        # 時間帯による優先度判定
+        hour = time.localtime().tm_hour
+        
+        def _get_time_based_priority(config: dict = None) -> dict:
+            """時間帯に応じた返信優先度を取得（Maya専用設定対応）"""
+            if config and 'time_schedule' in config:
+                schedule = config['time_schedule']
+                if 5 <= hour < 10:
+                    return schedule.get('morning', {'priority': 'greet', 'fallback': 'ai_content'})
+                elif 10 <= hour < 17:
+                    return schedule.get('day', {'priority': 'ai_content', 'fallback': 'greet'})
+                elif 17 <= hour < 22:
+                    return schedule.get('evening', {'priority': 'ai_content', 'fallback': 'simple'})
+                else:
+                    return schedule.get('night', {'priority': 'simple', 'fallback': 'greet'})
+            else:
+                # 従来のロジック（後方互換）
+                if 5 <= hour < 10:
+                    return {'priority': 'greet', 'fallback': 'ai_content'}
+                elif 10 <= hour < 17:
+                    return {'priority': 'ai_content', 'fallback': 'greet'}
+                elif 17 <= hour < 22:
+                    return {'priority': 'ai_content', 'fallback': 'simple'}
+                else:
+                    return {'priority': 'simple', 'fallback': 'greet'}
+        
+        time_config = _get_time_based_priority(comment_config)
+        
+        # comment_config設定に基づく処理
+        if ((comment_config and comment_config.get('default_priority') == 'time_based') or
+            (comment_priority == 'time_based') or
+            (isinstance(target_cfg, dict) and target_cfg.get('comment_config') == 'inherit')):
+            priority = time_config.get('priority', 'ai_content')
+            fallback = time_config.get('fallback', 'greet')
+            
+            if priority == 'greet' and greet_cfg:
+                # 挨拶を優先
+                if isinstance(greet_cfg, str) and greet_cfg.lower() == 'auto':
+                    detected_type = _detect_greeting_type(thread.get('current_reply_text', ''), thread.get('lang', 'und'))
+                    if detected_type:
+                        greeting = get_varied_greeting(account_id, current_replier, detected_type, GreetingTracker())
+                    else:
+                        time_greeting_map = {
+                            'morning': 'morning',
+                            'day': 'afternoon',
+                            'evening': 'evening',
+                            'night': 'night'
+                        }
+                        current_time = 'morning' if 5 <= hour < 10 else 'day' if 10 <= hour < 17 else 'evening' if 17 <= hour < 22 else 'night'
+                        greeting_type = time_greeting_map.get(current_time, 'afternoon')
+                        greeting = get_varied_greeting(account_id, current_replier, greeting_type, GreetingTracker())
+                    reply_text = f"{nickname}\n{greeting}" if nickname else greeting
+            elif priority == 'ai_content':
+                # AI返信を優先（後でgenerate_replyが呼ばれる）
+                pass
+            elif priority == 'new_tweet_content':
+                # 新規ツイート用AI応答（後でgenerate_new_tweet_replyが呼ばれる）
+                pass
+            elif priority == 'simple':
+                # シンプルな返信
+                simple_replies = ["おやすみ🩷", "お疲れさま🩷", "ゆっくり休んでね🩷"]
+                reply_text = f"{nickname}\n{random.choice(simple_replies)}" if nickname else random.choice(simple_replies)
+        elif greet_cfg:
+            # 従来の greet 設定処理（time_based以外）
             if isinstance(greet_cfg, str) and greet_cfg.lower() == 'auto':
-                # 新しい挨拶システムを使用
                 detected_type = _detect_greeting_type(thread.get('current_reply_text', ''), thread.get('lang', 'und'))
                 if detected_type:
                     greeting = get_varied_greeting(account_id, current_replier, detected_type, GreetingTracker())
                 else:
-                    # 時刻ベース判定
-                    hour = time.localtime().tm_hour
                     if 5 <= hour < 10:
                         greeting_type = 'morning'
                     elif 10 <= hour < 17:
@@ -177,9 +243,18 @@ def run(driver: webdriver.Chrome, tweets: list[dict], policy: dict, rate_limits:
         if not reply_text:
             reply_text = _build_fixed_reply_for_user(current_replier, policy)
 
-        # 3) ここまでで決まらなければ通常生成
+        # 3) ここまでで決まらなければ生成
         if not reply_text:
-            reply_text = generate_reply(thread, history=[])
+            # 新規ツイート応答の場合
+            if (comment_config and
+                comment_config.get('new_tweet_response', {}).get('enabled') and
+                time_config.get('priority') == 'new_tweet_content'):
+                # 新規ツイート用のAI応答を生成
+                tweet_text = thread.get('current_reply_text', '')
+                reply_text = generate_new_tweet_reply(tweet_text, thread.get('lang', 'ja'))
+            else:
+                # 通常の返信生成
+                reply_text = generate_reply(thread, history=[])
         if not reply_text:
             logging.info(f"[comment] no reply generated: {tweet_id}")
             continue
