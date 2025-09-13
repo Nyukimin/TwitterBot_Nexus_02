@@ -1,0 +1,603 @@
+{
+  "Maya19960330": {
+    "1958418062434267507": {
+      "retweet": {
+        "status": "success",
+        "timestamp": 1757731156,
+        "meta": "inline"
+      }
+    },
+    "1966277214917517808": {
+      "retweet": {
+        "status": "success",
+        "timestamp": 1757731218,
+        "meta": "inline"
+      }
+    },
+    "1966261721917755860": {
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757740092,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.80); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966607755315474817": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757732645,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757740162,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.80); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966678094129098802": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757732736,
+        "meta": "inline"
+      }
+    },
+    "1966617566752776512": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757732779,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757740239,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.80); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966630440669749451": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757732868,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757740363,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.80); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966618573368922397": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757732966,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757740492,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.80); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966445683226935714": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757733012,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757740518,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.80); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966698360037097864": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757733198,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757740684,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966607756980613132": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757733244,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757740710,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966624453733077098": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757733366,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757740857,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966490607465193734": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757733412,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757740786,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1964430222520176777": {
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757741000,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966620589910634724": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757733584,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757741026,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1962710320084087025": {
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757741170,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966701886683173066": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757733774,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757741197,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966698349660414207": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757733917,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757741269,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966622852318142726": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757733963,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757734038,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966626626671882407": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757734086,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757741372,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966259204693360969": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757734132,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757741397,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966640271686250844": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757734255,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757741592,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966439413967163423": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757734301,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757741708,
+        "meta": "no_input:on-current"
+      }
+    },
+    "1966070256641912993": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757734606,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757741811,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966698354517385460": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757734652,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757741785,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966597492679508264": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757734779,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757734874,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966223117967389177": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757734825,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757734900,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966630948692222440": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757734949,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757735045,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966396010193903628": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757734995,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757735070,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966617595500466581": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757735120,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757735215,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966485188411580557": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757735166,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757735241,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966703135402922261": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757735289,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757735385,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966669291702354368": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757735335,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757735411,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1965732382864257190": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757735459,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757735554,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966644267583238432": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757735505,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757735580,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966220948354511074": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757735624,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757735674,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1965251439875485768": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757735715,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757735765,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966603099692515379": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757735809,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757735858,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966245368653558034": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757735906,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757736002,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1965882980230115827": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757735952,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757736028,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1938955049692221867": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757736087,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757736182,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1938886338390143019": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757736133,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757736208,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1943895451490824703": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757736259,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757736355,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966698358203883627": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757736306,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757736380,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966698348599193678": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757736432,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757736526,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966607756749680953": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757736478,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757736552,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966601558201626911": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757736594,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757736643,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966607554378617142": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757736690,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757736785,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966698160085958828": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757736737,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757736810,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966700080490299675": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757739805,
+        "meta": "inline"
+      },
+      "retweet": {
+        "status": "success",
+        "timestamp": 1757739911,
+        "meta": "inline"
+      },
+      "bookmark": {
+        "status": "success",
+        "timestamp": 1757739845,
+        "meta": "inline"
+      }
+    },
+    "1966728603535589680": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757740314,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757740389,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.80); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    },
+    "1966733329182449798": {
+      "like": {
+        "status": "success",
+        "timestamp": 1757740809,
+        "meta": "inline"
+      },
+      "comment": {
+        "status": "failed",
+        "timestamp": 1757740832,
+        "meta": "light:on-current:Message: stale element reference: stale element not found in the current frame\n  (Session info: chrome=140.0.7339.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\n\tGetHandleVerifier [0x0x7ff6c7effca5+79861]\n\tGetHandleVerifier [0x0x7ff6c7effd00+79952]\n\t(No symbol) [0x0x7ff6c7c7cada]\n\t(No symbol) [0x0x7ff6c7c8461a]\n\t(No symbol) [0x0x7ff6c7c8770f]\n\t(No symbol) [0x0x7ff6c7c877cf]\n\t(No symbol) [0x0x7ff6c7cd53ca]\n\t(No symbol) [0x0x7ff6c7cd54a7]\n\t(No symbol) [0x0x7ff6c7ccab0c]\n\t(No symbol) [0x0x7ff6c7cfcada]\n\t(No symbol) [0x0x7ff6c7cc6bc6]\n\t(No symbol) [0x0x7ff6c7cfccf0]\n\t(No symbol) [0x0x7ff6c7d24f8b]\n\t(No symbol) [0x0x7ff6c7cfc8b3]\n\t(No symbol) [0x0x7ff6c7cc5272]\n\t(No symbol) [0x0x7ff6c7cc6043]\n\tGetHandleVerifier [0x0x7ff6c81bb9dd+2946349]\n\tGetHandleVerifier [0x0x7ff6c81b5c5a+2922410]\n\tGetHandleVerifier [0x0x7ff6c81d59e7+3052855]\n\tGetHandleVerifier [0x0x7ff6c7f1aa8e+189918]\n\tGetHandleVerifier [0x0x7ff6c7f22a2f+222591]\n\tGetHandleVerifier [0x0x7ff6c7f08ac4+116244]\n\tGetHandleVerifier [0x0x7ff6c7f08c79+116681]\n\tGetHandleVerifier [0x0x7ff6c7eef058+11176]\n\tBaseThreadInitThunk [0x0x7fffed36e8d7+23]\n\tRtlUserThreadStart [0x0x7fffee068d9c+44]\n"
+      }
+    }
+  }
+}

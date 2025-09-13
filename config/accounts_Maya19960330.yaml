@@ -23,6 +23,11 @@ accounts:
           fallback: greet
       ai_personality: maya
       response_style: friendly_casual
+      # 新規ツイート応答用設定
+      new_tweet_response:
+        enabled: true
+        priority: new_tweet_content
+        style: supportive_engaging
     policies:
       sources: ["mentions", "my_threads"]
       only_if_my_thread: true
@@ -46,8 +51,8 @@ accounts:
         top_n: 5
         dwell_seconds: 5
       per_target:
-        ren_ai_coach: { actions: [like, bookmark, retweet] }
-        zero_divide_00: { actions: [like, bookmark] }
+        ren_ai_coach: { actions: [like, bookmark, retweet, comment] }
+        zero_divide_00: { actions: [like, bookmark, comment] }
         285smzgcsq36129:
           actions: [like, comment]
           nickname: "七宝ちゃん"

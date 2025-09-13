@@ -12,7 +12,7 @@ from selenium import webdriver
 
 from ..db_stubs import record_action_log, has_action_log, count_actions_last_hours
 from .send_helpers import send_clipboard_paste_then_ctrl_enter
-from ..reply_processor import fetch_and_analyze_thread, generate_reply
+from ..reply_processor import fetch_and_analyze_thread, generate_reply, generate_new_tweet_reply
 from ..utils import get_random_interval
 
 
@@ -190,6 +190,9 @@ def run(driver: webdriver.Chrome, tweets: list[dict], policy: dict, rate_limits:
             elif priority == 'ai_content':
                 # AI返信を優先（後でgenerate_replyが呼ばれる）
                 pass
+            elif priority == 'new_tweet_content':
+                # 新規ツイート用AI応答（後でgenerate_new_tweet_replyが呼ばれる）
+                pass
             elif priority == 'simple':
                 # シンプルな返信
                 simple_replies = ["おやすみ🩷", "お疲れさま🩷", "ゆっくり休んでね🩷"]
@@ -240,9 +243,18 @@ def run(driver: webdriver.Chrome, tweets: list[dict], policy: dict, rate_limits:
         if not reply_text:
             reply_text = _build_fixed_reply_for_user(current_replier, policy)
 
-        # 3) ここまでで決まらなければ通常生成
+        # 3) ここまでで決まらなければ生成
         if not reply_text:
-            reply_text = generate_reply(thread, history=[])
+            # 新規ツイート応答の場合
+            if (comment_config and
+                comment_config.get('new_tweet_response', {}).get('enabled') and
+                time_config.get('priority') == 'new_tweet_content'):
+                # 新規ツイート用のAI応答を生成
+                tweet_text = thread.get('current_reply_text', '')
+                reply_text = generate_new_tweet_reply(tweet_text, thread.get('lang', 'ja'))
+            else:
+                # 通常の返信生成
+                reply_text = generate_reply(thread, history=[])
         if not reply_text:
             logging.info(f"[comment] no reply generated: {tweet_id}")
             continue

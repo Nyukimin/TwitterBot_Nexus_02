@@ -16,8 +16,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from .config import (
-    GEMINI_API_KEY, MAYA_PERSONALITY_PROMPT, THANK_YOU_PHRASES, 
-    REPLY_RULES_PROMPT, GEMINI_MODEL_NAME
+    GEMINI_API_KEY, MAYA_PERSONALITY_PROMPT, THANK_YOU_PHRASES,
+    REPLY_RULES_PROMPT, GEMINI_MODEL_NAME, NEW_TWEET_RESPONSE_PROMPT, NEW_TWEET_RULES_PROMPT
 )
 from .utils import setup_driver
 from .reply_detection_unified import detect_reply_unified
@@ -995,6 +995,58 @@ def generate_reply(thread_data: dict, history: list) -> str:
 
     except Exception as e:
         logging.error(f"Gemini API呼び出し中にエラー: {e}")
+        return ""
+
+
+def generate_new_tweet_reply(tweet_content: str, lang: str = 'ja') -> str:
+    """
+    新規ツイートに対するコメントを生成します。
+    """
+    if not tweet_content or not tweet_content.strip():
+        return ""
+    
+    # 不適切な内容のチェック（簡易）
+    inappropriate_keywords = ['政治', '宗教', '差別', '批判', '攻撃', '暴力']
+    if any(keyword in tweet_content for keyword in inappropriate_keywords):
+        logging.info("[generate_new_tweet_reply] Inappropriate content detected, skipping")
+        return ""
+    
+    # プロンプト生成
+    prompt_parts = [
+        NEW_TWEET_RESPONSE_PROMPT,
+        "あなたは以下のツイートに対してコメントします。内容を読んで適切なコメントを生成してください。",
+        "--- ツイート内容 ---",
+        tweet_content,
+        "--------------------",
+        NEW_TWEET_RULES_PROMPT
+    ]
+    
+    prompt = "\n\n".join(prompt_parts)
+    
+    try:
+        model = genai.GenerativeModel(model_name=GEMINI_MODEL_NAME)
+        response = model.generate_content(prompt)
+        
+        if not response or not response.text:
+            logging.warning("[generate_new_tweet_reply] No response from AI")
+            return ""
+        
+        reply = response.text.strip()
+        
+        # 基本的なクリーニング
+        reply = clean_generated_text(reply)
+        reply = format_reply(reply, lang)
+        
+        # 空文字列や不適切な応答の場合はスキップ
+        if not reply or len(reply) < 3:
+            logging.info("[generate_new_tweet_reply] Generated reply too short or empty")
+            return ""
+        
+        logging.info(f"[generate_new_tweet_reply] Generated new tweet comment: {reply}")
+        return reply
+        
+    except Exception as e:
+        logging.error(f"[generate_new_tweet_reply] Error generating reply: {e}")
         return ""
 
 # --- パイプライン実行関数 ---
