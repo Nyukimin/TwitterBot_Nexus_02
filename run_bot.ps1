@@ -9,7 +9,7 @@ param(
 
 # ===== 基本設定 =====
 $ErrorActionPreference = 'Stop'
-$Hours   = 24
+# $Hours   = 24
 $LiveRun = $true
 
 # 作業ディレクトリ固定（タスクスケジューラ対策）
@@ -53,8 +53,14 @@ function Stop-ProcsUsingProfile($prof, $logFile) {
     if ($busyChrome) { Add-Content -LiteralPath $logFile -Value ($busyChrome | Select ProcessId, Name, CommandLine | Format-List | Out-String) -Encoding utf8 }
     if ($busyDriver) { Add-Content -LiteralPath $logFile -Value ($busyDriver | Select ProcessId, Name, CommandLine | Format-List | Out-String) -Encoding utf8 }
 
-    $busyChrome | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }
-    $busyDriver | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }
+    $busyChrome | ForEach-Object {
+      try { Stop-Process -Id $_.ProcessId -Force -ErrorAction Stop }
+      catch { Write-Host "Process $($_.ProcessId) already terminated" }
+    }
+    $busyDriver | ForEach-Object {
+      try { Stop-Process -Id $_.ProcessId -Force -ErrorAction Stop }
+      catch { Write-Host "Process $($_.ProcessId) already terminated" }
+    }
   }
 }
 
@@ -95,36 +101,84 @@ try {
   if ($LiveRun) { $pyArgs += '--live-run' }
   if ($Hours) { $pyArgs += @('--hours', $Hours) }
 
-  # ===== 実行：Start-Process で標準出力／標準エラーを確実に捕捉 =====
+  # ===== 実行：標準出力／標準エラーを確実に捕捉 =====
+  Write-Host "[$timestamp] Starting Python process..."
+  Add-Content -LiteralPath $logFile -Value "[$(Get-Date -Format yyyyMMdd_HHmmss)] Python process started" -Encoding utf8
+  Add-Content -LiteralPath $logFile -Value "Command: $PythonExe $($pyArgs -join ' ')" -Encoding utf8
+
   $tmpDir    = Join-Path $env:TEMP "reply_bot_$timestamp"
   New-Item -ItemType Directory -Path $tmpDir | Out-Null
   $stdoutTmp = Join-Path $tmpDir "stdout.txt"
   $stderrTmp = Join-Path $tmpDir "stderr.txt"
 
+  # プロセスを開始し、リアルタイムで進捗表示
+  Write-Host "[$timestamp] Executing Python command..."
+  Write-Host "Command: $PythonExe $($pyArgs -join ' ')"
+  
   $proc = Start-Process -FilePath $PythonExe `
                         -ArgumentList $pyArgs `
                         -RedirectStandardOutput $stdoutTmp `
                         -RedirectStandardError  $stderrTmp `
-                        -NoNewWindow -PassThru -Wait
+                        -NoNewWindow -PassThru
+
+  # プロセス完了まで監視しながら待機
+  $lastOutputTime = Get-Date
+  while (-not $proc.HasExited) {
+    Start-Sleep -Seconds 5
+    $currentTime = Get-Date
+    $elapsedMinutes = [math]::Round(($currentTime - $lastOutputTime).TotalMinutes, 1)
+    Write-Host "[$((Get-Date).ToString('HH:mm:ss'))] Process running... (elapsed: $elapsedMinutes min)"
+    
+    # 進捗確認のため、ログファイルサイズを表示
+    if (Test-Path $stdoutTmp) {
+      $size = [math]::Round((Get-Item $stdoutTmp).Length / 1KB, 1)
+      Write-Host "  STDOUT: $size KB"
+    }
+    if (Test-Path $stderrTmp) {
+      $size = [math]::Round((Get-Item $stderrTmp).Length / 1KB, 1)
+      Write-Host "  STDERR: $size KB"
+    }
+  }
 
   $exitCode = $proc.ExitCode
+  Write-Host "[$timestamp] Python process completed (ExitCode: $exitCode)"
+  Add-Content -LiteralPath $logFile -Value "[$(Get-Date -Format yyyyMMdd_HHmmss)] Python process completed" -Encoding utf8
 
   # ===== ログへまとめて追記（UTF-8）=====
   if (Test-Path $stdoutTmp) {
     Add-Content -LiteralPath $logFile -Value "=== STDOUT ===" -Encoding utf8
-    Add-Content -LiteralPath $logFile -Value (Get-Content -Path $stdoutTmp -Raw) -Encoding utf8
+    $content = Get-Content -Path $stdoutTmp -Encoding UTF8 -Raw
+    if ($content) {
+      # コンソールにも出力
+      Write-Host "=== STDOUT OUTPUT ==="
+      Write-Host $content
+      Add-Content -LiteralPath $logFile -Value $content -Encoding utf8
+    }
   }
   if (Test-Path $stderrTmp) {
     Add-Content -LiteralPath $logFile -Value "=== STDERR ===" -Encoding utf8
-    Add-Content -LiteralPath $logFile -Value (Get-Content -Path $stderrTmp -Raw) -Encoding utf8
+    $content = Get-Content -Path $stderrTmp -Encoding UTF8 -Raw
+    if ($content) {
+      # コンソールにも出力
+      Write-Host "=== STDERR OUTPUT ===" -ForegroundColor Yellow
+      Write-Host $content -ForegroundColor Yellow
+      Add-Content -LiteralPath $logFile -Value $content -Encoding utf8
+    }
   }
 
   Add-Content -LiteralPath $logFile -Value "ExitCode=$exitCode" -Encoding utf8
 
 } finally {
   if ($mutex) { $mutex.ReleaseMutex(); $mutex.Dispose() }
-  # 一時ファイル削除（ログは残す）
-  if ($tmpDir -and (Test-Path $tmpDir)) { Remove-Item -LiteralPath $tmpDir -Recurse -Force -ErrorAction SilentlyContinue }
+  # プロセスのクリーンアップ
+  if ($proc -and -not $proc.HasExited) {
+    try { $proc.Kill() } catch { }
+  }
+  if ($proc) { $proc.Dispose() }
+  # Cleanup temporary files
+  if ($tmpDir -and (Test-Path $tmpDir)) {
+    Remove-Item -LiteralPath $tmpDir -Recurse -Force -ErrorAction SilentlyContinue
+  }
 }
 
 # 終了タイムスタンプ
