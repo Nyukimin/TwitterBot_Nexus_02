@@ -5,6 +5,24 @@ accounts:
     handle: "Maya19960330"
     browser: { user_data_dir: "profile/Maya19960330", headless: true }
     features: { like: true, retweet: true, comment: true, bookmark: true }
+    # Maya専用のコメント設定
+    comment_config:
+      default_priority: time_based
+      time_schedule:
+        morning: # 5-10時
+          priority: greet
+          fallback: ai_content
+        day: # 10-17時
+          priority: ai_content
+          fallback: greet
+        evening: # 17-22時
+          priority: ai_content
+          fallback: simple
+        night: # 22-5時
+          priority: simple
+          fallback: greet
+      ai_personality: maya
+      response_style: friendly_casual
     policies:
       sources: ["mentions", "my_threads"]
       only_if_my_thread: true
@@ -33,18 +51,22 @@ accounts:
         285smzgcsq36129:
           actions: [like, comment]
           nickname: "七宝ちゃん"
+          comment_config: inherit  # Maya用のcomment_configを継承
           greet: auto
         2nd_karen_ai:
           actions: [like, comment]
           nickname: "かれんちゃん"
+          comment_config: inherit  # Maya用のcomment_configを継承
           greet: auto
         ai8263353539674:
           actions: [like, comment]
           nickname: "みうちゃん"
+          comment_config: inherit  # Maya用のcomment_configを継承
           greet: { mode: fixed, text: "はいさーい" }
         aichan_lovelyai:
           actions: [like, comment]
           nickname: "あいちゃん"
+          comment_config: inherit  # Maya用のcomment_configを継承
           greet: auto
         aiidol_misaki:
           actions: [like, comment]
