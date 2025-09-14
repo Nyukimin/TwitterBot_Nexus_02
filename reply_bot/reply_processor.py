@@ -881,7 +881,7 @@ def self_check_reply(
 
 # --- 返信生成メインロジック ---
 
-def generate_reply(thread_data: dict, history: list) -> str:
+def generate_reply(thread_data: dict, history: list, account_config: dict = None) -> str:
     """
     解析されたスレッド情報に基づき、適切な返信文を生成します。
     この関数が呼ばれる時点で、返信対象であることは確定している前提。
@@ -925,8 +925,33 @@ def generate_reply(thread_data: dict, history: list) -> str:
 
     # --- プロンプト生成 ---
     logging.info(f"AIへの入力（会話履歴）:\n---\n{conversation}\n---")
+    
+    # YAML設定からPERSONALITY_PROMPTとカスタムプロンプトを取得
+    base_personality = MAYA_PERSONALITY_PROMPT
+    reply_prompt = None
+    
+    if account_config:
+        # PERSONALITY_PROMPTを取得
+        personality_prompt = account_config.get('PERSONALITY_PROMPT', '')
+        # reply_promptを取得
+        reply_prompt = account_config.get('reply_prompt', account_config.get('personality_prompt'))
+        
+        if personality_prompt and reply_prompt:
+            # {PERSONALITY_PROMPT}を実際の内容に置換
+            full_prompt = reply_prompt.replace('{PERSONALITY_PROMPT}', personality_prompt)
+            logging.info(f"PERSONALITY_PROMPT + カスタムreply_promptを使用: {account_config.get('id', 'unknown')}")
+        elif reply_prompt:
+            full_prompt = reply_prompt
+            logging.info(f"カスタムreply_promptを使用: {account_config.get('id', 'unknown')}")
+        else:
+            full_prompt = base_personality
+            logging.info("デフォルトのMAYA_PERSONALITY_PROMPTを使用")
+    else:
+        full_prompt = base_personality
+        logging.info("デフォルトのMAYA_PERSONALITY_PROMPTを使用")
+    
     prompt_parts = [
-        MAYA_PERSONALITY_PROMPT,
+        full_prompt,
         "あなたは以下の会話に参加しています。最後のファンからのリプライに返信してください。",
         "--- これまでの会話 ---",
         conversation,
@@ -1011,9 +1036,29 @@ def generate_new_tweet_reply(tweet_content: str, lang: str = 'ja') -> str:
         logging.info("[generate_new_tweet_reply] Inappropriate content detected, skipping")
         return ""
     
-    # プロンプト生成
+    # プロンプト生成（新規ツイート応答用） - PERSONALITY_PROMPT付加
+    base_new_tweet_prompt = NEW_TWEET_RESPONSE_PROMPT
+    
+    if account_config:
+        personality_prompt = account_config.get('PERSONALITY_PROMPT', '')
+        reply_prompt = account_config.get('reply_prompt', account_config.get('personality_prompt'))
+        
+        if personality_prompt and reply_prompt:
+            # 新規ツイート応答用にPERSONALITY_PROMPT + reply_promptを使用
+            full_prompt = reply_prompt.replace('{PERSONALITY_PROMPT}', personality_prompt)
+            logging.info(f"新規ツイート応答でPERSONALITY_PROMPT + reply_promptを使用: {account_config.get('id', 'unknown')}")
+        elif reply_prompt:
+            full_prompt = reply_prompt
+            logging.info(f"新規ツイート応答でreply_promptを使用: {account_config.get('id', 'unknown')}")
+        else:
+            full_prompt = base_new_tweet_prompt
+            logging.info("新規ツイート応答でデフォルトのNEW_TWEET_RESPONSE_PROMPTを使用")
+    else:
+        full_prompt = base_new_tweet_prompt
+        logging.info("新規ツイート応答でデフォルトのNEW_TWEET_RESPONSE_PROMPTを使用")
+    
     prompt_parts = [
-        NEW_TWEET_RESPONSE_PROMPT,
+        full_prompt,
         "あなたは以下のツイートに対してコメントします。内容を読んで適切なコメントを生成してください。",
         "--- ツイート内容 ---",
         tweet_content,
@@ -1051,7 +1096,7 @@ def generate_new_tweet_reply(tweet_content: str, lang: str = 'ja') -> str:
 
 # --- パイプライン実行関数 ---
 
-def main_process(driver: webdriver.Chrome, input_csv: str, limit: int = None) -> str | None:
+def main_process(driver: webdriver.Chrome, input_csv: str, limit: int = None, account_config: dict = None) -> str | None:
     logging.info(f"'{input_csv}' の処理を開始します...")
     try:
         df = pd.read_csv(input_csv)
@@ -1078,7 +1123,7 @@ def main_process(driver: webdriver.Chrome, input_csv: str, limit: int = None) ->
             # --- 返信生成の判断 ---
             # 自分のスレッドで、かつスキップ対象でない場合のみ返信生成を試みる
             if thread_data and not thread_data["should_skip"] and thread_data.get("is_my_thread", False):
-                generated_reply = generate_reply(thread_data, generated_replies_history)
+                generated_reply = generate_reply(thread_data, generated_replies_history, account_config)
                 df.loc[index, 'generated_reply'] = generated_reply
                 
                 if generated_reply:

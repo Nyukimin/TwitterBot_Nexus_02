@@ -4,7 +4,29 @@ accounts:
   - id: fortune19980330
     handle: "fortune19980330"
     browser: { user_data_dir: "profile/fortune19980330", headless: true }
-    features: { like: true, retweet: true, comment: true, bookmark: true }
+    features: { like: true, retweet: true, comment: true, bookmark: true, tweet: true }
+    
+    # 星座別恋愛運機能設定
+    love_fortune_config:
+      enabled: true
+      schedule:
+        - time: "07:00"
+          days: ["all"]
+          ai_generate:
+            enabled: true
+            prompt: "今日の惑星配置から各星座の恋愛運を分析し、特に{zodiac_sign}の人への恋愛アドバイスを生成してください。恋人がいる人とシングルの人の両方に向けて、今日の恋愛エネルギー、注意点、ラッキーアクション、相性の良い星座について具体的で前向きなアドバイスを温かい言葉で表現してください。"
+            max_length: 140
+            source: "zodiac_love_fortune"
+            target_signs: ["牡羊座", "牡牛座", "双子座", "蟹座", "獅子座", "乙女座", "天秤座", "蠍座", "射手座", "山羊座", "水瓶座", "魚座"]
+        - time: "15:00"
+          days: ["all"]
+          ai_generate:
+            enabled: true
+            prompt: "午後の時間帯における今日の恋愛運を{zodiac_sign}の人に向けて解釈してください。午後から夕方にかけての恋愛エネルギーの変化、デートや告白に適した時間、パートナーとのコミュニケーションのコツについて、恋愛運の専門家として優しくアドバイスしてください。"
+            max_length: 140
+            source: "zodiac_love_fortune"
+            target_signs: ["牡羊座", "牡牛座", "双子座", "蟹座", "獅子座", "乙女座", "天秤座", "蠍座", "射手座", "山羊座", "水瓶座", "魚座"]
+    
     policies:
       sources: ["mentions", "my_threads"]
       only_if_my_thread: true

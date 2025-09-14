@@ -423,7 +423,7 @@ def run_for_account(acct: Dict[str, Any], live_run: bool, hours: int | None) -> 
                 return
 
             logging.info("[解析] スレッド解析と返信生成を開始します。")
-            processed_csv = reply_processor_main(driver, extracted_csv)
+            processed_csv = reply_processor_main(driver, extracted_csv, account_config=account_config)
             if not processed_csv or not os.path.exists(processed_csv):
                 logging.warning("解析フェーズで処理済みCSVの生成が確認できませんでした。投稿フェーズをスキップします。")
                 return
