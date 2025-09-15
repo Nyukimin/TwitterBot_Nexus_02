@@ -21,6 +21,16 @@ sys.path.insert(0, str(project_root))
 
 import google.generativeai as genai
 
+# テキスト処理機能をインポート
+try:
+    from shared_modules.text_processing import extract_emotional_content
+except ImportError:
+    # フォールバック用の簡易実装
+    import re
+    def extract_emotional_content(text: str) -> str:
+        pattern = r'^今日は.*?。'
+        return re.sub(pattern, '', text, count=1).strip()
+
 class AstroCalculator:
     """占星術計算エンジン（共通）"""
     
@@ -134,7 +144,8 @@ class GeminiInterpreter:
             raise ValueError("Gemini APIキーが見つかりません")
     
     def generate_interpretation(self, prompt_template: str, planet_data: Dict,
-                             interpretation_type: str = "transit", personality_prompt: str = "") -> str:
+                             interpretation_type: str = "transit", personality_prompt: str = "", 
+                             extract_emotional_only: bool = False) -> str:
         """占星術解釈を生成 - PERSONALITY_PROMPT対応"""
         
         # 惑星位置をテキスト化
@@ -171,7 +182,11 @@ class GeminiInterpreter:
             
             # セーフティフィルターチェック
             if response.candidates and response.candidates[0].content and response.candidates[0].content.parts:
-                return response.text
+                result_text = response.text
+                # 感情的内容のみを抽出する場合
+                if extract_emotional_only:
+                    result_text = extract_emotional_content(result_text)
+                return result_text
             else:
                 # セーフティフィルターまたはエラーで内容が生成されなかった場合
                 finish_reason = response.candidates[0].finish_reason if response.candidates else 'UNKNOWN'

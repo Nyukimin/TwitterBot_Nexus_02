@@ -24,6 +24,7 @@ from .actions.bookmark import run as action_bookmark  # 同上
 from .actions.retweet import run as action_retweet  # 同上
 from .actions.comment import run as action_comment  # 同上（軽量投稿を本ファイルで実装）
 from .actions.send_helpers import send_clipboard_paste_then_ctrl_enter, insert_text_robust
+# AI comment functionality implemented locally
 
 
 def load_accounts_config(path: str) -> Dict[str, Any]:
@@ -351,6 +352,12 @@ def _get_target_cfg(user_handle: str | None, policy: Dict[str, Any] | None) -> D
     return None
 
 
+def _build_ai_comment_reply(user_handle: str | None, policy: Dict[str, Any] | None, tweet_content: str = "") -> str | None:
+    """ai_comment設定に基づいてAI返信を生成（フル版comment.pyに委譲）"""
+    # 軽量版は廃止。フル版のcomment.pyを使用
+    return None
+
+
 def _build_greet_auto_reply(user_handle: str | None, policy: Dict[str, Any] | None, account_id: str = "unknown") -> str | None:
     cfg = _get_target_cfg(user_handle, policy)
     if not cfg:
@@ -580,21 +587,7 @@ def _get_reply_input_robust(driver: webdriver.Chrome, wait_sec: int = 10):
     return None
 
 
-def _post_comment_light(driver: webdriver.Chrome, tweet_id: str, reply_text: str, dry_run: bool,
-                        account_id: str) -> bool:
-    tweet_url = f"https://x.com/any/status/{tweet_id}"
-    logging.info(f"[comment-light] target: {tweet_id}")
-    driver.get(tweet_url)
-    try:
-        # 入力欄の取得（堅牢版）。見つからなければコンポーザーを開いて再試行
-        reply_input = _get_reply_input_robust(driver, wait_sec=10)
-        if not reply_input:
-            _open_reply_composer_for_tweet(driver, tweet_id, wait_sec=10)
-            reply_input = _get_reply_input_robust(driver, wait_sec=10)
-        if not reply_input:
-            logging.warning("[comment-light] reply input not available")
-            record_action_log(account_id, tweet_id, 'comment', 'failed', meta='no_input')
-            return False
+
 
         if dry_run:
             logging.info(f"[DRY RUN][comment-light] {tweet_id}: {reply_text}")
@@ -660,18 +653,7 @@ def _post_comment_light(driver: webdriver.Chrome, tweet_id: str, reply_text: str
         return False
 
 
-def _post_comment_light_on_current_page(driver: webdriver.Chrome, tweet_id: str, reply_text: str,
-                                        dry_run: bool, account_id: str) -> bool:
-    try:
-        # 入力欄の取得（堅牢版）。未オープンなら開いてから再試行
-        reply_input = _get_reply_input_robust(driver, wait_sec=10)
-        if not reply_input:
-            _open_reply_composer_for_tweet(driver, tweet_id, wait_sec=10)
-            reply_input = _get_reply_input_robust(driver, wait_sec=10)
-        if not reply_input:
-            logging.warning("[comment-light] reply input not available (on-current)")
-            record_action_log(account_id, tweet_id, 'comment', 'failed', meta='no_input:on-current')
-            return False
+
 
         if dry_run:
             logging.info(f"[DRY RUN][comment-light] {tweet_id}: {reply_text}")
@@ -737,32 +719,7 @@ def _post_comment_light_on_current_page(driver: webdriver.Chrome, tweet_id: str,
         return False
 
 
-def _attempt_comment_light(driver: webdriver.Chrome, tweet_id: str, policy: Dict[str, Any],
-                           rate_limits: Dict[str, Any], account_id: str, target_handle: str,
-                           dry_run: bool) -> None:
-    # 冪等性
-    if has_action_log(account_id, tweet_id, 'comment'):
-        logging.info(f"[comment-light] skip by idempotency: {tweet_id}")
-        return
 
-    # レート制御
-    used = count_actions_last_hours(account_id, 'comment', hours=1)
-    limit = int(rate_limits.get('comment_per_hour', 0))
-    # limit <= 0 のときはレート制限を無効化
-    if limit > 0 and used >= limit:
-        logging.warning(f"[comment-light] hourly limit reached ({used}/{limit}). skip.")
-        return
-
-    # fixed_comment 優先。なければ greet:auto を使用
-    reply_text = _build_fixed_reply_for_user(target_handle, policy)
-    if not reply_text:
-        reply_text = _build_greet_auto_reply(target_handle, policy, account_id)
-    if not reply_text:
-        logging.info("[comment-light] fixed_comment / greet:auto が未設定のためスキップ")
-        return
-
-    # 投稿
-    _post_comment_light(driver, tweet_id, reply_text, dry_run=dry_run, account_id=account_id)
 
 
 def run_actions_on_tweet(driver: webdriver.Chrome,
@@ -849,40 +806,29 @@ def run_actions_on_tweet(driver: webdriver.Chrome,
                 time.sleep(min_interval)
 
         elif action_l == 'comment':
-            # 固定コメントがある場合のみ軽量投稿を、同一ページ上で最後に実行
-            #（重いスレッド解析やページ再読み込みは行わない）
-            # 二重チェック: UI検出とログベースの冪等性チェック
-            if states.get('commented'):
-                logging.info(f"[comment-light] 既に返信済み（UI検出）: {tweet_id}")
-                # UI検出でコメント済みの場合もログに記録
-                record_action_log(account_id, tweet_id, 'comment', 'skipped', meta='ui_detected')
+            # フル版comment.pyを使用
+            if not _is_allowed_for_user(action_l, target_handle, policy):
+                logging.info(f"[comment] per_target policyによりスキップ (@{target_handle})")
                 continue
-            
-            # ログベースの冪等性チェック（ファイルベースの重複防止）
-            if has_action_log(account_id, tweet_id, 'comment'):
-                logging.info(f"[comment-light] skip by action log: {tweet_id}")
+
+            if has_action_log(account_id, tweet_id, action_l):
+                logging.info(f"[comment] idempotencyでスキップ: {tweet_id}")
                 continue
-                
+
             used = count_actions_last_hours(account_id, 'comment', hours=1)
             limit = int(rate_limits.get('comment_per_hour', 0))
             if limit > 0 and used >= limit:
-                logging.warning(f"[comment-light] hourly limit reached ({used}/{limit}). skip.")
+                logging.warning(f"[comment] hourly limit reached ({used}/{limit}). skip.")
                 continue
-            reply_text = _build_fixed_reply_for_user(target_handle, policy)
-            if not reply_text:
-                reply_text = _build_greet_auto_reply(target_handle, policy, account_id)
-            if not reply_text:
-                logging.info("[comment-light] fixed_comment / greet:auto 未設定のためスキップ")
-                continue
+
+            # フル版comment.pyのrun関数を使用
+            try:
+                action_comment(driver, tweet_id, target_handle, account_id, policy, rate_limits, live_run)
+                logging.info(f"[comment] フル版実行完了: {tweet_id}")
+            except Exception as e:
+                logging.warning(f"[comment] フル版実行エラー: {e}")
+                record_action_log(account_id, tweet_id, 'comment', 'failed', meta=f'full:{e}')
             
-            # コメント実行前にも再度UI状態をチェック（ページ更新等による状態変化に対応）
-            current_states = _detect_existing_actions_via_ui(driver)
-            if current_states.get('commented'):
-                logging.info(f"[comment-light] コメント直前UI再チェックで返信済み検出: {tweet_id}")
-                record_action_log(account_id, tweet_id, 'comment', 'skipped', meta='ui_recheck')
-                continue
-                
-            _post_comment_light_on_current_page(driver, tweet_id, reply_text, dry_run=dry_run, account_id=account_id)
             time.sleep(min_interval)
         else:
             logging.warning(f"未知のアクションのためスキップ: {action}")

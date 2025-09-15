@@ -195,7 +195,7 @@ def _ensure_driver_alive(driver, *, headless: bool, profile_dir: str | None):
     return new_driver
 
 
-def run_for_account(acct: Dict[str, Any], live_run: bool, hours: int | None) -> None:
+def run_for_account(acct: Dict[str, Any], live_run: bool, hours: int | None, target_user: str | None = None) -> None:
     account_id = str(acct.get('id', 'unknown'))
     handle = str(acct.get('handle', '')).strip()
     browser = acct.get('browser', {}) or {}
@@ -244,7 +244,15 @@ def run_for_account(acct: Dict[str, Any], live_run: bool, hours: int | None) -> 
             switch_interval_sec = int((policies or {}).get('user_switch_interval_seconds', 0))
             # オプション: プロフィール読込の上限秒（上限超過や不備検知時のみ再起動）
             profile_load_timeout_sec = int((policies or {}).get('profile_load_timeout_seconds', 12))
-            if not per_target:
+            # --targetオプションが指定された場合、そのユーザーのみを処理対象とする
+            if target_user:
+                if target_user in per_target:
+                    per_target = {target_user: per_target[target_user]}
+                    logging.info(f"[{account_id}] --targetオプションにより {target_user} のみを処理対象とします")
+                else:
+                    logging.warning(f"[{account_id}] --targetで指定された {target_user} がper_targetに存在しません。処理をスキップします。")
+                    return
+            elif not per_target:
                 logging.warning("per_target が空です。自分のプロフィールに対して実行します。")
                 per_target = {handle: {'actions': [k for k, v in features.items() if v]}}
 
@@ -466,6 +474,7 @@ def main() -> None:
     parser.add_argument('--config', type=str, default=os.path.join('config', 'accounts.yaml'), help='アカウント設定YAMLのパス')
     parser.add_argument('--headless', action='store_true', help='強制ヘッドレスモード（accounts.yaml設定を上書き）')
     parser.add_argument('--no-headless', action='store_true', help='強制描画モード（accounts.yaml設定を上書き）')
+    parser.add_argument('--target', type=str, help='対象ユーザーのhandle（@なし）を指定して、そのユーザーのみを処理対象とする')
 
     args = parser.parse_args()
 
@@ -500,7 +509,7 @@ def main() -> None:
         logging.info("--no-headlessオプションにより、全アカウントで描画モードを強制有効化しました。")
 
     for acct in targets:
-        run_for_account(acct, live_run=args.live_run, hours=args.hours)
+        run_for_account(acct, live_run=args.live_run, hours=args.hours, target_user=args.target)
 
 
 if __name__ == '__main__':

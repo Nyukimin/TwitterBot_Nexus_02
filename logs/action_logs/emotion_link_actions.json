@@ -1,0 +1,39 @@
+{
+  "emotion_link": {
+    "1958418062434267507": {
+      "comment": {
+        "status": "skipped",
+        "timestamp": 1757928283,
+        "meta": "ui_detected"
+      }
+    },
+    "1967369348722704680": {
+      "comment": {
+        "status": "skipped",
+        "timestamp": 1757928037,
+        "meta": "ui_recheck"
+      }
+    },
+    "1967225483197821194": {
+      "comment": {
+        "status": "success",
+        "timestamp": 1757928084,
+        "meta": "light"
+      }
+    },
+    "1967140904273432903": {
+      "comment": {
+        "status": "success",
+        "timestamp": 1757928151,
+        "meta": "light"
+      }
+    },
+    "1967082810650530014": {
+      "comment": {
+        "status": "success",
+        "timestamp": 1757928219,
+        "meta": "light"
+      }
+    }
+  }
+}
