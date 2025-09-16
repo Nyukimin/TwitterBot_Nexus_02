@@ -8,4 +8,5 @@ selenium
 snscrape
 webdriver-manager 
 psutil
+python-dotenv
 PyYAML

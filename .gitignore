@@ -18,3 +18,10 @@ Chrome/chrome-*.zip
 Chrome/chromedriver-*.zip
 fixed_chrome/chrome/
 fixed_chrome/chromedriver/
+
+
+# 環境設定ファイル（機密情報含む）
+.env
+.env.local
+.env.production
+.env.staging

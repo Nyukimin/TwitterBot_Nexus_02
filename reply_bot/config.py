@@ -1,32 +1,40 @@
 # reply_bot/config.py の例
-TARGET_USER   = "Maya19960330"  # あなたのXユーザー名（@は不要）
-LOGIN_URL     = "https://x.com/login"
-USERNAME      = "Maya19960330" # Xのログインに使用するユーザー名またはメールアドレス
-PASSWORD      = "USHIneko1" # Xのログインに使用するパスワード
-# OPENAI_API_KEY= "sk-..."        # OpenAI APIキー
-# DBは廃止
-GEMINI_API_KEY= "AIzaSyA7aSuSGwd2weVFYXbnbA1fIznLdbHqlbE" # Geminiを使用する場合
-GEMINI_MODEL_NAME = "gemini-2.0-flash-lite" # 使用するGeminiモデル名
+import os
+from dotenv import load_dotenv
 
-# スクロール設定
-MAX_SCROLLS   = 100  # 最大スクロール回数（デフォルト: 100）
-SCROLL_PIXELS = 3000  # 1回のスクロール量（ピクセル数）
+# .envファイルから環境変数を読み込み
+load_dotenv()
 
-# データ収集期間の設定
-HOURS_TO_COLLECT = 24 # 何時間前までのリプライを収集するか (Noneの場合は無制限)
+# === Twitter認証情報 ===
+TARGET_USER = os.getenv("TARGET_USER", "Maya19960330")  # あなたのXユーザー名（@は不要）
+LOGIN_URL = os.getenv("LOGIN_URL", "https://x.com/login")
+USERNAME = os.getenv("TWITTER_USERNAME", "Maya19960330") # Xのログインに使用するユーザー名またはメールアドレス
+PASSWORD = os.getenv("TWITTER_PASSWORD") # Xのログインに使用するパスワード（.envから取得）
 
-# タイムアウト設定
-LOGIN_TIMEOUT_ENABLED = False   # ログインタイムアウトを有効にするかどうか（True/False）
-LOGIN_TIMEOUT_SECONDS = 60     # ログインタイムアウト時間（秒）（デフォルト: 60秒）
-PAGE_LOAD_TIMEOUT_SECONDS = 30 # ページ読み込みタイムアウト時間（秒）（デフォルト: 30秒）
+# === API キー ===
+# OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")  # OpenAI APIキー
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")  # Geminiを使用する場合
+GEMINI_MODEL_NAME = os.getenv("GEMINI_MODEL_NAME", "gemini-2.0-flash-lite") # 使用するGeminiモデル名
 
-# 投稿インターバル設定
-POST_INTERVAL_SECONDS = 7     # 投稿間の待機時間（秒）
+# === スクロール設定 ===
+MAX_SCROLLS = int(os.getenv("MAX_SCROLLS", "100"))  # 最大スクロール回数（デフォルト: 100）
+SCROLL_PIXELS = int(os.getenv("SCROLL_PIXELS", "3000"))  # 1回のスクロール量（ピクセル数）
 
-# 返信優先度設定
-PRIORITY_REPLY_ENABLED = False  # 優先度付けを有効にするか (True/False)
-MAX_MY_THREAD_REPLIES = 5       # 自分のスレッドから取得する最大リプライ数
-MAX_OTHER_THREAD_REPLIES = 3    # 他人のスレッドから取得する最大リプライ数
+# === データ収集期間の設定 ===
+HOURS_TO_COLLECT = int(os.getenv("HOURS_TO_COLLECT", "24")) # 何時間前までのリプライを収集するか (Noneの場合は無制限)
+
+# === タイムアウト設定 ===
+LOGIN_TIMEOUT_ENABLED = os.getenv("LOGIN_TIMEOUT_ENABLED", "False").lower() == "true"   # ログインタイムアウトを有効にするかどうか（True/False）
+LOGIN_TIMEOUT_SECONDS = int(os.getenv("LOGIN_TIMEOUT_SECONDS", "60"))     # ログインタイムアウト時間（秒）（デフォルト: 60秒）
+PAGE_LOAD_TIMEOUT_SECONDS = int(os.getenv("PAGE_LOAD_TIMEOUT_SECONDS", "30")) # ページ読み込みタイムアウト時間（秒）（デフォルト: 30秒）
+
+# === 投稿インターバル設定 ===
+POST_INTERVAL_SECONDS = int(os.getenv("POST_INTERVAL_SECONDS", "7"))     # 投稿間の待機時間（秒）
+
+# === 返信優先度設定 ===
+PRIORITY_REPLY_ENABLED = os.getenv("PRIORITY_REPLY_ENABLED", "False").lower() == "true"  # 優先度付けを有効にするか (True/False)
+MAX_MY_THREAD_REPLIES = int(os.getenv("MAX_MY_THREAD_REPLIES", "5"))       # 自分のスレッドから取得する最大リプライ数
+MAX_OTHER_THREAD_REPLIES = int(os.getenv("MAX_OTHER_THREAD_REPLIES", "3"))    # 他人のスレッドから取得する最大リプライ数
 
 # タイムアウト設定の詳細説明:
 # - LOGIN_TIMEOUT_ENABLED: Trueにするとタイムアウト機能が有効になり、Falseにすると無効になります
@@ -132,8 +140,35 @@ REPLY_RULES_PROMPT = """
 
 # 旧システム（post_reply.py）における「コメント（コメントへの返信）」の有効/無効フラグ
 # 新システムのツイートへのコメントには影響しません。
-LEGACY_COMMENT_ENABLED = False
+LEGACY_COMMENT_ENABLED = os.getenv("LEGACY_COMMENT_ENABLED", "False").lower() == "true"
 
 # 旧パイプライン（抽出→解析→CSV→投稿）をスキップし、accounts.yaml に基づく
 # 直接アクション（対象ユーザーの最新ツイートへ like/bookmark/retweet/comment）に切り替えるフラグ
-DIRECT_ACTIONS_ONLY = True
+DIRECT_ACTIONS_ONLY = os.getenv("DIRECT_ACTIONS_ONLY", "True").lower() == "true"
+
+# 環境変数チェック（必須項目）
+def check_required_env_vars():
+    """必須の環境変数がセットされているかチェック"""
+    required_vars = [
+        "TWITTER_PASSWORD",
+        "GEMINI_API_KEY"
+    ]
+    
+    missing_vars = []
+    for var in required_vars:
+        if not os.getenv(var):
+            missing_vars.append(var)
+    
+    if missing_vars:
+        raise ValueError(f"以下の必須環境変数が設定されていません: {', '.join(missing_vars)}")
+    
+    return True
+
+# アプリケーション起動時にチェック実行
+if __name__ == "__main__":
+    try:
+        check_required_env_vars()
+        print("✅ 環境変数の設定が正常に確認されました。")
+    except ValueError as e:
+        print(f"❌ 環境変数エラー: {e}")
+        print("📋 .envファイルに必要な設定を追加してください。")
