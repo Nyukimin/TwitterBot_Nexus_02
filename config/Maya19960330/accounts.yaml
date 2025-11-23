@@ -3,7 +3,7 @@
 accounts:
   - id: Maya19960330
     handle: "Maya19960330"
-    browser: { user_data_dir: "profile/Maya19960330", headless: true }
+    browser: { user_data_dir: "config/Maya19960330/profile", headless: true }
     features: { like: true, retweet: true, comment: true, bookmark: true, tweet: true }
     # Maya専用のコメント設定
     comment_config:
