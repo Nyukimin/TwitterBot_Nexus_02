@@ -191,18 +191,23 @@ GEMINI_API_KEY=your_gemini_api_key_here
 
 ### **STEP 2: アカウント設定ファイルの作成**
 
-`config/accounts.yaml` を作成：
+各ユーザーのディレクトリに `config/{username}/accounts.yaml` を作成：
 
 ```yaml
-# config/accounts.yaml の例
+# config/{username}/accounts.yaml の例
 accounts:
   - username: "your_twitter_username"
     profile_name: "twitter_bot_profile"
     enabled: true
     
-  - username: "another_account"
-    profile_name: "another_profile"
-    enabled: false
+# 画像ディレクトリ構成
+# config/{username}/
+# ├── accounts.yaml
+# ├── profile/          # ブラウザプロファイル
+# └── images/           # ユーザー別画像（Git管理外）
+#     ├── morning/
+#     ├── lunch/
+#     └── evening/
 ```
 
 ### **STEP 3: スケジュール設定（オプション）**
@@ -228,9 +233,14 @@ schedule:
 ```bash
 # 必要なディレクトリを作成
 mkdir -p logs
-mkdir -p images
-mkdir -p profile
-mkdir -p config
+mkdir -p config/{username}/profile
+mkdir -p config/{username}/images/morning
+mkdir -p config/{username}/images/lunch
+mkdir -p config/{username}/images/evening
+
+# 例: Maya19960330 ユーザーの場合
+mkdir -p config/Maya19960330/profile
+mkdir -p config/Maya19960330/images/{morning,lunch,evening}
 ```
 
 ---
@@ -382,5 +392,38 @@ pip install -r reply_bot/requirements.txt --force-reinstall
 
 ---
 
-*最終更新: 2025-11-23*  
+---
+
+## 📂 新ディレクトリ構造（2025-11-23更新）
+
+Phase 1-3 ディレクトリ移行完了により、以下の構造に変更されました：
+
+```
+TwitterBot_Nexus_02/
+├── config/                    # ユーザー別設定ディレクトリ
+│   ├── Maya19960330/
+│   │   ├── accounts.yaml      # ユーザー設定
+│   │   ├── profile/           # ブラウザプロファイル
+│   │   └── images/            # ユーザー別画像（Git管理外）
+│   │       ├── morning/
+│   │       ├── lunch/
+│   │       └── evening/
+│   └── (他23ユーザー...)
+├── reply_bot/                 # メインボット機能
+├── shared_modules/            # 内部共有モジュール
+├── extracted_modules/         # 独立パッケージ
+├── fixed_chrome/              # 固定Chrome環境
+├── scripts/                   # ユーティリティスクリプト
+└── docs/                      # ドキュメント
+```
+
+**重要な変更点:**
+- ✅ 設定ファイルを `config/{username}/accounts.yaml` に分離
+- ✅ 画像ディレクトリを `config/{username}/images/` に統合
+- ✅ ブラウザプロファイルを `config/{username}/profile/` に配置
+- ✅ `.gitignore` で `config/*/images/` を除外（ローカルのみ保持）
+
+---
+
+*最終更新: 2025-11-23*
 *バージョン: 2.0.0*
