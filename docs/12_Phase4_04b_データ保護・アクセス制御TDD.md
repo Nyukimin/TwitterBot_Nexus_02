@@ -442,6 +442,9 @@ class TestMaskingPerformance:
 #### **1-2. テスト実行（失敗確認）**
 
 ```bash
+# pytest-benchmarkインストール（パフォーマンステスト用）
+pip install pytest-benchmark
+
 # テスト実行（Red段階）
 pytest tests/unit/test_data_protection.py -v
 
@@ -1067,6 +1070,11 @@ pytest tests/unit/test_access_control.py -v
 #
 # ======================== 8 passed in 0.28s ========================
 ```
+
+**Windows環境での注意:**
+- Windows環境では、ファイル権限の設定・検証はスキップされます（警告ログが出力されます）
+- テストは通過しますが、実際の権限設定はLinux/macOS環境でのみ有効です
+- 本番環境がWindowsの場合は、別のアクセス制御方法（ACLなど）を検討してください
 
 ---
 

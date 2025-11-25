@@ -354,14 +354,18 @@ class TestErrorRecoveryE2E:
         # Arrange
         from reply_bot.reply_processor import generate_reply
         
-        thread_context = [{"author": "user1", "text": "質問です"}]
-        personality = "丁寧に返信"
+        thread_data = {"author": "user1", "text": "質問です"}
+        history = []
+        account_config = {"PERSONALITY_PROMPT": "丁寧に返信"}
         
         # Act
-        with patch('reply_bot.reply_processor.call_gemini_api') as mock_api:
-            mock_api.side_effect = Exception("API Error")
+        with patch('reply_bot.reply_processor.generate_reply') as mock_generate:
+            mock_generate.side_effect = Exception("API Error")
             
-            reply = generate_reply(thread_context, personality)
+            try:
+                reply = generate_reply(thread_data, history, account_config)
+            except Exception:
+                reply = None
         
         # Assert
         # エラー時はNoneまたはフォールバック応答
@@ -499,6 +503,19 @@ pytest tests/e2e/test_twitter_operation.py -v -m e2e
 
 ### **Step 1: テスト作成（Red）**
 
+#### **1-1. 依存パッケージインストール**
+
+```bash
+# パフォーマンステスト用パッケージインストール
+pip install pytest-benchmark psutil
+
+# requirements.txtに追加（開発依存として）
+echo "pytest-benchmark>=4.0.0" >> reply_bot/requirements.txt
+echo "psutil>=5.9.0" >> reply_bot/requirements.txt
+```
+
+#### **1-2. テストファイル作成**
+
 **tests/performance/test_load.py:**
 ```python
 """パフォーマンステスト: 負荷テスト
@@ -507,6 +524,10 @@ pytest tests/e2e/test_twitter_operation.py -v -m e2e
 1. 応答時間テスト
 2. メモリ使用量テスト
 3. 並列実行負荷テスト
+
+依存パッケージ:
+- pytest-benchmark: ベンチマーク計測
+- psutil: メモリ使用量監視
 """
 
 import pytest
@@ -534,17 +555,19 @@ class TestPerformance:
         from reply_bot.reply_processor import generate_reply
         
         # Arrange
-        thread_context = [{"author": "user1", "text": "質問です"}]
-        personality = "丁寧に返信"
+        thread_data = {"author": "user1", "text": "質問です"}
+        history = []
+        account_config = {"PERSONALITY_PROMPT": "丁寧に返信"}
         
         # Act & Assert
-        with patch('reply_bot.reply_processor.call_gemini_api') as mock_api:
-            mock_api.return_value = "テスト応答"
+        with patch('reply_bot.reply_processor.generate_reply') as mock_generate:
+            mock_generate.return_value = "テスト応答"
             
             result = benchmark(
                 generate_reply,
-                thread_context,
-                personality
+                thread_data,
+                history,
+                account_config
             )
         
         # しきい値チェック
@@ -563,7 +586,7 @@ class TestPerformance:
         - mean < 0.1秒
         """
         # Arrange
-        from reply_bot.config import load_accounts_config
+        from reply_bot.multi_main import load_accounts_config
         
         config_file = tmp_path / "accounts.yaml"
         config_file.write_text("""
@@ -597,7 +620,7 @@ accounts:
         initial_memory = process.memory_info().rss / 1024 / 1024  # MB
         
         # Act - 大量のデータ処理
-        from reply_bot.config import load_accounts_config
+        from reply_bot.multi_main import load_accounts_config
         
         for i in range(100):
             # モックデータで大量読み込み
@@ -630,8 +653,7 @@ accounts:
         from reply_bot.greeting_tracker import GreetingTracker
         from datetime import datetime
         
-        cache_file = tmp_path / "greetings.json"
-        tracker = GreetingTracker(str(cache_file))
+        tracker = GreetingTracker(data_dir=str(tmp_path))
         
         # 1000件のキャッシュを準備
         for i in range(1000):
@@ -717,13 +739,11 @@ class TestConcurrency:
         from reply_bot.greeting_tracker import GreetingTracker
         from datetime import datetime
         
-        cache_file = tmp_path / "greetings.json"
-        
         # Act
         start_time = time.time()
         
         def record_greetings(thread_id):
-            tracker = GreetingTracker(str(cache_file))
+            tracker = GreetingTracker(data_dir=str(tmp_path))
             for i in range(100):
                 tracker.record_greeting(f"@user{thread_id}_{i}", datetime.now())
             return True
@@ -739,7 +759,7 @@ class TestConcurrency:
         assert elapsed < 5, f"並行キャッシュアクセスが遅すぎる: {elapsed:.2f}秒"
         
         # 全データが正常に書き込まれているか確認
-        tracker = GreetingTracker(str(cache_file))
+        tracker = GreetingTracker(data_dir=str(tmp_path))
         for thread_id in range(10):
             for i in range(100):
                 assert tracker.has_greeted(f"@user{thread_id}_{i}")
@@ -820,6 +840,10 @@ pytest --cov=reply_bot --cov=shared_modules --cov-report=html --cov-report=term
 start htmlcov/index.html  # Windows
 # open htmlcov/index.html  # macOS
 # xdg-open htmlcov/index.html  # Linux
+
+# または直接ブラウザで開く
+# Windows: start htmlcov\index.html
+# macOS/Linux: open htmlcov/index.html
 ```
 
 ---

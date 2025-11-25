@@ -74,7 +74,13 @@ pip 23.2.1
 
 ### **Step 2: 既存依存パッケージインストール（10分）**
 
+**⚠️ 重要: reply_bot/__init__.py作成**
+
 ```bash
+# まず、reply_botをPythonパッケージとして認識させる
+type nul > reply_bot/__init__.py
+type nul > shared_modules/__init__.py
+
 # 既存requirements.txt確認
 cat reply_bot/requirements.txt
 
@@ -154,10 +160,17 @@ mkdir -p tests/fixtures
 mkdir -p tests/mocks
 
 # __init__.py作成（Pythonパッケージ化）
-touch tests/__init__.py
-touch tests/unit/__init__.py
-touch tests/integration/__init__.py
-touch tests/e2e/__init__.py
+# Windowsの場合:
+type nul > tests/__init__.py
+type nul > tests/unit/__init__.py
+type nul > tests/integration/__init__.py
+type nul > tests/e2e/__init__.py
+
+# Linux/Macの場合:
+# touch tests/__init__.py
+# touch tests/unit/__init__.py
+# touch tests/integration/__init__.py
+# touch tests/e2e/__init__.py
 ```
 
 **期待ディレクトリ構造:**
@@ -1102,6 +1115,7 @@ phase4_01_completion:
     - [x] pre-commit hooks 設定
   
   next_step:
+    - [ ] 補足資料確認（12_Phase4_01_環境構築とTDD準備_補足.md）
     - [ ] Phase4_02へ進む（アーキテクチャ層TDD実装）
 ```
 

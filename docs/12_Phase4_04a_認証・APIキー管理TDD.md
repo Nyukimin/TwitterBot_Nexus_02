@@ -836,7 +836,7 @@ class TestAPIKeyManager:
 
 
 class TestDotEnvLoading:
-    ".envファイル読み込みのテスト"""
+    """.envファイル読み込みのテスト"""
     
     def test_load_from_dotenv_file(self, tmp_path, monkeypatch):
         """.envファイルからキー読み込み
@@ -892,6 +892,7 @@ pytest tests/unit/test_api_key_manager.py -v
 import os
 import json
 import logging
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional
 from cryptography.fernet import Fernet

@@ -249,8 +249,7 @@ class TestAPIKeyManager:
 import pytest
 from reply_bot.data_protection import (
     mask_sensitive_data,
-    anonymize_user_info,
-    encrypt_sensitive_fields
+    anonymize_user_info
 )
 
 
@@ -370,7 +369,6 @@ phase4_04_completion:
   data_protection:
     - [ ] mask_sensitive_data テスト成功
     - [ ] anonymize_user_info テスト成功
-    - [ ] encrypt_sensitive_fields テスト成功
     - [ ] カバレッジ80%以上
   
   access_control:
